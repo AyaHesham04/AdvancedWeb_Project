@@ -1,0 +1,14 @@
+.fixed-height-navbar {
+    height: 56px;
+    /* standard height, adjust as needed */
+    line-height: 56px;
+    /* align text vertically */
+    padding: 0 1rem;
+}
+
+/* Optional: reset inner elements so they align correctly */
+.fixed-height-navbar .navbar-brand,
+.fixed-height-navbar .nav-link {
+    line-height: 56px;
+    padding: 0;
+}
