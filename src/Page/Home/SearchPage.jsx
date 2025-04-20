@@ -32,7 +32,6 @@ const SearchPage = () => {
     if (error) {
         return <div className="text-center text-danger py-5">{error}</div>;
     }
-    debugger;
     return (
         <Container className="py-4">
             <h4>Results for “{q}”</h4>
@@ -42,7 +41,6 @@ const SearchPage = () => {
                 <Row>
                     {results.products.map(item => (
                         <Col key={item._id} xs={12} md={4} className="mb-3">
-                            {/* render your product card */}
                             <div className="card">
                                 <img src={item.imageCover} className="card-img-top" alt={item.title} />
                                 <div className="card-body">

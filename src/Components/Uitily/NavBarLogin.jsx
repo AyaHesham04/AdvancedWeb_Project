@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // src/components/NavBarLogin.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,19 +12,15 @@ function NavBarLogin({ itemsNum }) {
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
-    // **Auth state**
     const user = useSelector((state) => state.auth.user);
 
-    // **Local state**
     const [word, setWord] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
 
-    // — fetch user on mount —
     useEffect(() => {
         dispatch(fetchUser());
     }, [dispatch]);
 
-    // — click outside to close dropdown —
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -34,13 +31,11 @@ function NavBarLogin({ itemsNum }) {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // — logout handler —
     const onLogOut = () => {
         dispatch(logOutAction());
         navigate('/login');
     };
 
-    // — input handlers —
     const handleInputChange = (e) => setWord(e.target.value);
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
