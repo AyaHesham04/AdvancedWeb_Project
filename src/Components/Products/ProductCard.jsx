@@ -21,19 +21,17 @@ const ProductCard = ({ item }) => {
               borderRadius: "10px",
             }}
             src={item.imageCover}
-            alt="productImage"
+            alt={item.title}
           />
         </Link>
         <Card.Body>
           <Link to={`/products/${item.id}`} style={{ textDecoration: "none" }}>
-            <Card.Title>
-              <div className="card-title">{item.title}</div>
-            </Card.Title>
+            <div className="card-title">{item.title}</div>
             <Card.Text>
               <div className="card-text">{item.description}</div>
             </Card.Text>
           </Link>
-          <Card.Text className="d-flex justify-content-between align-items-center">
+          <Card.Text className="d-flex justify-content-between align-items-center mt-2">
             <div className="d-flex">
               <div className="d-flex">
                 <div className="card-price">
@@ -52,7 +50,10 @@ const ProductCard = ({ item }) => {
                       </span>{" "}
                     </div>
                   ) : (
-                    item.price
+                    <div>
+                      {item.price}
+                      <span className="card-currency mx-1">EGP</span>{" "}
+                    </div>
                   )}
                 </div>
               </div>

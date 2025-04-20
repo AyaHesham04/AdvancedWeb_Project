@@ -4,7 +4,7 @@ import ChoosePayMethoud from '../../Components/Checkout/ChoosePayMethoud'
 
 const ChoosePayMethoudPage = () => {
     return (
-        <Container style={{minHeight:'670px'}}>
+        <Container style={{ height: '100vh' }}>
            <ChoosePayMethoud />
         </Container>
     )

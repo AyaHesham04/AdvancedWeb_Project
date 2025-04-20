@@ -16,7 +16,7 @@ const CartPage = () => {
         loading,
         error,
     } = useSelector((state) => state.cart);
-    debugger;
+    // debugger;
     useEffect(() => {
         dispatch(fetchCart());
     }, [dispatch]);
@@ -25,14 +25,19 @@ const CartPage = () => {
     if (error) return <div className="text-danger text-center py-5">{error}</div>;
 
     return (
-        <Container style={{ minHeight: '670px' }}>
+        <Container style={{ minHeight: '100vh' }} className="mb-5">
             <Row>
-                <div className="cart-title mt-4">Shopping Cart</div>
+                <div className="cart-title my-4">Shopping Cart</div>
             </Row>
             <Row className="d-flex justify-content-center">
-                <Col xs="12" md="9">
+                <Col xs="12" md="9" className="cart-body">
                     {cartItems.cartItems ? (
-                        cartItems.cartItems.map((item, index) => <CartItem key={index} item={item} />)
+                        cartItems.cartItems.map(
+                            (item, index) =>
+                                <>
+                                    <CartItem key={index} item={item} />
+                                    <hr />
+                                </>)
                     ) : (
                         <h6>No products in the cart</h6>
                     )}

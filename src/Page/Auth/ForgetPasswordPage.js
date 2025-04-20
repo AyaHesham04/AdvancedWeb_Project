@@ -7,7 +7,7 @@ import ForgetPasswordHook from '../../hook/auth/forget-password-hook';
 const ForgetPasswordPage = () => {
     const [OnChangeEmail, email, onSubmit] = ForgetPasswordHook()
     return (
-        <Container fluid className="forgot-background">
+        <Container fluid className="forgot-background" style={{ height: '100vh' }}>
             <Row className="my-3 py-5 px-2 d-flex justify-content-center">
                 <Col sm="12" md="6" lg="4" className="d-flex flex-column" style={{ border: '3px solid #efc4c3', borderRadius: '10px', padding: '20px', backgroundColor: '#ffffff' }}>
                     <label className="mx-auto title-login">Forgot Password</label>

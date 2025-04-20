@@ -16,7 +16,7 @@ import ProductCard from "./ProductCard";
 const CardBestsellersContainer = ({ title }) => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.bestSellers);
-  debugger;
+  // debugger;
   useEffect(() => {
     dispatch(fetchBestSellers());
   }, [dispatch]);

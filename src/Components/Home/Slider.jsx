@@ -12,7 +12,7 @@ const Slider = () => {
         setIndex(selectedIndex)
     }
     return (
-        <Carousel activeIndex={index} onSelect={handleSelect} className="mt-[-14px]">
+        <Carousel activeIndex={index} onSelect={handleSelect} className="mt-n14">
             <Carousel.Item className="" interval={2000}>
                 <div className="d-flex flex-row justify-content-center align-items-center">
                     <img

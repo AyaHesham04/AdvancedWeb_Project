@@ -17,7 +17,7 @@ const ShopProductsPage = () => {
         pageCount = 0;
 
     return (
-        <div style={{ minHeight: '670px' }}>
+        <div style={{ height: '100vh' }}>
             <CategoryHeader />
             <Container className="mb-5">
                 {/* <SearchCountResult onClick={getProduct} title={`There are ${results} search results`} /> */}

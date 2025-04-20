@@ -13,8 +13,7 @@ import CardProductsContainerHome from '../../Components/Products/CardProductsCon
 
 const HomePage = () => {
     return (
-        <div className='font' style={{ minHeight: '670px' }}>
-
+        <div className='font' style={{ minHeight: '100vh' }}>
             <Slider />
             <HomeCategory />
             <CardBestsellersContainer title="Best Sellers" />

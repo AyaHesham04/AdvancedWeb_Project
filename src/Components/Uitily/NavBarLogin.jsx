@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 // src/components/NavBarLogin.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import { Navbar, Container, FormControl, Nav, NavDropdown } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, logOut as logOutAction } from '../../redux/slices/authSlice';
 import { setSearchQuery } from '../../redux/slices/searchSlice';
@@ -47,33 +48,22 @@ function NavBarLogin({ itemsNum }) {
     };
 
     return (
-        <nav
-            className="navbar sticky-top navbar-expand-sm fixed-height-navbar navbar-custom"
-            style={{ backgroundColor: '#efc4c3' }}
-        >
-            <div className="container">
-                <a className="navbar-brand" href="/">
-                    <img src={logo} alt="logo" width="50" height="50" />
-                </a>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarContent"
-                    aria-controls="navbarContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarContent">
-                    <input
+        <Navbar className="sticky-top w-full navbar-custom" style={{ backgroundColor: '#efc4c3' }} variant="dark" expand="sm">
+            <Container>
+                <Navbar.Brand>
+                    <a href='/'>
+                        <img src={logo} alt="logo" width="50" height="50" />
+                    </a>
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <FormControl
                         type="search"
                         value={word}
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                         placeholder="Search..."
-                        className="form-control m-2 w-auto"
+                        className="m-2"
                         aria-label="Search"
                         style={{
                             fontSize: '14px',
@@ -81,87 +71,62 @@ function NavBarLogin({ itemsNum }) {
                             border: '1px solid #b0787b',
                             padding: '0.5rem 1rem',
                             maxWidth: '100%',
+                            width: '279px',
                             backgroundColor: '#f9f6f6',
                             color: '#b0787b',
                             height: '30px',
                         }}
                     />
-
-                    <ul className="navbar-nav ms-auto d-flex align-items-center">
+                    <Nav className="ms-auto d-flex" ref={dropdownRef}>
                         {user ? (
-                            <li className="nav-item dropdown" ref={dropdownRef}>
-                                <button
-                                    className="nav-link dropdown-toggle btn btn-link"
-                                    onClick={() => setShowDropdown((s) => !s)}
-                                    aria-expanded={showDropdown}
-                                >
-                                    {user.name}
-                                </button>
-                                <ul
-                                    className={`dropdown-menu ${showDropdown ? 'show' : ''}`}
-                                    aria-labelledby="userDropdown"
-                                >
-                                    {user.role === 'admin' ? (
-                                        <li>
-                                            <a className="dropdown-item" href="/admin/allproducts">
-                                                Dashboard
-                                            </a>
-                                        </li>
-                                    ) : (
-                                        <li>
-                                            <a className="dropdown-item" href="/user/profile">
-                                                Profile
-                                            </a>
-                                        </li>
-                                    )}
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <button className="dropdown-item" onClick={onLogOut}>
-                                            Logout
-                                        </button>
-                                    </li>
-                                </ul>
-                            </li>
+                            <NavDropdown
+                                show={showDropdown}
+                                onClick={() => setShowDropdown((s) => !s)}
+                                title={user.name}
+                                id="basic-nav-dropdown"
+                                className="nav-text d-flex w-100 justify-content-center"
+                            >
+                                {user.name}
+                                {
+                                    user.role === "admin" ? (
+                                    <NavDropdown.Item href="/admin/allproducts" className="nav-text">Dashboard</NavDropdown.Item>) 
+                                    : (<NavDropdown.Item href="/user/profile" className="nav-text">Profile</NavDropdown.Item>)
+                                }
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={onLogOut} href="/" className="nav-text">Logout</NavDropdown.Item>
+                            </NavDropdown>
                         ) : (
-                            <li className="nav-item d-flex">
-                                <a className="nav-link" href="/login">Login</a>
-                                <a className="nav-link" href="/register">Register</a>
-                            </li>
+                            <Nav.Link href='/login'
+                                className="d-flex mt-3 justify-content-center">
+                                <svg width="20px" height="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#f9f6f6" className="me-2">
+                                    <path d="M0 0h48v48H0z" fill="none" />
+                                    <g id="Shopicon">
+                                        <path d="M31.278,25.525C34.144,23.332,36,19.887,36,16c0-6.627-5.373-12-12-12c-6.627,0-12,5.373-12,12
+                                        c0,3.887,1.856,7.332,4.722,9.525C9.84,28.531,5,35.665,5,44h38C43,35.665,38.16,28.531,31.278,25.525z M16,16c0-4.411,3.589-8,8-8
+                                        s8,3.589,8,8c0,4.411-3.589,8-8,8S16,20.411,16,16z M24,28c6.977,0,12.856,5.107,14.525,12H9.475C11.144,33.107,17.023,28,24,28z"
+                                            stroke="#f9f6f6"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        />
+                                    </g>
+                                </svg>
+                                <p className="nav-text">Login</p>
+                            </Nav.Link>
                         )}
 
-                        <li className="nav-item">
-                            <a
-                                className="nav-link position-relative"
-                                href="/cart"
-                            >
-                                <svg
-                                    width="22px"
-                                    height="22px"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="me-2"
-                                >
-                                    <path
-                                        d="M6.3 5h14.7l-2 7H6l-3-7zM9 20a1 1 0 11-2 0 1 1 0 012 0zm10 0a1 1 0 11-2 0 1 1 0 012 0z"
-                                        stroke="#f9f6f6"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                                {itemsNum > 0 && (
-                                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-dark">
-                                        {itemsNum}
-                                    </span>
-                                )}
-                                <span className="visually-hidden">Cart</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                        <Nav.Link href='/cart'
+                            className="mt-3 d-flex nav-cart justify-content-center position-relative">
+                            <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="me-2">
+                                <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#f9f6f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span style={{ color: '#b0787b' }} className="position-absolute translate-middle badge rounded-pill bg-white ms-1">
+                                {itemsNum || 0}
+                            </span>
+                            <p className="nav-text">Cart</p>
+                        </Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 }
 

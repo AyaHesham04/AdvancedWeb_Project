@@ -6,7 +6,7 @@ import UserAddAddress from '../../Components/User/UserAddAddress';
 import UserEditAddress from '../../Components/User/UserEditAddress';
 const UserEditAddressPage = () => {
     return (
-        <Container fluid className="px-10">
+        <Container fluid className="px-10" style={{ height: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>
                 <Col sm="3" xs="12" md="3">
                     <UserSideBar />

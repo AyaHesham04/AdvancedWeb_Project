@@ -6,7 +6,7 @@ import Pagination from '../../Components/Uitily/Pagination'
 import AdminAddProducts from '../../Components/Admin/AdminAddProducts'
 const AdminAddProductsPage = () => {
     return (
-        <Container fluid className="px-10">
+        <Container fluid className="px-10" style={{ height: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>
                 <Col sm="3" xs="12" md="3">
                     <AdminSideBar />
