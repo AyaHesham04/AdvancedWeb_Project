@@ -121,7 +121,7 @@ body {
 
 .auth-text {
   color: #b0787b;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 13px;
   text-align: right;
 }
@@ -152,7 +152,7 @@ body {
 
 .sub-tile {
   color: #5F5B5B;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 21px;
   font-weight: bold;
   letter-spacing: 0;
@@ -160,7 +160,7 @@ body {
 }
 
 .mt-n14 {
-    margin-top: -14px !important;
+  margin-top: -14px !important;
 }
 
 .slider-img {
@@ -231,7 +231,7 @@ body {
 
 .slider-title {
   color: #915970;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 24px;
   letter-spacing: 0;
   line-height: 32px;
@@ -240,7 +240,7 @@ body {
 
 .slider-text {
   color: #915970;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 30px;
   font-weight: 800;
   letter-spacing: 0;
@@ -255,107 +255,118 @@ body {
 }
 
 .category-card {
-  height: 180px;
-  width: 180px;
-  border-radius: 50%;
-  margin: 10px;
-  text-align: center;
-  overflow: hidden;
   display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0px 2px 2px 0px #efc4c3;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  align-items: center;
 }
-
-.category-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 8px 16px rgba(239, 196, 195, 0.6);
-}
-
 
 .category-img-wrapper {
   position: relative;
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 0;
   overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
 .category-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.3s ease-in-out;
-  border-radius: 50%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 0;
+  border: 3px solid #efc4c3;
 }
 
-.category-card-text {
-  color: #555550;
-    font-family: "Almarai", sans-serif;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: capitalize;
-}
-
-
-.category-hover-text {
+.category-title {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  background: #efc4c3cd;
+  color: #f9f6f6;
+  font-size: 12px;
   font-weight: bold;
-  font-size: 1rem;
   text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 2;
-  pointer-events: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: clamp(8px, 12px, 12px);
+  text-transform: lowercase;
 }
 
-.category-img-wrapper:hover .category-card-img {
-  filter: blur(1px) brightness(0.7);
+.category-title::first-letter {
+  text-transform: uppercase;
 }
 
-.category-img-wrapper:hover .category-hover-text {
-  opacity: 1;
+.category-title span {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media (min-width: 320px) {
+.category-img-wrapper:hover {
+  transform: scale(1.05);
+}
+
+
+@media (max-width: 320px) {
   .category-img-wrapper {
-    width: 90px;
-    height: 90px;
+    width: 130px;
+    height: 130px;
   }
 
   .category-card {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .category-title {
+    font-size: 16px;
   }
 }
 
 @media (min-width: 375px) {
   .category-img-wrapper {
-    width: 100px;
-    height: 100px;
+    width: 130px;
+    height: 130px;
   }
 
   .category-card {
-    width: 110px;
-    height: 110px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .category-title {
+    font-size: 16px;
   }
 }
 
 @media (min-width: 576px) {
   .category-img-wrapper {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
   }
 
   .category-card {
-    width: 130px;
-    height: 130px;
+    width: 170px;
+    height: 170px;
   }
 }
 
@@ -373,25 +384,25 @@ body {
 
 @media (min-width: 992px) {
   .category-img-wrapper {
-    width: 130px;
-    height: 130px;
+    width: 160px;
+    height: 160px;
   }
 
   .category-card {
-    width: 140px;
-    height: 140px;
+    width: 170px;
+    height: 170px;
   }
 }
 
 @media (min-width: 1200px) {
   .category-img-wrapper {
-    width: 170px;
-    height: 170px;
+    width: 190px;
+    height: 190px;
   }
 
   .category-card {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -482,7 +493,8 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px;
   text-align: center;
-  white-space: nowrap;
+  white-space: wrap;
+
 }
 
 .card-text {
@@ -506,14 +518,14 @@ body {
 
 .card-price-admin {
   color: #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   font-weight: 500;
 }
 
 .card-currency {
   color: #b0787b;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 15px;
 }
 
@@ -677,7 +689,7 @@ body {
 
 .footer-phone {
   color: #5F5B5B;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 13px;
   font-weight: bold;
   text-align: right;
@@ -697,7 +709,7 @@ body {
 
 .footer-social-text {
   color: #5F5B5B;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 13px;
   font-weight: bold;
   text-align: right;
@@ -784,7 +796,7 @@ body {
 /* card filter style */
 .search-count-text {
   color: #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 0;
@@ -850,7 +862,16 @@ body {
   font-weight: 600;
 }
 
-.product-title{
+.product-title {
+  color: #915970;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 24px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+
+.product-title-details {
   color: #915970;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px;
@@ -868,7 +889,7 @@ body {
 
 .cat-title {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   font-weight: normal;
 }
@@ -876,14 +897,14 @@ body {
 .order-name {
   padding-top: 3px;
   color: #636262;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   font-weight: normal;
 }
 
 .cat-rate {
   color: #ffc107;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 0;
@@ -921,7 +942,7 @@ body {
   padding-bottom: 10px;
   border-radius: 9px;
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   font-weight: bold;
   background-color: #ffffff;
@@ -935,7 +956,7 @@ body {
   border: #b0787b 1px solid;
   color: #f9f9f9;
   background-color: #b0787b;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   font-weight: normal;
 }
@@ -967,7 +988,7 @@ body {
 
 .cat-text-header {
   color: #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 0;
@@ -992,7 +1013,7 @@ body {
 
 .title-login {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 21px;
   font-weight: 800;
   letter-spacing: 0;
@@ -1028,7 +1049,7 @@ body {
 /* cart page */
 .cart-title {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 21px;
   font-weight: 800;
   letter-spacing: 0;
@@ -1036,6 +1057,7 @@ body {
   text-align: left;
   padding-top: 10px;
 }
+
 .cart-body {
   height: 100%;
   width: 100%;
@@ -1092,7 +1114,7 @@ body {
   height: 46px;
   width: 90%;
   border: 1px solid #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   font-weight: normal;
 }
@@ -1109,7 +1131,7 @@ body {
   border-radius: 0 !important;
   color: #f9f9f9;
   background-color: #b0787b;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   font-weight: normal;
 }
@@ -1195,7 +1217,7 @@ body {
 
 .admin-side-text {
   color: #272727;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 0;
@@ -1222,7 +1244,7 @@ body {
 
 .admin-content-text {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 18px;
   font-weight: 700;
   text-align: left;
@@ -1231,7 +1253,7 @@ body {
 
 .item-delete-edit {
   color: #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 30px;
@@ -1241,7 +1263,7 @@ body {
 
 .text-form {
   color: #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 20px;
@@ -1325,7 +1347,7 @@ body {
 
 .rate-count {
   color: #979797;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   letter-spacing: 0;
   line-height: 23px;
@@ -1333,7 +1355,7 @@ body {
 
 .rate-name {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 0;
@@ -1342,7 +1364,7 @@ body {
 
 .rate-description {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 14px;
   letter-spacing: 0;
   line-height: 19px;
@@ -1362,7 +1384,7 @@ body {
 
 .order-title {
   color: #272727;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 16px;
   font-weight: bold;
 }
@@ -1442,7 +1464,7 @@ body {
 /* filter side style */
 .filter-title {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 0;
@@ -1452,7 +1474,7 @@ body {
 
 .filter-sub {
   color: #555550;
-    font-family: "Almarai", sans-serif;
+  font-family: "Almarai", sans-serif;
   font-size: 12px;
   letter-spacing: 0;
   line-height: 17px;

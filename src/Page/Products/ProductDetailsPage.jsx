@@ -68,7 +68,7 @@ const ProductDetailsPage = () => {
 
           <Col md={6} className="d-flex flex-column justify-content-center">
             <div className="product-details-body">
-              <div className="product-title">{product.title}</div>
+              <div className="product-title-details">{product.title}</div>
               <p className="details-description mt-3">{product.description}</p>
               <Row className="d-flex justify-content-between align-items-center">
                 <Col sm="12" className="d-flex flex-row justify-content-between">
