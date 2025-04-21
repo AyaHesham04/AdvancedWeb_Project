@@ -7,7 +7,7 @@ const AllCategoryPage = () => {
     const [category, loading, pageCount, getPage] = AllCategoryHook();
 
     return (
-        <div style={{ height: '100vh' }}>
+        <div style={{ minHeight: '100vh' }}>
 
             <CategoryContainer data={category.data} loading={loading} />
             {

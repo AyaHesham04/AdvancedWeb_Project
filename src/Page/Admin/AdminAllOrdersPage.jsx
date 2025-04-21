@@ -13,7 +13,7 @@ const AdminAllOrdersPage = () => {
         dispatch(fetchProducts());
     }, [dispatch]);
     return (
-        <Container fluid className="px-10" style={{ height: '100vh' }}>
+        <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>
                 <Col sm="3" xs="12" md="3">
                     <AdminSideBar />

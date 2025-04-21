@@ -36,7 +36,7 @@ const LoginPage = () => {
 
 
     return (
-        <Container fluid className="auth-background" style={{ height: '100vh' }}>
+        <Container fluid className="auth-background" style={{ minHeight: '100vh' }}>
             <Row className="py-5 px-2 d-flex justify-content-center">
                 <Col
                     sm="12"

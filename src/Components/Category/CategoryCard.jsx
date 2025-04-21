@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 const CategoryCard = ({ img, title, id }) => {
     return (
         <Col
-            xs="6"
-            sm="6"
-            md="4"
-            lg="2"
+            xs="12"
+            sm="12"
+            md="12"
+            lg="12"
             className="my-1 d-flex justify-content-around"
         >
             <div className="category-card">

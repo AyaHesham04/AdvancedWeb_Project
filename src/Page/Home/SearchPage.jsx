@@ -35,7 +35,7 @@ const SearchPage = () => {
         return <div className="text-center text-danger py-5">{error}</div>;
     }
     return (
-        <Container className="py-4" style={{ height: '100vh' }}>
+        <Container className="py-4" style={{ minHeight: '100vh' }}>
             <h4 className="sub-tile">Results for “{q}”</h4>
             {results.length === 0 ? (
                 <p className="sub-tile">No items found.</p>

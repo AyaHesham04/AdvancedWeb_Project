@@ -18,7 +18,7 @@ const ProductsByCategory = () => {
     }, [dispatch, id]);
 
     return (
-        <div style={{ height: '100vh' }}>
+        <div style={{ minHeight: '100vh' }}>
             <Container>
                 <Row className="d-flex flex-row">
                     <Col sm="12">
