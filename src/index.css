@@ -3,7 +3,15 @@
 @tailwind utilities;
 
 body::-webkit-scrollbar {
-  width: var(--sb-size)
+  width: var(--sb-size);
+  width: 0;
+  opacity: 0;
+}
+
+body.scrolling::-webkit-scrollbar {
+  width: 0px;
+  /* width: 2px; */
+  opacity: 1;
 }
 
 body::-webkit-scrollbar-track {
@@ -15,12 +23,6 @@ body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 12px;
 
-}
-
-@supports not selector(::-webkit-scrollbar) {
-  body {
-    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
-  }
 }
 
 html,
