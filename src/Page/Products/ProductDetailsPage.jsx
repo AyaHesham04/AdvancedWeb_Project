@@ -3,9 +3,7 @@ import { Container, Row, Col, ToastContainer } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchProductById } from '../../redux/slices/productsSlice';
-import RightButton from '../../Components/Products/RightButton';
-import LeftButton from '../../Components/Products/LeftButton';
-import ImageGallery from 'react-image-gallery';
+import ImageSlider from '../../Components/Uitily/ImageSlider';
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -56,15 +54,7 @@ const ProductDetailsPage = () => {
         <Row className="product-details">
           <Col md={6} className="d-flex justify-content-center align-items-center">
             <div className="image-container" style={{ maxWidth: '600px', maxHeight: '350px' }}>
-              <ImageGallery
-                items={galleryImages}
-                showFullscreenButton={false}
-                isRTL={true}
-                showPlayButton={false}
-                showThumbnails={false}
-                renderRightNav={RightButton}
-                renderLeftNav={LeftButton}
-              />
+              <ImageSlider images={galleryImages} />
             </div>
           </Col>
 

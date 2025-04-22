@@ -2,23 +2,28 @@
 import React, { useState } from 'react'
 import { Button, Col, Modal, Row } from 'react-bootstrap'
 import mobile from '../../images/mobile.png'
-import deleteicon from '../../images/delete.png'
 import { useDispatch } from 'react-redux'
 import { deleteCartItem } from '../../redux/slices/cartSlice'
 import { Link } from 'react-router-dom';
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, refreshCart }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [itemCount, setItemCount] = useState(item.count);
+  const [itemCount, setItemCount] = useState(item.quantity);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  const handelDeleteItem = () => {
-    dispatch(deleteCartItem(item._id));
-    handleClose();
+  const handelDeleteItem = async () => {
+    try {
+      await dispatch(deleteCartItem(item._id)).unwrap();
+      handleClose();
+      refreshCart();
+    } catch (error) {
+      console.error('Failed to delete cart item:', error);
+    }
   };
+
 
   const onChangeCount = (e) => {
     const value = Math.max(1, parseInt(e.target.value) || 1);

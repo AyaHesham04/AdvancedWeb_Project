@@ -1,9 +1,18 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Card, Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 const ProductCard = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const addToCartHandle = () => {
+
+    dispatch(addToCart({ productId: item.id, quantity: 1 }));
+  };
   return (
     <Col className="d-flex">
       <Card
@@ -26,7 +35,7 @@ const ProductCard = ({ item }) => {
         </Link>
         <Card.Body>
           <Link to={`/products/${item.id}`} style={{ textDecoration: "none" }}>
-            <div className="card-title" style={{color: '#915970'}}>{item.title}</div>
+            <div className="card-title" style={{ color: '#915970' }}>{item.title}</div>
             <Card.Text>
               <div className="card-text">{item.description}</div>
             </Card.Text>
@@ -61,7 +70,7 @@ const ProductCard = ({ item }) => {
             <div className="d-flex">
               <div
                 className="d-flex p-2 cart-icon-wrapper"
-              // onClick={addToCartHandle}
+                onClick={addToCartHandle}
               >
                 <svg
                   className="cart-icon"

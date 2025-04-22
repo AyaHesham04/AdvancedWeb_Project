@@ -12,7 +12,24 @@ export const fetchCategories = createAsyncThunk('category/fetchAll', async (_, t
         return thunkAPI.rejectWithValue(error.response?.data || 'Fetch failed');
     }
 });
+export const deleteCategory = createAsyncThunk(
+    'category/delete',
+    async (id, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
 
+            await axios.delete(`${APP_URL}/categories/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            return { id };
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || 'Delete failed');
+        }
+    }
+);
 const categorySlice = createSlice({
     name: 'category',
     initialState: {
@@ -30,6 +47,19 @@ const categorySlice = createSlice({
                 state.loading = false;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(deleteCategory.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteCategory.fulfilled, (state, action) => {
+                state.categories = state.categories.filter(
+                    (category) => category._id !== action.payload.id
+                );
+                state.loading = false;
+            })
+            .addCase(deleteCategory.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             });

@@ -7,10 +7,17 @@ import { fetchUser, logOut as logOutAction } from '../../redux/slices/authSlice'
 import { setSearchQuery } from '../../redux/slices/searchSlice';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.png'
+import { fetchCart } from '../../redux/slices/cartSlice';
 
-function NavBarLogin({ itemsNum }) {
+function NavBarLogin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { cartItems } = useSelector((state) => state.cart);
+
+    const itemsNum = cartItems && cartItems.cartItems ? cartItems.cartItems.length : 0;
+    useEffect(() => {
+        dispatch(fetchCart());
+    }, [dispatch]);
     const dropdownRef = useRef(null);
 
     const user = useSelector((state) => state.auth.user);
@@ -86,7 +93,6 @@ function NavBarLogin({ itemsNum }) {
                                 id="basic-nav-dropdown"
                                 className="nav-text d-flex w-100 justify-content-center"
                             >
-                                {user.data.name}
                                 {
                                     user.data.role === "admin" ? (
                                         <NavDropdown.Item href="/admin/all_orders" className="nav-text">Dashboard</NavDropdown.Item>)

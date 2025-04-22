@@ -2,22 +2,46 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import APP_URL from '../../Api/baseURL';
-
+import { toast } from 'react-toastify';
 
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, thunkAPI) => {
     try {
-        const res = await axios.get(`${APP_URL}/cart`);
+        const res = await axios.get(`${APP_URL}/cart`, {
+            headers: {
+                Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+            },
+        });
         return res.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || 'Failed to load cart');
     }
 });
+// Add item to cart
+export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, quantity }, thunkAPI) => {
+    try {
+        const res = await axios.post(`${APP_URL}/cart`, { productId, quantity }, {
+            headers: {
+                Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+            },
+        });
+
+        toast.success('Added to cart!');
+        return res.data;
+    } catch (error) {
+        toast.error(error.response?.data?.message || 'Failed to add to cart');
+        return thunkAPI.rejectWithValue(error.response?.data || 'Failed to add to cart');
+    }
+});
 export const deleteCartItem = createAsyncThunk(
     'cart/deleteCartItem',
-    async (id, thunkAPI) => {
+    async (itemId, thunkAPI) => {
         try {
-            const res = await axios.delete(`${APP_URL}/cart/${id}`);
-            return { id };
+            const response = await axios.delete(`${APP_URL}/cart/${itemId}`, {
+                headers: {
+                    Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+                },
+            });
+            return response.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || 'Failed to delete cart item');
         }
@@ -34,7 +58,11 @@ const cartSlice = createSlice({
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        setCartItems: (state, action) => {
+            state.cartItems = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCart.pending, (state) => {
@@ -53,11 +81,34 @@ const cartSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            .addCase(deleteCartItem.fulfilled, (state, action) => {
-                state.cartItems = state.cartItems.filter(item => item._id !== action.payload.id);
-            });
-
+            .addCase(addToCart.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addToCart.fulfilled, (state, action) => {
+                state.loading = false;
+                const { data, totalCartPrice, totalCartPriceAfterDiscount, couponName } = action.payload;
+                state.cartItems = data;
+                state.totalCartPrice = totalCartPrice;
+                state.totalCartPriceAfterDiscount = totalCartPriceAfterDiscount;
+                state.couponNameRes = couponName;
+            })
+            .addCase(addToCart.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+        builder.addCase(deleteCartItem.fulfilled, (state, action) => {
+            if (Array.isArray(state.cartItems)) {
+                state.cartItems = state.cartItems.filter(item => item._id !== action.payload._id);
+            } else {
+                console.error('cartItems is not an array:', state.cartItems);
+            }
+        });
     },
+
 });
+export const { setCartItems } = cartSlice.actions;
+
+export const selectCartItems = (state) => state.cart.cartItems;
 
 export default cartSlice.reducer;

@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import NavBarLogin from "./Components/Uitily/NavBarLogin.jsx";
 import Footer from "./Components/Uitily/Footer.jsx";
 
@@ -12,14 +12,16 @@ import ProductDetailsPage from "./Page/Products/ProductDetailsPage.jsx";
 import CartPage from "./Page/Cart/CartPage.jsx";
 import SearchPage from "./Page/Home/SearchPage.jsx";
 import AdminAllOrdersPage from "./Page/Admin/AdminAllOrdersPage.jsx";
-import AdminRoute from "./Components/Uitily/AdminRoute.jsx";
 import AllCategoryPage from "./Page/Category/AllCategoryPage.jsx";
 import AllProductsPage from "./Page/Products/AllProductsPage.jsx";
+import AdminAllProductsPage from "./Page/Admin/AdminAllProductsPage.jsx";
+import AdminEditProductsPage from "./Page/Admin/AdminEditProductsPage.jsx";
+import ProtectedRoute from "./Components/Uitily/AdminRoute.jsx";
+import AdminAllCategoriesPage from "./Page/Admin/AdminAllCategoriesPage.jsx";
 
 
 
 function App() {
-
   return (
     <div className="font" >
       <NavBarLogin />
@@ -33,8 +35,12 @@ function App() {
         <Route path="/products/category/:id" element={<ProductsByCategory />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/search" element={<SearchPage />} />
-        {/* <Route element={<AdminRoute />}> */}
+        {/* <Route element={<ProtectedRoute />}> */}
         <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
+        <Route path="/admin/all_products" element={<AdminAllProductsPage />} />
+        <Route path="/admin/edit/product/:id" element={<AdminEditProductsPage />} />
+        <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
+
         {/* </Route> */}
       </Routes>
       <Footer />

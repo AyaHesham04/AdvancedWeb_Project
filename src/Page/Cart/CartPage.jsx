@@ -10,17 +10,15 @@ const CartPage = () => {
 
     const {
         cartItems,
-        totalCartPrice,
-        totalCartPriceAfterDiscount,
-        couponNameRes,
         loading,
         error,
     } = useSelector((state) => state.cart);
-    // debugger;
     useEffect(() => {
         dispatch(fetchCart());
     }, [dispatch]);
-
+    const refreshCart = () => {
+        dispatch(fetchCart());
+    };
     if (loading) return <div className="text-center py-5">Loading...</div>;
     if (error) return <div className="text-danger text-center py-5">{error}</div>;
 
@@ -35,7 +33,7 @@ const CartPage = () => {
                         cartItems.cartItems.map(
                             (item, index) =>
                                 <>
-                                    <CartItem key={index} item={item} />
+                                    <CartItem key={index} item={item} refreshCart={refreshCart} />
                                     <hr />
                                 </>)
                     ) : (

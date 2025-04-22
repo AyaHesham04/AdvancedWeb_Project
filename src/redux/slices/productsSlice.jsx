@@ -36,6 +36,38 @@ export const fetchProductsByCategory = createAsyncThunk(
         }
     }
 );
+export const updateProduct = createAsyncThunk(
+    'products/update',
+    async ({ id, data }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (!token || token == "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
+            const res = await axios.put(`${APP_URL}/products/${id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || 'Update failed');
+        }
+    }
+);
+
+export const deleteProduct = createAsyncThunk(
+    'products/delete',
+    async (productId, thunkAPI) => {
+        try {
+            await axios.delete(`${APP_URL}/products/${productId}`);
+            return { id: productId };
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || 'Delete failed');
+        }
+    }
+);
 const productsSlice = createSlice({
     name: 'products',
     initialState: {
@@ -78,6 +110,24 @@ const productsSlice = createSlice({
                 state.loading = false;
             })
             .addCase(fetchProductById.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                const index = state.products.findIndex(p => p._id === action.payload._id);
+                if (index !== -1) {
+                    state.products[index] = action.payload;
+                }
+                state.selectedProduct = action.payload;
+            })
+            .addCase(deleteProduct.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(deleteProduct.fulfilled, (state, action) => {
+                state.products = state.products.filter(p => p._id !== action.payload.id);
+                state.loading = false;
+            })
+            .addCase(deleteProduct.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             });
