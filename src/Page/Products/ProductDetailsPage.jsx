@@ -47,7 +47,9 @@ const ProductDetailsPage = () => {
   const handleDecrement = () => {
     setItemCount((prev) => Math.max(1, prev - 1));
   };
-
+  const galleryImages = product.images.map((url) => ({
+    original: url
+  }));
   return (
     <div style={{ minHeight: '100vh' }}>
       <Container className="py-5">
@@ -55,7 +57,7 @@ const ProductDetailsPage = () => {
           <Col md={6} className="d-flex justify-content-center align-items-center">
             <div className="image-container" style={{ maxWidth: '600px', maxHeight: '350px' }}>
               <ImageGallery
-                items={product.images}
+                items={galleryImages}
                 showFullscreenButton={false}
                 isRTL={true}
                 showPlayButton={false}
@@ -72,19 +74,19 @@ const ProductDetailsPage = () => {
               <p className="details-description mt-3">{product.description}</p>
               <Row className="d-flex justify-content-between align-items-center">
                 <Col sm="12" className="d-flex flex-row justify-content-between">
-                <div className="card-price mt-3">
-                  {product.priceAfterDiscount >= 1 ? (
-                    <div>
-                      {product.priceAfterDiscount}
-                      <span className="card-currency mx-1">EGP</span>
-                      <span style={{ textDecorationLine: 'line-through', color: '#979797', fontSize: '14px' }}>
-                        {product.price}
-                      </span>
-                    </div>
-                  ) : (
-                    <span>{product.price} EGP</span>
-                  )}
-                </div>
+                  <div className="card-price mt-3">
+                    {product.priceAfterDiscount >= 1 ? (
+                      <div>
+                        {product.priceAfterDiscount}
+                        <span className="card-currency mx-1">EGP</span>
+                        <span style={{ textDecorationLine: 'line-through', color: '#979797', fontSize: '14px' }}>
+                          {product.price}
+                        </span>
+                      </div>
+                    ) : (
+                      <span>{product.price} EGP</span>
+                    )}
+                  </div>
                   <div className="d-inline pt-3 d-flex">
                     <div
                       className="d-flex align-items-center mx-2"

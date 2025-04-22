@@ -13,6 +13,8 @@ import CartPage from "./Page/Cart/CartPage.jsx";
 import SearchPage from "./Page/Home/SearchPage.jsx";
 import AdminAllOrdersPage from "./Page/Admin/AdminAllOrdersPage.jsx";
 import AdminRoute from "./Components/Uitily/AdminRoute.jsx";
+import AllCategoryPage from "./Page/Category/AllCategoryPage.jsx";
+import AllProductsPage from "./Page/Products/AllProductsPage.jsx";
 
 
 
@@ -25,12 +27,14 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/allcategory" element={<AllCategoryPage />} />
+        <Route path="/products" element={<AllProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
         <Route path="/products/category/:id" element={<ProductsByCategory />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/search" element={<SearchPage />} />
         {/* <Route element={<AdminRoute />}> */}
-          <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
+        <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
         {/* </Route> */}
       </Routes>
       <Footer />

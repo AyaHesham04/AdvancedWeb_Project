@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useEffect } from "react";
 import { Container, Row, Spinner } from "react-bootstrap";
 import Slider from 'react-slick';
@@ -105,7 +106,7 @@ const HomeCategory = () => {
     nextArrow: <RightButton />,
     prevArrow: <LeftButton />,
     appendDots: (dots) => (
-      <div style={{ textAlign: "center"}}>
+      <div style={{ textAlign: "center" }}>
         <ul className="custom-dots"> {dots} </ul>
       </div>
     ),

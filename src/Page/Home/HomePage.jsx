@@ -15,8 +15,8 @@ const HomePage = () => {
     return (
         <div className='font' style={{ minHeight: '100vh' }}>
             <Slider />
-            <HomeCategory />
             <CardBestsellersContainer title="Best Sellers" />
+            <HomeCategory />
             <DiscountSection />
             <CardProductsContainerHome title="Products" btntitle="See More" pathText="/products" />
         </div>

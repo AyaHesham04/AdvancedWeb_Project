@@ -33,21 +33,14 @@ const ProductsByCategory = () => {
                             ) : products.length === 0 ? (
                                 <h4>No  products yet.</h4>
                             ) : (
-                                products.map((item, index) => (
-                                    <div key={index}>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                width: '100%',
-                                            }}
-                                        >
-                                            <div style={{ width: '70%', margin: '30px' }}>
-                                                <ProductCard item={item} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
+
+                                <Row className='my-2 d-flex'>
+                                    {products.map(item => (
+                                        <Col key={item._id} xs={12} sm={6} md={4}>
+                                            <ProductCard item={item} />
+                                        </Col>
+                                    ))}
+                                </Row>
                             )}
                         </Container>
                     </Col>

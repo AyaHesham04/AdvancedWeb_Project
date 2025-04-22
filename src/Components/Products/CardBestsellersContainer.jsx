@@ -24,7 +24,7 @@ const CardBestsellersContainer = ({ title }) => {
   return (
     <Container>
       {products && (
-        <SubTiltle title={title} btntitle="More" pathText="/best-sellers" />
+        <SubTiltle title={title} />
       )}
 
       {loading ? (

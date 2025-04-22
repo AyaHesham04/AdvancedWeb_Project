@@ -9,7 +9,7 @@ const CardProductsContainerHome = ({ title, btntitle, pathText }) => {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
   useEffect(() => {
-    dispatch(fetchProducts(5));
+    dispatch(fetchProducts(4));
   }, [dispatch]);
 
   return (

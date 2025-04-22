@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 // src/components/NavBarLogin.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import { Navbar, Container, FormControl, Nav, NavDropdown } from 'react-bootstrap'
+import { Navbar, Container, FormControl, Nav, NavDropdown, Dropdown } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, logOut as logOutAction } from '../../redux/slices/authSlice';
 import { setSearchQuery } from '../../redux/slices/searchSlice';
@@ -82,15 +82,15 @@ function NavBarLogin({ itemsNum }) {
                             <NavDropdown
                                 show={showDropdown}
                                 onClick={() => setShowDropdown((s) => !s)}
-                                title={user.name}
+                                title={user.data.name}
                                 id="basic-nav-dropdown"
                                 className="nav-text d-flex w-100 justify-content-center"
                             >
-                                {user.name}
+                                {user.data.name}
                                 {
-                                    user.role === "admin" ? (
-                                    <NavDropdown.Item href="/admin/allproducts" className="nav-text">Dashboard</NavDropdown.Item>) 
-                                    : (<NavDropdown.Item href="/user/profile" className="nav-text">Profile</NavDropdown.Item>)
+                                    user.data.role === "admin" ? (
+                                        <NavDropdown.Item href="/admin/all_orders" className="nav-text">Dashboard</NavDropdown.Item>)
+                                        : (<NavDropdown.Item href="/user/profile" className="nav-text">Profile</NavDropdown.Item>)
                                 }
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={onLogOut} href="/" className="nav-text">Logout</NavDropdown.Item>

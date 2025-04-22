@@ -12,3 +12,17 @@
     line-height: 56px;
     padding: 0;
 }
+
+#basic-nav-dropdown>.dropdown-menu {
+    background-color: #b0787b !important;
+}
+
+/* items inside */
+#basic-nav-dropdown>.dropdown-menu .dropdown-item {
+    color: white !important;
+}
+
+/* hover/focus states */
+#basic-nav-dropdown>.dropdown-menu .dropdown-item:hover,
+#basic-nav-dropdown>.dropdown-menu .dropdown-item:focus {
+    background-color: #945458 !important;
