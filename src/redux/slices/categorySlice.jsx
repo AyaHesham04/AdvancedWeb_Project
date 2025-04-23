@@ -12,6 +12,26 @@ export const fetchCategories = createAsyncThunk('category/fetchAll', async (_, t
         return thunkAPI.rejectWithValue(error.response?.data || 'Fetch failed');
     }
 });
+export const createCategory = createAsyncThunk(
+    'category/create',
+    async (formData, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const res = await axios.post(`${APP_URL}/categories`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            return res.data.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || 'Create failed');
+        }
+    }
+);
+
 export const deleteCategory = createAsyncThunk(
     'category/delete',
     async (id, thunkAPI) => {
@@ -47,6 +67,17 @@ const categorySlice = createSlice({
                 state.loading = false;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(createCategory.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createCategory.fulfilled, (state, action) => {
+                state.categories.push(action.payload);
+                state.loading = false;
+            })
+            .addCase(createCategory.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })

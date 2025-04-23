@@ -36,6 +36,23 @@ export const fetchProductsByCategory = createAsyncThunk(
         }
     }
 );
+export const createProduct = createAsyncThunk(
+    'products/create',
+    async (productData, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await axios.post(`${APP_URL}/products`, productData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            return res.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || 'Create failed');
+        }
+    }
+);
 export const updateProduct = createAsyncThunk(
     'products/update',
     async ({ id, data }, thunkAPI) => {
@@ -110,6 +127,18 @@ const productsSlice = createSlice({
                 state.loading = false;
             })
             .addCase(fetchProductById.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(createProduct.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createProduct.fulfilled, (state, action) => {
+                state.products.push(action.payload);
+                state.loading = false;
+            })
+            .addCase(createProduct.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })

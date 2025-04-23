@@ -95,7 +95,7 @@ function NavBarLogin() {
                             >
                                 {
                                     user.data.role === "admin" ? (
-                                        <NavDropdown.Item href="/admin/all_orders" className="nav-text">Dashboard</NavDropdown.Item>)
+                                        <NavDropdown.Item href="/admin" className="nav-text">Dashboard</NavDropdown.Item>)
                                         : (<NavDropdown.Item href="/user/profile" className="nav-text">Profile</NavDropdown.Item>)
                                 }
                                 <NavDropdown.Divider />

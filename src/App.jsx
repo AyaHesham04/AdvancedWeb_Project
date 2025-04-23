@@ -16,8 +16,11 @@ import AllCategoryPage from "./Page/Category/AllCategoryPage.jsx";
 import AllProductsPage from "./Page/Products/AllProductsPage.jsx";
 import AdminAllProductsPage from "./Page/Admin/AdminAllProductsPage.jsx";
 import AdminEditProductsPage from "./Page/Admin/AdminEditProductsPage.jsx";
-import ProtectedRoute from "./Components/Uitily/AdminRoute.jsx";
+import ProtectedRoute from "./Components/Uitily/ProtectedRoute.jsx";
 import AdminAllCategoriesPage from "./Page/Admin/AdminAllCategoriesPage.jsx";
+import AdminAddProductsPage from "./Page/Admin/AdminAddProductsPage.jsx";
+import AdminAddCategoryPage from "./Page/Admin/AdminAddCategoryPage.jsx";
+import AdminAnalyticsPage from "./Page/Admin/AdminAnalyticsPage.jsx";
 
 
 
@@ -35,13 +38,16 @@ function App() {
         <Route path="/products/category/:id" element={<ProductsByCategory />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/search" element={<SearchPage />} />
-        {/* <Route element={<ProtectedRoute />}> */}
-        <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
-        <Route path="/admin/all_products" element={<AdminAllProductsPage />} />
-        <Route path="/admin/edit/product/:id" element={<AdminEditProductsPage />} />
-        <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminAnalyticsPage />} />
+          <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
+          <Route path="/admin/all_products" element={<AdminAllProductsPage />} />
+          <Route path="/admin/add/product" element={<AdminAddProductsPage />} />
+          <Route path="/admin/edit/product/:id" element={<AdminEditProductsPage />} />
+          <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
+          <Route path="/admin/add/category" element={<AdminAddCategoryPage />} />
 
-        {/* </Route> */}
+        </Route>
       </Routes>
       <Footer />
 
