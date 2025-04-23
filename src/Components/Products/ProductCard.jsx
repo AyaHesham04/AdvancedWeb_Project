@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Card, Col } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
-  const addToCartHandle = () => {
 
-    dispatch(addToCart({ productId: item.id, quantity: 1 }));
+  const addToCartHandle = () => {
+    dispatch(addToCart({ productId: item.id }));
   };
   return (
     <Col className="d-flex">

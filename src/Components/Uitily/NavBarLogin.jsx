@@ -7,20 +7,15 @@ import { fetchUser, logOut as logOutAction } from '../../redux/slices/authSlice'
 import { setSearchQuery } from '../../redux/slices/searchSlice';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.png'
-import { fetchCart } from '../../redux/slices/cartSlice';
 import { fetchCategories } from '../../redux/slices/categorySlice';
 
 
 function NavBarLogin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { cartItems } = useSelector((state) => state.cart);
     const { categories, loading: categoriesLoading, error: categoriesError } = useSelector((state) => state.category);
-
-    const itemsNum = cartItems && cartItems.cartItems ? cartItems.cartItems.length : 0;
-    useEffect(() => {
-        dispatch(fetchCart());
-    }, [dispatch]);
+    const items = useSelector((state) => state.cart.items);
+    const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
     const dropdownRef = useRef(null);
 
     const user = useSelector((state) => state.auth.user);
@@ -158,14 +153,14 @@ function NavBarLogin() {
                                 <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#f9f6f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <span style={{ color: '#b0787b' }} className="position-absolute translate-middle badge rounded-pill bg-white ms-1">
-                                {itemsNum || 0}
+                                {cartCount || 0}
                             </span>
                             <p className="nav-text">Cart</p>
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
-        </Navbar>
+        </Navbar >
     );
 }
 

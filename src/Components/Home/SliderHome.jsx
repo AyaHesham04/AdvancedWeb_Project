@@ -7,6 +7,8 @@ import slider1 from '../../images/slider1.jpg';
 import slider2 from '../../images/slider2.jpg';
 import slider3 from '../../images/slider3.jpg';
 import slider4 from '../../images/slider4.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSliders } from '../../redux/slices/sliderSlice';
 
 const SliderHome = () => {
     const [index, setIndex] = useState(0);
@@ -14,7 +16,6 @@ const SliderHome = () => {
     const handleSelect = (selectedIndex) => {
         setIndex(selectedIndex);
     };
-
     // Corrected sliderImages array with direct image imports
     const sliderImages = [
         { name: 'first slide', image: slider1 },
@@ -22,6 +23,16 @@ const SliderHome = () => {
         { name: 'third slide', image: slider3 },
         { name: 'fourth slide', image: slider4 },
     ];
+
+    // const dispatch = useDispatch();
+    // const { items: sliderImages, loading, error } = useSelector((state) => state.slider);
+    // console.log(sliderImages.map((item, index) => (
+    //     item.image
+
+    // )));
+    // useEffect(() => {
+    //     dispatch(fetchSliders());
+    // }, [dispatch]);
 
     useEffect(() => {
         const slider = document.querySelector('.slick-slider');

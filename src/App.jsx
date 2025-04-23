@@ -22,6 +22,7 @@ import AdminAddProductsPage from "./Page/Admin/AdminAddProductsPage.jsx";
 import AdminAddCategoryPage from "./Page/Admin/AdminAddCategoryPage.jsx";
 import AdminAnalyticsPage from "./Page/Admin/AdminAnalyticsPage.jsx";
 import AdminAddCouponPage from "./Page/Admin/AdminAddCouponPage.jsx";
+import AdminSliderPage from "./Page/Admin/AdminSliderPage.jsx";
 
 
 
@@ -48,6 +49,7 @@ function App() {
           <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
           <Route path="/admin/add/category" element={<AdminAddCategoryPage />} />
           <Route path="/admin/add/coupon" element={<AdminAddCouponPage />} />
+          <Route path="/admin/slider" element={<AdminSliderPage />} />
         </Route>
       </Routes>
       <Footer />

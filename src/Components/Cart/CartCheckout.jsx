@@ -1,16 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { ToastContainer } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import useApplyCouponHook from './apply-coupon-hook';
-import useClearCartHook from './clear-cart-hook';
+import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
+import APP_URL from '../../Api/baseURL';
 
-const CartCheckout = () => {
-    const [couponName, onChangeCoupon, handleSubmitCoupon] = useApplyCouponHook();
-    const handleClearCart = useClearCartHook();
+const CartCheckout = ({ totalPrice }) => {
+    const [couponName, setCouponName] = useState('');
+    const [finalPrice, setFinalPrice] = useState(totalPrice);
+    const [discount, setDiscount] = useState(0);
+    console.log(finalPrice, totalPrice);
+    useEffect(
+        () => {
+            setFinalPrice(totalPrice);
+        }, [totalPrice]);
+    const vibrateDevice = () => {
+        if (navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+    };
 
-    const totalCartPrice = useSelector((state) => state.cart.totalCartPrice);
-    const totalCartPriceAfterDiscount = useSelector((state) => state.cart.totalCartPriceAfterDiscount);
+    const onChangeCoupon = (value) => {
+        setCouponName(value);
+    };
+
+    const handleSubmitCoupon = async () => {
+        try {
+            const { data } = await axios.post(`${APP_URL}/coupons/status`, { coupon: couponName });
+
+            if (data.status === 'success') {
+                setDiscount(data.discount);
+                const updatedPrice = totalPrice - data.discount;
+                setFinalPrice(updatedPrice);
+                Cookies.set('appliedCoupon', couponName);
+                toast.success(`Coupon applied! You saved ${data.discount} EGP`);
+            } else {
+                throw new Error('Invalid coupon');
+            }
+        } catch (err) {
+            vibrateDevice();
+            setCouponName('');
+            setDiscount(0);
+            setFinalPrice(totalPrice);
+            Cookies.remove('appliedCoupon');
+            toast.error('Invalid coupon. Try another one.');
+        }
+    };
+
+    const handleClearCart = () => {
+        // Your logic to clear cart here
+        toast.info('Cart cleared');
+    };
 
     return (
         <Row className="d-flex">
@@ -25,13 +65,11 @@ const CartCheckout = () => {
                     <button onClick={handleSubmitCoupon} className="copon-btn d-inline">Apply</button>
                 </div>
                 <div className="product-price d-inline w-100 my-3 border">
-                    {
-                        totalCartPriceAfterDiscount >= 1
-                            ? `${totalCartPrice} EGP ... After Discount ${totalCartPriceAfterDiscount} `
-                            : `${totalCartPrice} EGP`
-                    }
+                    <strong>Total:</strong> {finalPrice} EGP
+                    {discount > 0 && (
+                        <div className="text-success">Discount applied: {discount} EGP</div>
+                    )}
                 </div>
-
                 <button className="product-cart-add d-inline"> Complete Purchase</button>
 
                 <button onClick={handleClearCart} className="product-cart-add w-100 px-2 my-1"> Clear Cart</button>

@@ -41,6 +41,9 @@ export const createProduct = createAsyncThunk(
     async (productData, thunkAPI) => {
         try {
             const token = localStorage.getItem('token');
+            if (!token || token == "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
             const res = await axios.post(`${APP_URL}/products`, productData, {
                 headers: {
                     Authorization: `Bearer ${token}`,

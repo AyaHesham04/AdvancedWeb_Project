@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react'
 import { Button, Card, Col, Modal, Row } from 'react-bootstrap'
 import { useDispatch } from 'react-redux';

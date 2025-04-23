@@ -6,6 +6,7 @@ import productsReducer from "./slices/productsSlice";
 import cartReducer from "./slices/cartSlice";
 import searchReducer from "./slices/searchSlice";
 import couponReducer from "./slices/couponSlice";
+import sliderReducer from "./slices/sliderSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -15,6 +16,7 @@ const store = configureStore({
     cart: cartReducer,
     search: searchReducer,
     coupon: couponReducer,
+    slider: sliderReducer,
   },
 });
 

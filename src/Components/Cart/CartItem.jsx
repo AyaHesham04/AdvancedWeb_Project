@@ -2,40 +2,52 @@
 import React, { useState } from 'react'
 import { Button, Col, Modal, Row } from 'react-bootstrap'
 import mobile from '../../images/mobile.png'
-import { useDispatch } from 'react-redux'
-import { deleteCartItem } from '../../redux/slices/cartSlice'
 import { Link } from 'react-router-dom';
-
-const CartItem = ({ item, refreshCart }) => {
-  const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
+import Cookies from 'js-cookie';
+const CartItem = ({ item, onQuantityChange }) => {
   const [itemCount, setItemCount] = useState(item.quantity);
-
-  const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  const handelDeleteItem = async () => {
-    try {
-      await dispatch(deleteCartItem(item._id)).unwrap();
-      handleClose();
-      refreshCart();
-    } catch (error) {
-      console.error('Failed to delete cart item:', error);
-    }
+  const CART_COOKIE = 'cart';
+
+
+  const getCartFromCookie = () => {
+    const cart = Cookies.get(CART_COOKIE);
+    return cart ? JSON.parse(cart) : [];
   };
 
+
+
+  const deleteItemFromCart = (itemId) => {
+    const cart = getCartFromCookie();
+    const updatedCart = cart.filter(item => item.id !== itemId);
+    onQuantityChange(updatedCart);
+  };
+
+  const handelDeleteItem = () => {
+    deleteItemFromCart(item.id);
+    handleClose();
+  };
+
+  const handleIncrement = () => {
+    const newCount = itemCount + 1;
+    setItemCount(newCount);
+    console.log('new cart cookie:', item.id, newCount); // Debug
+    onQuantityChange(item.id, newCount);
+  };
+
+  const handleDecrement = () => {
+    const newCount = Math.max(1, itemCount - 1);
+    setItemCount(newCount);
+    onQuantityChange(item.id, newCount);
+  };
 
   const onChangeCount = (e) => {
     const value = Math.max(1, parseInt(e.target.value) || 1);
     setItemCount(value);
-  };
-
-  const handleIncrement = () => {
-    setItemCount((prev) => prev + 1);
-  };
-
-  const handleDecrement = () => {
-    setItemCount((prev) => Math.max(1, prev - 1));
+    onQuantityChange(item.id, value);
   };
 
   return (

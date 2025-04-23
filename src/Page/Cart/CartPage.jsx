@@ -1,29 +1,59 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
 import CartItem from '../../Components/Cart/CartItem';
-import { fetchCart } from '../../redux/slices/cartSlice';
 import CartCheckout from '../../Components/Cart/CartCheckout';
-
+import Cookies from 'js-cookie';
+import APP_URL from '../../Api/baseURL';
+import axios from 'axios';
 const CartPage = () => {
-    const dispatch = useDispatch();
+    const { product, loading, error } = useSelector((state) => state.products);
 
-    const {
-        cartItems,
-        loading,
-        error,
-    } = useSelector((state) => state.cart);
-    useEffect(() => {
-        console.log('cartItems:', cartItems);
-    }, [cartItems]);
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        dispatch(fetchCart());
-    }, [dispatch]);
-    const refreshCart = () => {
-        dispatch(fetchCart());
+        const fetchCartItems = async () => {
+            const cookieCart = Cookies.get('cart');
+
+            if (cookieCart) {
+                const ids = JSON.parse(cookieCart);
+                console.log("id", ids);
+                if (Array.isArray(ids) && ids[0] != null) {
+                    try {
+                        const products = await Promise.all(
+                            ids.map(async (id) => {
+                                const res = await axios.get(`${APP_URL}/products/${id.productId}`);
+                                return {
+                                    ...res.data.data,
+                                    quantity: id.quantity,
+                                };
+                            })
+                        );
+                        setCartItems(products);
+                    } catch (err) {
+                        console.error("Error fetching cart items", err);
+                    }
+                }
+            }
+        };
+
+        fetchCartItems();
+    }, []);
+    const onQuantityChange = (productId, quantity) => {
+        const updatedCart = cartItems.map(item =>
+            item.id === productId ? { ...item, quantity } : item
+        );
+        setCartItems(updatedCart);
+        const minimalCart = updatedCart.map(item => ({
+            productId: item.id,
+            quantity: item.quantity
+        }));
+
+        Cookies.set('cart', JSON.stringify(minimalCart), { expires: 7 });
     };
+    const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    console.log("total ", totalPrice);
     if (loading) return <div style={{ minHeight: '100vh' }} className="text-center py-5">Loading...</div>;
     if (error) return <div style={{ minHeight: '100vh' }} className="text-danger text-center py-5">{error}</div>;
 
@@ -34,11 +64,11 @@ const CartPage = () => {
             </Row>
             <Row className="d-flex justify-content-center">
                 <Col xs="12" md="9" className="cart-body">
-                    {cartItems?.cartItems ? (
-                        cartItems.cartItems.map(
+                    {cartItems ? (
+                        cartItems.map(
                             (item, index) =>
                                 <>
-                                    <CartItem key={index} item={item} refreshCart={refreshCart} />
+                                    <CartItem key={index} item={item} onQuantityChange={onQuantityChange} />
                                     <hr />
                                 </>)
                     ) : (
@@ -47,6 +77,7 @@ const CartPage = () => {
                 </Col>
                 <Col xs="10" md="3" className="cart-checkout">
                     <CartCheckout
+                        totalPrice={totalPrice}
                         cartItems={cartItems}
                     />
                 </Col>

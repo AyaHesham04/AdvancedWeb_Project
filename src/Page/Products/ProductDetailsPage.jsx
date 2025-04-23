@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchProductById } from '../../redux/slices/productsSlice';
 import ImageSlider from '../../Components/Uitily/ImageSlider';
+import { addToCart } from '../../redux/slices/cartSlice';
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { product, loading, error } = useSelector((state) => state.products);
-  const [itemCount, setItemCount] = useState(0);
+  const [itemCount, setItemCount] = useState(1);
 
   useEffect(() => {
     if (id) {
@@ -17,8 +18,9 @@ const ProductDetailsPage = () => {
     }
   }, [dispatch, id]);
 
+
   const addToCartHandle = () => {
-    console.log('Add to cart', product);
+    dispatch(addToCart({ productId: id }));
   };
 
   if (loading || !product) {
@@ -54,7 +56,7 @@ const ProductDetailsPage = () => {
         <Row className="product-details">
           <Col md={6} className="d-flex justify-content-center align-items-center">
             <div className="image-container">
-            <div className="image-slider-container">
+              <div className="image-slider-container">
                 <ImageSlider images={galleryImages} />
               </div>
             </div>

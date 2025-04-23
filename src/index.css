@@ -550,7 +550,7 @@ body {
 
 .custom-swiper .product-card {
   height: 100%;
-  /* Make cards fill the slide height */
+  /* Make cards cover the slide height */
 }
 
 .product-card {
