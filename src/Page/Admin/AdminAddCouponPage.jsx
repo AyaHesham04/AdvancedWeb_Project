@@ -77,8 +77,8 @@ const AdminAddCouponPage = () => {
 
                         <Row>
                             <Col sm="8">
-                                {coupons ? (
-                                    coupons.map((item, index) => <AdminCouponCard key={index} coupon={item} />)
+                                {coupons?.data ? (
+                                    coupons.data.map((item, index) => <AdminCouponCard key={index} coupon={item} />)
                                 ) : (
                                     <h6>No coupons available yet</h6>
                                 )}

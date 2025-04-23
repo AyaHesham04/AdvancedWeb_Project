@@ -21,6 +21,9 @@ export const fetchUser = createAsyncThunk('auth/fetchUser', async (_, thunkAPI) 
 
         return res.data;
     } catch (error) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('name');
+
         return thunkAPI.rejectWithValue(error.response?.data || 'Fetch failed');
     }
 });

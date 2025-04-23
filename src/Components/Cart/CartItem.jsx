@@ -58,14 +58,14 @@ const CartItem = ({ item, refreshCart }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Link to={`/products/${item.product?.id}`} style={{ textDecoration: 'none' }}>
-        <img width="100px" height="120px" src={item.product ? item.product.imageCover : mobile} alt="productImage" />
+      <Link to={`/products/${item.id}`} style={{ textDecoration: 'none' }}>
+        <img width="100px" height="120px" src={item ? item.imageCover : mobile} alt="productImage" />
       </Link>
       <div className="w-100 mx-3">
         <Row className="justify-content-between">
           <Col sm="12" className="d-flex flex-row justify-content-between">
             <div className="d-inline cat-text">
-              {item.product?.category?.name || ''}
+              {item?.category?.name || ''}
             </div>
             <div onClick={handleShow} className="d-flex cursor-pointer icon-hover">
               <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,11 +78,11 @@ const CartItem = ({ item, refreshCart }) => {
             </div>
           </Col>
         </Row>
-        <Link to={`/products/${item.product?.id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/products/${item?.id}`} style={{ textDecoration: 'none' }}>
           <Row className="justify-content-center mt-2">
             <Col sm="12" className="d-flex flex-row justify-content-start">
               <div className="d-inline cat-title">
-                {item.product.title || ""}
+                {item.title || ""}
               </div>
             </Col>
           </Row>

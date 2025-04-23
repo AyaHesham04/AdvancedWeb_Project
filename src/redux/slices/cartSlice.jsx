@@ -3,35 +3,101 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import APP_URL from '../../Api/baseURL';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, thunkAPI) => {
     try {
-        const res = await axios.get(`${APP_URL}/cart`, {
-            headers: {
-                Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
-            },
+        const token = localStorage.getItem('token');
+
+        if (token && token !== 'undefined') {
+            const res = await axios.get(`${APP_URL}/cart`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return res.data;
+        }
+
+        const guestCart = JSON.parse(Cookies.get('guestCart') || '[]');
+
+        if (guestCart.length === 0) {
+            return { items: [], guest: true };
+        }
+        const productRequests = guestCart.map(item =>
+            axios.get(`${APP_URL}/products/${item.productId}`).then(res => ({
+                ...res.data.data,
+                quantity: item.quantity,
+            }))
+        );
+
+        const cartItems = await Promise.all(productRequests);
+        console.log({
+            data: { cartItems: cartItems },
+            totalCartPrice: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+            totalCartPriceAfterDiscount: null,
+            couponName: '',
         });
-        return res.data;
+        return {
+            data: { cartItems: cartItems },
+            totalCartPrice: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+            totalCartPriceAfterDiscount: null,
+            couponName: '',
+        };
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data || 'Failed to load cart');
     }
 });
-// Add item to cart
-export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, quantity }, thunkAPI) => {
-    try {
-        const res = await axios.post(`${APP_URL}/cart`, { productId, quantity }, {
-            headers: {
-                Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
-            },
-        });
 
-        toast.success('Added to cart!');
-        return res.data;
-    } catch (error) {
-        toast.error(error.response?.data?.message || 'Failed to add to cart');
-        return thunkAPI.rejectWithValue(error.response?.data || 'Failed to add to cart');
+// Add item to cart
+
+export const addToCart = createAsyncThunk(
+    'cart/addToCart',
+    async ({ productId, quantity }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (!token || token === "undefined") {
+                // No token: Save to cookies instead
+                const existingCart = JSON.parse(Cookies.get('guestCart') || '[]');
+
+                // Check if item already exists
+                const itemIndex = existingCart.findIndex(item => item.productId === productId);
+
+                if (itemIndex !== -1) {
+                    // If it exists, update quantity
+                    existingCart[itemIndex].quantity += quantity;
+                } else {
+                    // Else, add new item
+                    existingCart.push({ productId, quantity });
+                }
+
+                // Save updated cart to cookies
+                Cookies.set('guestCart', JSON.stringify(existingCart), { expires: 7 }); // expires in 7 days
+
+                toast.success('Saved to guest cart!');
+                return { guestCart: existingCart }; // Optional: return something for the reducer
+            }
+
+            // If token exists: send to backend
+            const res = await axios.post(
+                `${APP_URL}/cart`,
+                { productId, quantity },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            toast.success('Added to cart!');
+            return res.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to add to cart');
+            return thunkAPI.rejectWithValue(error.response?.data || 'Failed to add to cart');
+        }
     }
-});
+);
+
 export const deleteCartItem = createAsyncThunk(
     'cart/deleteCartItem',
     async (itemId, thunkAPI) => {
