@@ -73,7 +73,7 @@ function AdminAllProductsCard({ item }) {
                     <Card.Img style={{ height: "180px", objectFit: 'cover', borderRadius: '10px' }} src={item.imageCover} alt="productImage" />
                     <Card.Body>
                         <Card.Title>
-                            <div className="card-title">
+                            <div className="card-title" style={{ color: '#915970' }}>
                                 {item.title}
                             </div>
                         </Card.Title>
@@ -96,7 +96,8 @@ function AdminAllProductsCard({ item }) {
                                         </div>
                                     </div>
                                 ) : (
-                                    <span>{item.price}</span>
+                                    <span>Price before discount: {item.price}</span>
+                                    
                                 )}
                             </div>
                         </Card.Text>

@@ -22,17 +22,17 @@ const AllCategoryPage = () => {
                     loading ? (
                         <Spinner animation="border" variant="primary" />
                     ) : error ? (
-                        <h4>Error: {error}</h4>
+                        <h6>Error: {error}</h6>
                     ) : categories.length > 0 ? (
                         <Row className='my-2 d-flex'>
                             {categories.map((item, index) => (
-                                <Col key={item._id} xs={12} sm={6} md={2}>
+                                <Col key={item._id} xs={12} sm={6} md={4} lg={3}>
                                     <CategoryCard key={index} id={item._id} title={item.name} img={item.image} />
                                 </Col>
                             ))}
                         </Row>
                     ) : (
-                        <h4>No Categories Available</h4>
+                        <h6>No Categories Available</h6>
                     )
                 }
             </Container>

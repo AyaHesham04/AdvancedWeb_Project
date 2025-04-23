@@ -79,7 +79,7 @@ function AdminAllCategoriesCard({ item }) {
                     />
                     <Card.Body>
                         <Card.Title>
-                            <div className="card-title">{item.name}</div>
+                            <div className="card-title" style={{ color: '#915970' }}>{item.name}</div>
                         </Card.Title>
                     </Card.Body>
                 </Link>

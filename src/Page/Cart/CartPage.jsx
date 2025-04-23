@@ -24,8 +24,8 @@ const CartPage = () => {
     const refreshCart = () => {
         dispatch(fetchCart());
     };
-    if (loading) return <div className="text-center py-5">Loading...</div>;
-    if (error) return <div className="text-danger text-center py-5">{error}</div>;
+    if (loading) return <div style={{ minHeight: '100vh' }} className="text-center py-5">Loading...</div>;
+    if (error) return <div style={{ minHeight: '100vh' }} className="text-danger text-center py-5">{error}</div>;
 
     return (
         <Container style={{ minHeight: '100vh' }} className="mb-5">
@@ -45,7 +45,7 @@ const CartPage = () => {
                         <h6>No products in the cart</h6>
                     )}
                 </Col>
-                <Col xs="6" md="3">
+                <Col xs="10" md="3" className="cart-checkout">
                     <CartCheckout
                         cartItems={cartItems}
                     />

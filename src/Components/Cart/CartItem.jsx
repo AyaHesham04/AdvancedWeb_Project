@@ -88,7 +88,7 @@ const CartItem = ({ item, refreshCart }) => {
           </Row>
         </Link>
         <Row className="d-flex justify-content-between align-items-center">
-          <Col sm="12" className="d-flex flex-row justify-content-between">
+          <Col sm="12" className="quantity-price-container">
             <div className="d-inline pt-3 d-flex">
               <div className="order-name d-inline">
                 Quantity:

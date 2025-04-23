@@ -13,8 +13,8 @@ const CartCheckout = () => {
     const totalCartPriceAfterDiscount = useSelector((state) => state.cart.totalCartPriceAfterDiscount);
 
     return (
-        <Row className="my-1 d-flex justify-content-center cart-checkout pt-3">
-            <Col xs="12" className="d-flex flex-column">
+        <Row className="d-flex">
+            <Col xs="12" className="d-flex flex-column pt-3 pb-3">
                 <div className="d-flex">
                     <input
                         value={couponName}
