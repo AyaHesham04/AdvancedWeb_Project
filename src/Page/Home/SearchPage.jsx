@@ -25,14 +25,14 @@ const SearchPage = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                 Loading…
             </div>
         );
     }
 
     if (error) {
-        return <div className="text-center text-danger py-5">{error}</div>;
+        return <div style={{ minHeight: '100vh' }} className="text-center text-danger py-5">{error}</div>;
     }
     return (
         <Container className="py-4" style={{ minHeight: '100vh' }}>

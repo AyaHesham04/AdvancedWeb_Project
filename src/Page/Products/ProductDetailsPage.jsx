@@ -30,7 +30,7 @@ const ProductDetailsPage = () => {
   }
 
   if (error) {
-    return <div className="text-center text-danger py-5">{error}</div>;
+    return <div className="text-center text-danger py-5" style={{ minHeight: '100vh' }} >{error}</div>;
   }
 
   const onChangeCount = (e) => {
@@ -53,8 +53,10 @@ const ProductDetailsPage = () => {
       <Container className="py-5">
         <Row className="product-details">
           <Col md={6} className="d-flex justify-content-center align-items-center">
-            <div className="image-container" style={{ maxWidth: '600px', maxHeight: '350px' }}>
-              <ImageSlider images={galleryImages} />
+            <div className="image-container">
+            <div className="image-slider-container">
+                <ImageSlider images={galleryImages} />
+              </div>
             </div>
           </Col>
 

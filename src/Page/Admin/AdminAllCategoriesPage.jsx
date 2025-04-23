@@ -25,15 +25,15 @@ const AdminAllCategoriesPage = () => {
             <div className="admin-content-text pb-2">Manage All Categories</div>
             <Row className="justify-content-start">
               {loading ? (
-                <h4>Loading...</h4>
+                <h6>Loading...</h6>
               ) : error ? (
-                <h4 className="text-danger">{error}</h4>
+                <h6 className="text-danger">{error}</h6>
               ) : categories && categories.length > 0 ? (
                 categories.map((item, index) => (
                   <AdminAllCategoriesCard key={index} item={item} />
                 ))
               ) : (
-                <h4>No categories available yet</h4>
+                <h6>No categories available yet</h6>
               )}
             </Row>
           </div>

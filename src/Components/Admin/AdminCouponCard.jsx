@@ -26,7 +26,7 @@ const AdminCouponCard = ({ coupon }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        Are you sure you want to delete this product?
+                        Are you sure you want to delete this coupon?
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
