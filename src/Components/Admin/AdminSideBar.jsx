@@ -38,13 +38,13 @@ const AdminSideBar = () => {
                         Add Category
                     </div>
                 </Link>
-                {/*
-                
-                <Link to="/admin/addcoupon" style={{ textDecoration: 'none' }} className='m-2'>
-                    <div className={`admin-side-text border-bottom p-2 mx-auto text-center ${location.pathname === '/admin/addcoupon' ? 'active-sidebar-item' : ''}`}>
+
+
+                <Link to="/admin/add/coupon" style={{ textDecoration: 'none' }} className='m-2'>
+                    <div className={`admin-side-text border-bottom p-2 mx-auto text-center ${location.pathname === '/admin/add/coupon' ? 'active-sidebar-item' : ''}`}>
                         Manage Coupons
                     </div>
-                </Link> */}
+                </Link>
 
             </div>
         </div>

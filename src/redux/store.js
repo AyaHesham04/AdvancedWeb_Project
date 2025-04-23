@@ -5,6 +5,7 @@ import bestSellersReducer from "./slices/bestSellersSlice";
 import productsReducer from "./slices/productsSlice";
 import cartReducer from "./slices/cartSlice";
 import searchReducer from "./slices/searchSlice";
+import couponReducer from "./slices/couponSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -13,6 +14,7 @@ const store = configureStore({
     products: productsReducer,
     cart: cartReducer,
     search: searchReducer,
+    coupon: couponReducer,
   },
 });
 

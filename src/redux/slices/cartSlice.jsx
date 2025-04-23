@@ -47,6 +47,45 @@ export const deleteCartItem = createAsyncThunk(
         }
     }
 );
+export const applyCoupon = createAsyncThunk(
+    'cart/applyCoupon',
+    async (couponName, thunkAPI) => {
+        try {
+            const res = await axios.put(
+                `${APP_URL}/cart/applyCoupon`,
+                { coupon: couponName },
+                {
+                    headers: {
+                        Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+                    },
+                }
+            );
+            toast.success('Coupon applied!');
+            return res.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Invalid coupon');
+            return thunkAPI.rejectWithValue(error.response?.data || 'Failed to apply coupon');
+        }
+    }
+);
+export const clearCart = createAsyncThunk(
+    'cart/clearCart',
+    async (_, thunkAPI) => {
+        try {
+            const res = await axios.delete(`${APP_URL}/cart`, {
+                headers: {
+                    Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+                },
+            });
+            toast.success('Cart cleared!');
+            return res.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to clear cart');
+            return thunkAPI.rejectWithValue(error.response?.data || 'Failed to clear cart');
+        }
+    }
+);
+
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -97,6 +136,25 @@ const cartSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(applyCoupon.fulfilled, (state, action) => {
+                const { data, totalCartPrice, totalCartPriceAfterDiscount, couponName } = action.payload;
+                state.cartItems = data;
+                state.totalCartPrice = totalCartPrice;
+                state.totalCartPriceAfterDiscount = totalCartPriceAfterDiscount;
+                state.couponNameRes = couponName;
+            })
+            .addCase(applyCoupon.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+            .addCase(clearCart.fulfilled, (state) => {
+                state.cartItems = [];
+                state.totalCartPrice = 0;
+                state.totalCartPriceAfterDiscount = 0;
+                state.couponNameRes = '';
+            })
+            .addCase(clearCart.rejected, (state, action) => {
+                state.error = action.payload;
+            });
         builder.addCase(deleteCartItem.fulfilled, (state, action) => {
             if (Array.isArray(state.cartItems)) {
                 state.cartItems = state.cartItems.filter(item => item._id !== action.payload._id);

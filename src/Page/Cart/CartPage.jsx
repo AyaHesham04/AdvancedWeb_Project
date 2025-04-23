@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
 import CartItem from '../../Components/Cart/CartItem';
 import { fetchCart } from '../../redux/slices/cartSlice';
+import CartCheckout from '../../Components/Cart/CartCheckout';
 
 const CartPage = () => {
     const dispatch = useDispatch();
@@ -41,12 +42,9 @@ const CartPage = () => {
                     )}
                 </Col>
                 <Col xs="6" md="3">
-                    {/* <CartCheckout
+                    <CartCheckout
                         cartItems={cartItems}
-                        couponNameRes={couponNameRes}
-                        totalCartPriceAfterDiscount={totalCartPriceAfterDiscount}
-                        totalCartPrice={totalCartPrice}
-                    /> */}
+                    />
                 </Col>
             </Row>
         </Container>
