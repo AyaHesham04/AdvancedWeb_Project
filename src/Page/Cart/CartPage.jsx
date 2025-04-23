@@ -15,6 +15,10 @@ const CartPage = () => {
         error,
     } = useSelector((state) => state.cart);
     useEffect(() => {
+        console.log('cartItems:', cartItems);
+    }, [cartItems]);
+
+    useEffect(() => {
         dispatch(fetchCart());
     }, [dispatch]);
     const refreshCart = () => {
@@ -28,9 +32,9 @@ const CartPage = () => {
             <Row>
                 <div className="cart-title my-4">Shopping Cart</div>
             </Row>
-            <Row className="d-flex">
-                <Col xs="12" md="8" lg="8" className="cart-body">
-                    {cartItems.cartItems ? (
+            <Row className="d-flex justify-content-center">
+                <Col xs="12" md="9" className="cart-body">
+                    {cartItems?.cartItems ? (
                         cartItems.cartItems.map(
                             (item, index) =>
                                 <>

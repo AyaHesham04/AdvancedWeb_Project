@@ -48,8 +48,6 @@ function App() {
           <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
           <Route path="/admin/add/category" element={<AdminAddCategoryPage />} />
           <Route path="/admin/add/coupon" element={<AdminAddCouponPage />} />
-
-
         </Route>
       </Routes>
       <Footer />

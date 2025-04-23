@@ -6,9 +6,15 @@ import { toast } from 'react-toastify';
 
 export const fetchCoupons = createAsyncThunk('coupon/fetchCoupons', async (_, thunkAPI) => {
     try {
+        const token = localStorage.getItem('token');
+
+        if (!token || token == "undefined") {
+            return thunkAPI.rejectWithValue('No token found');
+        }
+
         const res = await axios.get(`${APP_URL}/coupons`, {
             headers: {
-                Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+                Authorization: `Bearer ${token}`,
             },
         });
         return res.data;
@@ -21,9 +27,15 @@ export const createCoupon = createAsyncThunk(
     'coupon/createCoupon',
     async ({ name, expire, discount }, thunkAPI) => {
         try {
+            const token = localStorage.getItem('token');
+
+            if (!token || token == "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
+            console.log(token);
             const res = await axios.post(`${APP_URL}/coupons`, { name, expire, discount }, {
                 headers: {
-                    Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
             toast.success('Coupon created successfully!');

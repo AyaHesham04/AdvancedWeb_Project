@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Container, Row, Col, ToastContainer } from 'react-bootstrap'
 import AdminSideBar from '../../Components/Admin/AdminSideBar'
 import { useParams } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById, updateProduct } from '../../redux/slices/productsSlice';
 import { toast } from 'react-toastify';
 import { fetchCategories } from '../../redux/slices/categorySlice';
+import ProductImageManager from '../../Components/Uitily/ImageManger';
 
 const AdminEditProductsPage = () => {
     const { id } = useParams();
@@ -20,6 +21,10 @@ const AdminEditProductsPage = () => {
     const [priceAfter, setPriceAfter] = useState(0);
     const [qty, setQty] = useState(0);
     const [Cat, setCat] = useState('');
+    const [changes, setChanges] = useState({ newFiles: [], removedUrls: [] });
+    const memoizedImages = useMemo(() => {
+        return product?.images || [];
+    }, [product?.images]);
     useEffect(() => {
     }, [id, dispatch]);
     useEffect(() => {
@@ -37,7 +42,7 @@ const AdminEditProductsPage = () => {
             setPriceAfter(product.priceAfterDiscount || 0);
             setQty(product.quantity);
             setCat(product.category.name);
-            setImages({ original: product.imageCover });
+            setImages(product.images);
         }
     }, [product]);
     const onChangeProdName = (e) => setProdName(e.target.value);
@@ -46,6 +51,20 @@ const AdminEditProductsPage = () => {
     const onChangePriceAfter = (e) => setPriceAfter(e.target.value);
     const onChangeQty = (e) => setQty(e.target.value);
     const onSelectCategory = (e) => setCat(e.target.value);
+    const handleImageChanges = useCallback(
+        ({ newFiles, removedUrls }) => {
+            setChanges((prev) => {
+                if (
+                    prev.newFiles === newFiles &&
+                    prev.removedUrls === removedUrls
+                ) {
+                    return prev;
+                }
+                return { newFiles, removedUrls };
+            });
+        },
+        []
+    );
 
     const handleSubmit = async () => {
         const formData = {
@@ -55,11 +74,10 @@ const AdminEditProductsPage = () => {
             priceAfterDiscount: Number(priceAfter),
             quantity: Number(qty),
             // category: Cat,
-            // imageCover: images[0],
+            imageCover: images[0],
+            images: images,
         };
-
         try {
-            await dispatch(updateProduct({ id, data: formData })).unwrap();
             toast.success('Product updated successfully!');
         } catch (err) {
             toast.error('Update failed!');
@@ -78,15 +96,11 @@ const AdminEditProductsPage = () => {
                             <div className="admin-content-text pb-4">Edit Product - {prodName}</div>
                             <Col sm="8">
                                 <div className="text-form pb-2">Product Images</div>
-
-                                {/* <ImageSlider
-                                    images={images}
-                                    setImages={setImages}
-                                    theme={"light"}
-                                    allowCrop={false}
-                                    max={4}
-                                /> */}
-
+                                <ProductImageManager
+                                    initialImages={memoizedImages}
+                                    onChange={handleImageChanges}
+                                />
+                                Product Name
                                 <input
                                     value={prodName}
                                     onChange={onChangeProdName}

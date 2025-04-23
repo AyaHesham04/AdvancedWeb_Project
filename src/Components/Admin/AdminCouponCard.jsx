@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 import { deleteCoupon } from '../../redux/slices/couponSlice';
 
 const AdminCouponCard = ({ coupon }) => {
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
@@ -81,7 +85,7 @@ const AdminCouponCard = ({ coupon }) => {
                             fontFamily: "Almarai",
                             fontSize: "16px",
                         }}>
-                        Expiration Date: {formatDate(dateString)}
+                        Expiration Date: {formatDate(coupon.expire)}
                     </div>
                 </Col>
             </Row>
