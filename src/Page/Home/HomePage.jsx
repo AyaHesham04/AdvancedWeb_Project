@@ -3,7 +3,7 @@ import HomeCategory from '../../Components/Home/HomeCategory';
 // import CardProductsContainerHome from '../../Components/Products/CardProductsContainerHome';
 // import CardBestsellersContainer from '../../Components/Products/CardBestsellersContainer';
 // import NavBarLogin from '../../Components/Uitily/NavBarLogin';
-import Slider from '../../Components/Home/Slider';
+import SliderHome from '../../Components/Home/SliderHome';
 import CardBestsellersContainer from '../../Components/Products/CardBestsellersContainer';
 import DiscountSection from '../../Components/Home/DiscountSection';
 import CardProductsContainerHome from '../../Components/Products/CardProductsContainerHome';
@@ -14,7 +14,7 @@ import CardProductsContainerHome from '../../Components/Products/CardProductsCon
 const HomePage = () => {
     return (
         <div className='font' style={{ minHeight: '100vh' }}>
-            <Slider />
+            <SliderHome />
             <CardBestsellersContainer title="Best Sellers" />
             <HomeCategory />
             <DiscountSection />
