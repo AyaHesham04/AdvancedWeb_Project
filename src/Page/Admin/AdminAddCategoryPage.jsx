@@ -47,8 +47,8 @@ const AdminAddCategoryPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div className="pt-3">
+                            <div className="admin-content-text pb-2">Add New Category</div>
                         <Row className="justify-content-start">
-                            <div className="admin-content-text pb-4">Add New Category</div>
                             <Col sm="8">
                                 <div className="text-form pb-2">Category Image</div>
                                 <div>

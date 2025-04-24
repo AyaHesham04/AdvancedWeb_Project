@@ -52,7 +52,7 @@ const AdminSideBar = () => {
                 </Link>
                 <Link to="/admin/slider" style={{ textDecoration: 'none' }} className='m-2'>
                     <div className={`admin-side-text border-bottom p-2 mx-auto text-center ${location.pathname === '/admin/slider' ? 'active-sidebar-item' : ''}`}>
-                        Manage slider
+                        Manage Slider
                     </div>
                 </Link>
 

@@ -68,9 +68,9 @@ const AdminEditCategoryPage = () => {
                 </Col>
 
                 <Col sm="9" xs="12" md="9">
-                    <div>
-                        <Row className="justify-content-start pt-4">
-                            <div className="admin-content-text pb-4">Edit Category</div>
+                    <div className="pt-3">
+                            <div className="admin-content-text pb-2">Edit Category</div>
+                        <Row className="justify-content-start">
                             <Col sm="8">
                                 <div className="text-form pb-2">Category Image</div>
                                 <CategoryImageManager

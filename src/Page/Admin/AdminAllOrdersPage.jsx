@@ -23,7 +23,7 @@ const AdminAllOrdersPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div className="pt-3">
-                        <div className='admin-content-text pb-3'>Manage All Orders</div>
+                        <div className='admin-content-text pb-2'>Manage All Orders</div>
                         <Row className='justify-content-start'>
                             {loading ? (
                                 <h6>Loading...</h6>

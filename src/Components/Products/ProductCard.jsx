@@ -25,7 +25,7 @@ const ProductCard = ({ item }) => {
         <Link to={`/products/${item.id}`} style={{ textDecoration: "none" }}>
           <Card.Img
             style={{
-              height: "180px",
+              height: "210px",
               objectFit: "cover",
               borderRadius: "10px",
             }}

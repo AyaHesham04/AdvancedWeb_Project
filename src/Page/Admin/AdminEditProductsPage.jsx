@@ -91,9 +91,9 @@ const AdminEditProductsPage = () => {
                 </Col>
 
                 <Col sm="9" xs="12" md="9">
-                    <div>
-                        <Row className="justify-content-start pt-3">
-                            <div className="admin-content-text pb-4">Edit Product - {prodName}</div>
+                    <div className="pt-3">
+                            <div className="admin-content-text pb-2">Edit Product - {prodName}</div>
+                        <Row className="justify-content-start">
                             <Col sm="8">
                                 <div className="text-form pb-2">Product Images</div>
                                 <ProductImageManager

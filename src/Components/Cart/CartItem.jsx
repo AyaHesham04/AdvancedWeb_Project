@@ -71,13 +71,13 @@ const CartItem = ({ item, onQuantityChange }) => {
         </Modal.Footer>
       </Modal>
       <Link to={`/products/${item.id}`} style={{ textDecoration: 'none' }}>
-        <img width="100px" height="120px" src={item ? item.imageCover : mobile} alt="productImage" />
+        <img width="120px" height="120px" src={item ? item.imageCover : mobile} alt="productImage" />
       </Link>
       <div className="w-100 mx-3">
         <Row className="justify-content-between">
           <Col sm="12" className="d-flex flex-row justify-content-between">
             <div className="d-inline cat-text">
-              {item?.category?.name || ''}
+              {item?.title || ''}
             </div>
             <div onClick={handleShow} className="d-flex cursor-pointer icon-hover">
               <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +94,8 @@ const CartItem = ({ item, onQuantityChange }) => {
           <Row className="justify-content-center mt-2">
             <Col sm="12" className="d-flex flex-row justify-content-start">
               <div className="d-inline cat-title">
-                {item.title || ""}
+                
+                {item?.category?.name || ""}
               </div>
             </Col>
           </Row>
@@ -102,7 +103,7 @@ const CartItem = ({ item, onQuantityChange }) => {
         <Row className="d-flex justify-content-between align-items-center">
           <Col sm="12" className="quantity-price-container">
             <div className="d-inline pt-3 d-flex">
-              <div className="order-name d-inline">
+              <div className="quantity-price-container">
                 Quantity:
               </div>
               <div

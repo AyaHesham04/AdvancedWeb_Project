@@ -79,7 +79,7 @@ const SliderHome = () => {
     };
 
     return (
-        <div className="mt-n14 w-100 overflow-hidden">
+        <div className="sliderContainer w-100 overflow-hidden">
             <Slider {...settings}>
                 {sliderImages.map((item, index) => (
                     <div

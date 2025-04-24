@@ -61,11 +61,11 @@ const AdminSliderPage = () => {
     };
 
     return (
-        <Container fluid className="px-4 py-4" style={{ minHeight: '100vh' }}>
-            <Row>
-                <Col xs={12} md={3} className="mb-4 mb-md-0">
-                    <AdminSideBar />
-                </Col>
+        <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
+             <Row className='py-3 flex-column flex-sm-row'>
+        <Col sm="3" xs="12" md="3">
+          <AdminSideBar />
+        </Col>
 
                 {/* Delete Modal */}
                 <Modal show={show} onHide={handleClose} centered>
@@ -85,29 +85,35 @@ const AdminSliderPage = () => {
                     </Modal.Footer>
                 </Modal>
 
-                <Col xs={12} md={9}>
-                    <h2 className="mb-4">Manage Sliders</h2>
+                <Col sm="9" xs="12" md="9">
+          <div className="pt-3">
+                        <div className="admin-content-text pb-2">Manage Sliders</div>
+                        <Row className="justify-content-start">
+                        {/* Upload */}
+                        <Col sm="12">
 
-                    {/* Upload */}
-                    <Card className="mb-4 shadow-sm">
-                        <Card.Body>
-                            <Form>
-                                <Form.Group controlId="formFile" className="mb-3">
-                                    <Form.Label>Select Slider Image</Form.Label>
-                                    <Form.Control type="file" accept="image/*" onChange={handleFileChange} />
-                                </Form.Group>
-                                {uploadError && <Alert variant="danger">{uploadError}</Alert>}
-                                <Button variant="primary" onClick={handleUpload} disabled={loading}>
-                                    {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Upload'}
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-
+                        <Card className="mb-4 shadow-sm">
+                            <Card.Body>
+                                <Form>
+                                    <Form.Group controlId="formFile" className="mb-3">
+                                        <Form.Label>Select Slider Image</Form.Label>
+                                        <Form.Control type="file" accept="image/*" onChange={handleFileChange} />
+                                    </Form.Group>
+                                    {uploadError && <Alert variant="danger">{uploadError}</Alert>}
+                                    <button className="btn-save" onClick={handleUpload} disabled={loading}>
+                                        {loading ? <Spinner as="span" animation="border" size="sm" /> : 'Upload'}
+                                    </button>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                        </Col>
+                        </Row>
+                    </div>
                     {error && <Alert variant="danger">{error}</Alert>}
 
                     {/* Sliders List */}
                     <Row xs={1} sm={2} lg={3} className="g-4">
+                        
                         {items.map((slide) => (
                             <Col key={slide._id}>
                                 <Card className="h-100 shadow-sm">

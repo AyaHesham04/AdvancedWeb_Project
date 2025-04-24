@@ -93,7 +93,7 @@ const CartCheckout = ({ totalPrice }) => {
     return (
         <Row className="d-flex">
             <Col xs="12" className="d-flex flex-column pt-3 pb-3">
-                <div className="d-flex">
+                <div className="d-flex pt-3 pb-3">
                     <input
                         value={couponName}
                         onChange={(e) => onChangeCoupon(e.target.value)}

@@ -63,7 +63,7 @@ const CartPage = () => {
                 <div className="cart-title my-4">Shopping Cart</div>
             </Row>
             <Row className="d-flex justify-content-center">
-                <Col xs="12" md="9" className="cart-body">
+                <Col xs="12" md="8" lg="8" className="cart-body">
                     {cartItems ? (
                         cartItems.map(
                             (item, index) =>
