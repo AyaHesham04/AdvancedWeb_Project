@@ -41,7 +41,7 @@ const ProtectedRoute = ({ children }) => {
         checkAuth();
     }, []);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <div style={{ minHeight: '100vh' }} className="p-10">Loading...</div>;
 
     return isAuthorized ? (children ? children : <Outlet />) : <Navigate to="/" />;
 };

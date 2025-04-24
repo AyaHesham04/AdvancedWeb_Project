@@ -24,7 +24,7 @@ const Footer = () => {
                         sm="6"
                         className="footer-social">
                         <p className="footer-social-text">Follow Us:</p>
-                        <a href="https://www.tiktok.com/@dodos.bakes?_t=ZS-8vN0kBqmxsd&_r=1" className="cursor-pointer mx-2 icon-hover footer-social-text">
+                        <a href="https://www.facebook.com/share/1H3kR5fgoD/" className="cursor-pointer mx-2 icon-hover footer-social-text">
                             <svg width="19px" height="19px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
 
                                 <title>Facebook-color</title>
@@ -41,7 +41,7 @@ const Footer = () => {
                                 </g>
                             </svg>
                         </a>
-                        <a href="https://www.instagram.com/dodos_bakes?igsh=MTgybTY5aDR1NTQ1NQ%3D%3D&utm_source=qr" className="cursor-pointer mx-2 icon-hover footer-social-text">
+                        <a href="https://www.tiktok.com/@dodos.bakes" className="cursor-pointer mx-2 icon-hover footer-social-text">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="25px" height="25px" fill-rule="evenodd" clip-rule="evenodd">
                                 <path fill="#212121" fill-rule="evenodd" d="M10.904,6h26.191C39.804,6,42,8.196,42,10.904v26.191 C42,39.804,39.804,42,37.096,42H10.904C8.196,42,6,39.804,6,37.096V10.904C6,8.196,8.196,6,10.904,6z" clip-rule="evenodd" />
                                 <path fill="#ec407a" fill-rule="evenodd" d="M29.208,20.607c1.576,1.126,3.507,1.788,5.592,1.788v-4.011 c-0.395,0-0.788-0.041-1.174-0.123v3.157c-2.085,0-4.015-0.663-5.592-1.788v8.184c0,4.094-3.321,7.413-7.417,7.413 c-1.528,0-2.949-0.462-4.129-1.254c1.347,1.376,3.225,2.23,5.303,2.23c4.096,0,7.417-3.319,7.417-7.413L29.208,20.607L29.208,20.607 z M30.657,16.561c-0.805-0.879-1.334-2.016-1.449-3.273v-0.516h-1.113C28.375,14.369,29.331,15.734,30.657,16.561L30.657,16.561z M19.079,30.832c-0.45-0.59-0.693-1.311-0.692-2.053c0-1.873,1.519-3.391,3.393-3.391c0.349,0,0.696,0.053,1.029,0.159v-4.1 c-0.389-0.053-0.781-0.076-1.174-0.068v3.191c-0.333-0.106-0.68-0.159-1.03-0.159c-1.874,0-3.393,1.518-3.393,3.391 C17.213,29.127,17.972,30.274,19.079,30.832z" clip-rule="evenodd" />

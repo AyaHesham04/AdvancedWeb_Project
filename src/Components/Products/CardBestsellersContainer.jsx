@@ -81,6 +81,13 @@ const CardBestsellersContainer = ({ title }) => {
         },
       },
       {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
         breakpoint: 375,
         settings: {
           slidesToShow: 1,

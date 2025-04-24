@@ -298,7 +298,7 @@ body {
 }
 
 .slider-title {
-  color: #915970;
+  color: #b0787b;
   font-family: "Almarai", sans-serif;
   font-size: 24px;
   letter-spacing: 0;
@@ -307,7 +307,7 @@ body {
 }
 
 .slider-text {
-  color: #915970;
+  color: #b0787b;
   font-family: "Almarai", sans-serif;
   font-size: 30px;
   font-weight: 800;
@@ -473,6 +473,30 @@ body {
   }
 }
 
+@media (min-width: 400px) {
+  .category-img-wrapper {
+    width: 170px;
+    height: 200px;
+  }
+
+  .category-card {
+    width: 200px;
+    height: 240px;
+  }
+
+  .category-title {
+    font-size: 16px;
+  }
+
+  .leftBtn {
+    left: -4px;
+  }
+
+  .rightBtn {
+    right: -4px;
+  }
+}
+
 @media (min-width: 576px) {
   .category-img-wrapper {
     width: 200px;
@@ -580,6 +604,14 @@ body {
   margin: 10px;
 }
 
+.custom-swiper-wrapper-admin {
+  border: 1px solid #efc4c3;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(239, 196, 195, 0.3);
+  background-color: #fff;
+  padding: 30px 40px;
+}
+
 @media (min-width: 1200px) {
   .product-Best {
     margin-left: 30px;
@@ -664,7 +696,7 @@ body {
 
 
 .card-title {
-  color: #915970;
+  color: #b0787b;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px;
   text-align: center;
@@ -834,13 +866,54 @@ body {
 }
 
 /* discount setion */
-.discount-backcolor {
+.discount-img {
   height: 130px;
+  width: 100%;
   border-radius: 8px;
-  background-image: url('././images/discount.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+}
+
+@media (min-width: 1200px) {
+
+  .discount-img {
+    height: 200px;
+  }
+
+}
+
+@media (max-width: 992px) {
+
+  .discount-img {
+    height: 180px;
+
+  }
+}
+
+@media (max-width: 768px) {
+
+  .discount-img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .discount-img {
+    height: 170px;
+  }
+}
+
+@media (max-width: 375px) {
+
+  .discount-img {
+    height: 140px;
+  }
+}
+
+@media (max-width: 320px) {
+
+  .discount-img {
+    height: 140px;
+  }
 }
 
 .discount-title {
@@ -852,10 +925,6 @@ body {
   line-height: 39px;
 }
 
-.dicount-img {
-  max-height: 130px;
-  max-width: 80%;
-}
 
 /* end discount */
 
@@ -952,6 +1021,19 @@ body {
 
   .footer-social {
     justify-content: end;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .footer-phone {
+    margin-bottom: 10px;
+    justify-content: center;
+
+  }
+
+  .footer-social {
+    justify-content: center;
   }
 }
 
@@ -1082,7 +1164,7 @@ body {
 }
 
 .product-title {
-  color: #915970;
+  color: #b0787b;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px;
   text-align: left;
@@ -1091,7 +1173,7 @@ body {
 
 
 .product-title-details {
-  color: #915970;
+  color: #b0787b;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 24px;
   text-align: left;

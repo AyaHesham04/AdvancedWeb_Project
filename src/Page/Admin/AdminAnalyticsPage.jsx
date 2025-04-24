@@ -6,6 +6,7 @@ import { fetchDailyAccess } from '../../redux/slices/analyticsSlice';
 import dayjs from 'dayjs';
 import { BarChart } from '@mui/x-charts';
 import CardBestsellersContainer from '../../Components/Products/CardBestsellersContainer';
+import SubTiltle from '../../Components/Uitily/SubTiltle';
 
 function AdminAnalyticsPage() {
     const tickPlacement = 'middle';
@@ -50,9 +51,9 @@ function AdminAnalyticsPage() {
                     <div className="pt-3">
                         <div className="admin-content-text pb-2">Analytics</div>
                         <Row className="d-flex flex-column flex-md-row">
-                        <Col xs="12" sm="12" md="12" lg="8" className="mb-3">
-                                <Card>
-                                    <div className='' style={{ marginLeft: '10px' }}> Daily Active Users</div>
+                            <Col xs="12" sm="12" md="12" lg="8" className="mb-3">
+                                <Card className="mb-4">
+                                    <div className="p-4"> Daily Active Users</div>
                                     {loading ? (
                                         <h6>Loading...</h6>
                                     ) : error ? (
@@ -70,6 +71,17 @@ function AdminAnalyticsPage() {
                                                 series={[{ dataKey: 'count', color: '#efc4c3' }]}
                                                 height={300}
                                             />
+                                        </>
+                                    )}
+                                </Card>
+                                <Card className="mb-4">
+                                    <div className="p-4"> chart 2</div>
+                                    {loading ? (
+                                        <h6>Loading...</h6>
+                                    ) : error ? (
+                                        <h6 style={{ color: 'red' }}>{error}</h6>
+                                    ) : (
+                                        <>
                                             <BarChart
                                                 dataset={dataset}
                                                 xAxis={[{
@@ -86,68 +98,72 @@ function AdminAnalyticsPage() {
                                 </Card>
                             </Col>
                             <Col xs="12" sm="12" md="12" lg="4" className="d-flex justify-content-center">
-                                <Row className="flex-row">
-                                    <Col xs="6" sm="6" md="6" lg="12" className="d-flex justify-content-center mb-3">
-                                    <Card
-                                        style={{
-                                            borderRadius: '50%',
-                                            width: '150px',
-                                            height: '150px',
-                                            border: '5px solid #efc4c3',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            margin: '0 auto'
-                                        }}
-                                    >
-                                        <div style={{ textAlign: 'center' }}>
-                                            <div style={{ fontSize: '14px', marginBottom: '5px' }}>Total Users Today</div>
-                                            <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{totalUser}</div>
-                                        </div>
-                                    </Card>
+                                <Row className="flex-row justify-content-center">
+                                    <Col xs="6" sm="6" md="4" lg="12" className="d-flex justify-content-center mb-3">
+                                        <Card
+                                            style={{
+                                                borderRadius: '50%',
+                                                width: '150px',
+                                                height: '150px',
+                                                border: '5px solid #efc4c3',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                margin: '0 auto'
+                                            }}
+                                        >
+                                            <div style={{ textAlign: 'center' }}>
+                                                <div style={{ fontSize: '14px', marginBottom: '5px' }}>Total Users Today</div>
+                                                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{totalUser}</div>
+                                            </div>
+                                        </Card>
                                     </Col>
-                                    <Col xs="6" sm="6" md="6" lg="12" className="d-flex justify-content-center mb-3">
-                                    <Card
-                                        style={{
-                                            borderRadius: '50%',
-                                            width: '150px',
-                                            height: '150px',
-                                            border: '5px solid #efc4c3',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            margin: '0 auto'
-                                        }}
-                                    >
-                                        <div style={{ textAlign: 'center' }}>
-                                            <div style={{ fontSize: '14px', marginBottom: '5px' }}>Total Orders</div>
-                                            <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{totalUser}</div>
-                                        </div>
-                                    </Card>
+                                    <Col xs="6" sm="6" md="4" lg="12" className="d-flex justify-content-center mb-3">
+                                        <Card
+                                            style={{
+                                                borderRadius: '50%',
+                                                width: '150px',
+                                                height: '150px',
+                                                border: '5px solid #efc4c3',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                margin: '0 auto'
+                                            }}
+                                        >
+                                            <div style={{ textAlign: 'center' }}>
+                                                <div style={{ fontSize: '14px', marginBottom: '5px' }}>Total Orders</div>
+                                                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{totalUser}</div>
+                                            </div>
+                                        </Card>
                                     </Col>
-                                    <Col xs="6" sm="6" md="6" lg="12" className="d-flex justify-content-center mb-3">
-                                    <Card
-                                        style={{
-                                            borderRadius: '50%',
-                                            width: '150px',
-                                            height: '150px',
-                                            border: '5px solid #efc4c3',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            margin: '0 auto'
-                                        }}
-                                    >
-                                        <div style={{ textAlign: 'center' }}>
-                                            <div style={{ fontSize: '14px', marginBottom: '5px' }}>3rd</div>
-                                            <div style={{ fontSize: '24px', fontWeight: 'bold' }}></div>
-                                        </div>
-                                    </Card>
+                                    <Col xs="6" sm="6" md="4" lg="12" className="d-flex justify-content-center mb-3">
+                                        <Card
+                                            style={{
+                                                borderRadius: '50%',
+                                                width: '150px',
+                                                height: '150px',
+                                                border: '5px solid #efc4c3',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                margin: '0 auto'
+                                            }}
+                                        >
+                                            <div style={{ textAlign: 'center' }}>
+                                                <div style={{ fontSize: '14px', marginBottom: '5px' }}>3rd</div>
+                                                <div style={{ fontSize: '24px', fontWeight: 'bold' }}></div>
+                                            </div>
+                                        </Card>
                                     </Col>
                                 </Row>
                             </Col>
                         </Row>
-                        <CardBestsellersContainer title="Best Sellers" />
+                        <div className="admin-content-text pb-2">Best-Seller Products</div>
+                        <div className="custom-swiper custom-swiper-wrapper-admin" style={{height: "100px"}}>
+
+                        </div>
+                        {/* <CardBestsellersContainer title="Best Sellers" /> */}
                     </div>
                 </Col>
             </Row>

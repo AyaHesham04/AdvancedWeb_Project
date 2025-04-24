@@ -24,11 +24,10 @@ const OrderSuccessPage = () => {
     } = state;
 
     return (
-        <Container className="py-5">
-            <h2 className="text-center mb-4">Thank You for Your Order!</h2>
+        <Container className="py-5 font" style={{ minHeight: '100vh' }}>
+            <h2 className="product-title text-center mb-4">Thank You for Your Order!</h2>
 
             <Row>
-                {/* Left column: summary & items */}
                 <Col lg={8} className="mb-4">
                     <Card className="shadow-sm mb-4">
                         <Card.Header>Order Summary</Card.Header>
@@ -52,7 +51,7 @@ const OrderSuccessPage = () => {
                     <Card className="shadow-sm">
                         <Card.Header>Items</Card.Header>
                         <Card.Body className="p-0">
-                            <Table responsive hover className="mb-0">
+                            <Table responsive className="mb-0">
                                 <thead className="table-light">
                                     <tr>
                                         <th>Product</th>
@@ -74,6 +73,22 @@ const OrderSuccessPage = () => {
                                     ))}
                                 </tbody>
                             </Table>
+                            <div className="m-3">
+                                <Row className="mb-2">
+                                    <Col>Total Before Discount:</Col>
+                                    <Col className="text-end">{totalBeforeDiscount} EGP</Col>
+                                </Row>
+                                {coupon && (
+                                    <Row className="mb-2">
+                                        <Col>Coupon ({coupon.name}):</Col>
+                                        <Col className="text-end">- {coupon.discount} EGP</Col>
+                                    </Row>
+                                )}
+                                <Row className="fw-bold card-price">
+                                    <Col>Total After Discount:</Col>
+                                    <Col className="text-end">{totalAfterDiscount} EGP</Col>
+                                </Row>
+                            </div>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -94,32 +109,14 @@ const OrderSuccessPage = () => {
                         </Card.Body>
                     </Card>
 
-                    <Card className="shadow-sm">
-                        <Card.Header>Totals</Card.Header>
-                        <Card.Body>
-                            <Row className="mb-2">
-                                <Col>Total Before Discount:</Col>
-                                <Col className="text-end">{totalBeforeDiscount} EGP</Col>
-                            </Row>
-                            {coupon && (
-                                <Row className="mb-2">
-                                    <Col>Coupon ({coupon.name}):</Col>
-                                    <Col className="text-end">- {coupon.discount} EGP</Col>
-                                </Row>
-                            )}
-                            <Row className="fw-bold">
-                                <Col>Total After Discount:</Col>
-                                <Col className="text-end">{totalAfterDiscount} EGP</Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
+                    
                 </Col>
             </Row>
 
             <div className="text-center mt-4">
-                <Button variant="primary" onClick={() => navigate('/')}>
+                <button className="btn-add-address" onClick={() => navigate('/')}>
                     Continue Shopping
-                </Button>
+                </button>
             </div>
         </Container>
     );

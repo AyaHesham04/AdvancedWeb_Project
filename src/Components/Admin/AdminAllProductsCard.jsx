@@ -73,7 +73,7 @@ function AdminAllProductsCard({ item }) {
                     <Card.Img style={{ height: "180px", objectFit: 'cover', borderRadius: '10px' }} src={item.imageCover} alt="productImage" />
                     <Card.Body>
                         <Card.Title>
-                            <div className="card-title" style={{ color: '#915970' }}>
+                            <div className="card-title" style={{ color: '#b0787b' }}>
                                 {item.title}
                             </div>
                         </Card.Title>

@@ -35,7 +35,7 @@ const ProductCard = ({ item }) => {
         </Link>
         <Card.Body>
           <Link to={`/products/${item.id}`} style={{ textDecoration: "none" }}>
-            <div className="card-title" style={{ color: '#915970' }}>{item.title}</div>
+            <div className="card-title" style={{ color: '#b0787b' }}>{item.title}</div>
             <Card.Text>
               <div className="card-text">{item.description}</div>
             </Card.Text>
