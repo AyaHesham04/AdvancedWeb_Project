@@ -8,6 +8,7 @@ import SubTiltle from "../Uitily/SubTiltle";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../redux/slices/categorySlice";
 import CategoryCard from "../Category/CategoryCard";
+import Skeleton from "react-loading-skeleton";
 
 const HomeCategory = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const HomeCategory = () => {
   }, []);
 
 
-  const LeftButton = ({onClick}) => {
+  const LeftButton = ({ onClick }) => {
     return (
       <svg
         className="leftBtn"
@@ -63,7 +64,7 @@ const HomeCategory = () => {
       </svg >
     )
   }
-  const RightButton = ({onClick}) => {
+  const RightButton = ({ onClick }) => {
     return (
       <svg
         className="rightBtn"
@@ -170,7 +171,30 @@ const HomeCategory = () => {
       <SubTiltle title="Categories" btntitle="More" pathText="/allcategory" />
       <Row className="my-2 d-flex overflow-hidden">
         {loading ? (
-          <Spinner animation="border" variant="primary" />
+          <div className="custom-swiper custom-swiper-wrapper">
+            <Slider {...settings}>
+              {[...Array(3)].map((_, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                  }}
+                >
+                  <div className="product-Best">
+                    <Skeleton
+                      height={300}
+                      width={250}
+                      borderRadius={10}
+                    />
+                    <Skeleton height={20} width={`80%`} style={{ marginTop: 10 }} />
+                    <Skeleton height={20} width={`60%`} />
+                  </div>
+                </div>
+              ))}
+            </Slider>
+          </div>
         ) : error ? (
           <h4>Error loading categories</h4>
         ) : categories.length > 0 ? (

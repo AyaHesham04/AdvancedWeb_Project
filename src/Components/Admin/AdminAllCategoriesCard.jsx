@@ -53,7 +53,7 @@ function AdminAllCategoriesCard({ item }) {
                             </svg>
                         </div>
                         <Link
-                            to={`/admin/editcategory/${item._id}`}
+                            to={`/admin/edit/category/${item._id}`}
                             style={{ textDecoration: "none" }}
                         >
                             <div className="d-flex m-2 icon-hover">
@@ -72,7 +72,7 @@ function AdminAllCategoriesCard({ item }) {
                         </Link>
                     </Col>
                 </Row>
-                <Link to={`/category/${item._id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/products/category/${item._id}`} style={{ textDecoration: 'none' }}>
                     <Card.Img
                         style={{ height: "180px", objectFit: 'cover' }}
                         src={item.image}

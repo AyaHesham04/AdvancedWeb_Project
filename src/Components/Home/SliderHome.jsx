@@ -17,22 +17,22 @@ const SliderHome = () => {
         setIndex(selectedIndex);
     };
     // Corrected sliderImages array with direct image imports
-    const sliderImages = [
-        { name: 'first slide', image: slider1 },
-        { name: 'second slide', image: slider2 },
-        { name: 'third slide', image: slider3 },
-        { name: 'fourth slide', image: slider4 },
-    ];
+    // const sliderImages = [
+    //     { name: 'first slide', image: slider1 },
+    //     { name: 'second slide', image: slider2 },
+    //     { name: 'third slide', image: slider3 },
+    //     { name: 'fourth slide', image: slider4 },
+    // ];
 
-    // const dispatch = useDispatch();
-    // const { items: sliderImages, loading, error } = useSelector((state) => state.slider);
-    // console.log(sliderImages.map((item, index) => (
-    //     item.image
+    const dispatch = useDispatch();
+    const { items: sliderImages, loading, error } = useSelector((state) => state.slider);
+    console.log(sliderImages.map((item, index) => (
+        item.image
 
-    // )));
-    // useEffect(() => {
-    //     dispatch(fetchSliders());
-    // }, [dispatch]);
+    )));
+    useEffect(() => {
+        dispatch(fetchSliders());
+    }, [dispatch]);
 
     useEffect(() => {
         const slider = document.querySelector('.slick-slider');
@@ -84,9 +84,9 @@ const SliderHome = () => {
                 {sliderImages.map((item, index) => (
                     <div
                         key={index}
-                        className="d-flex flex-row justify-content-center align-items-center"
+                        className="d-flex flex-row justify-content-center align-items-center "
                     >
-                        <img className="slider-img" src={item.image} alt={item.name} />
+                        <img className="slider-img " src={item.image} alt={item.name} />
                     </div>
                 ))}
             </Slider>

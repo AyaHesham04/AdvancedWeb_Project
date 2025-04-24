@@ -23,6 +23,8 @@ import AdminAddCategoryPage from "./Page/Admin/AdminAddCategoryPage.jsx";
 import AdminAnalyticsPage from "./Page/Admin/AdminAnalyticsPage.jsx";
 import AdminAddCouponPage from "./Page/Admin/AdminAddCouponPage.jsx";
 import AdminSliderPage from "./Page/Admin/AdminSliderPage.jsx";
+import OrderSuccessPage from "./Page/Order/OrderSuccessPage.jsx";
+import AdminEditCategoryPage from "./Page/Admin/AdminEditCategoryPage.jsx";
 
 
 
@@ -40,12 +42,14 @@ function App() {
         <Route path="/products/category/:id" element={<ProductsByCategory />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/order-success" element={<OrderSuccessPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminAnalyticsPage />} />
           <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
           <Route path="/admin/all_products" element={<AdminAllProductsPage />} />
           <Route path="/admin/add/product" element={<AdminAddProductsPage />} />
           <Route path="/admin/edit/product/:id" element={<AdminEditProductsPage />} />
+          <Route path="/admin/edit/category/:id" element={<AdminEditCategoryPage />} />
           <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
           <Route path="/admin/add/category" element={<AdminAddCategoryPage />} />
           <Route path="/admin/add/coupon" element={<AdminAddCouponPage />} />

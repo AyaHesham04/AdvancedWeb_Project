@@ -7,6 +7,7 @@ import { fetchBestSellers } from "../../redux/slices/bestSellersSlice";
 import ProductCard from "./ProductCard";
 import LeftButton from './LeftButton';
 import RightButton from './RightButton';
+import Skeleton from "react-loading-skeleton";
 
 const CardBestsellersContainer = ({ title }) => {
   const dispatch = useDispatch();
@@ -103,7 +104,30 @@ const CardBestsellersContainer = ({ title }) => {
       )}
 
       {loading ? (
-        <Spinner animation="border" />
+        <div className="custom-swiper custom-swiper-wrapper">
+          <Slider {...settings}>
+            {[...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <div className="product-Best">
+                  <Skeleton
+                    height={300} // Adjust this to match your product card height
+                    width={250}  // Adjust this to match your product card width
+                    borderRadius={10}
+                  />
+                  <Skeleton height={20} width={`80%`} style={{ marginTop: 10 }} />
+                  <Skeleton height={20} width={`60%`} />
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
       ) : error ? (
         <h4 className="text-danger">{error}</h4>
       ) : products.length === 0 ? (
@@ -111,10 +135,10 @@ const CardBestsellersContainer = ({ title }) => {
       ) : (
         <div className="custom-swiper custom-swiper-wrapper">
           <Slider {...settings} style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}>
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+          }}>
             {products.map((item, index) => (
               <div
                 key={index}

@@ -162,10 +162,12 @@ body {
   margin-top: -14px !important;
 }
 
+
 .slider-img {
-  height: 480px;
   width: 100%;
-  object-fit: cover;
+  height: 100%;
+  object-fit: fill;
+  display: block;
 }
 
 @media (min-width: 320px) {
@@ -174,9 +176,9 @@ body {
   }
 
   .slider-img {
-    height: 200px;
+    height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 }
 
@@ -186,9 +188,9 @@ body {
   }
 
   .slider-img {
-    height: 530px;
+    height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 }
 
@@ -198,9 +200,9 @@ body {
   }
 
   .slider-img {
-    height: 420px;
+    height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 }
 
@@ -210,9 +212,9 @@ body {
   }
 
   .slider-img {
-    height: 370px;
+    height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 }
 
@@ -222,9 +224,9 @@ body {
   }
 
   .slider-img {
-    height: 420px;
+    height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 }
 
@@ -1800,4 +1802,10 @@ body {
   .dropdown-menu {
     left: -50px !important;
   }
+}
+
+.my-toast {
+  background-color: #b0787b !important;
+  /* green */
+  color: white !important;
 }
