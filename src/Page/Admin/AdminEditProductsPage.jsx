@@ -13,8 +13,7 @@ const AdminEditProductsPage = () => {
     const dispatch = useDispatch();
     const product = useSelector(state => state.products.product);
     const categories = useSelector((state) => state.category.categories);
-
-    const [images, setImages] = useState({});
+    const [images, setImages] = useState([]);
     const [prodName, setProdName] = useState('');
     const [prodDescription, setProdDescription] = useState('');
     const [priceBefore, setPriceBefore] = useState(0);
@@ -33,7 +32,6 @@ const AdminEditProductsPage = () => {
 
     }, [id, dispatch]);
 
-    console.log(Cat);
     useEffect(() => {
         if (product) {
             setProdName(product.title);
@@ -58,31 +56,44 @@ const AdminEditProductsPage = () => {
         }
     };
     const handleImageChanges = useCallback(
-        ({ newFiles, removedUrls }) => {
-            setChanges((prev) => {
-                if (
-                    prev.newFiles === newFiles &&
-                    prev.removedUrls === removedUrls
-                ) {
-                    return prev;
-                }
-                return { newFiles, removedUrls };
+        ({ newFiles = [], removedUrls = [] }) => {
+            setImages((prevImages) => {
+                const prev = Array.isArray(prevImages) ? prevImages : [];
+
+                const filtered = prev.filter(img => !removedUrls.includes(img));
+
+                const newUniqueFiles = newFiles.filter(file => !filtered.includes(file));
+
+                const updatedImages = [...filtered, ...newUniqueFiles];
+
+                console.log("Updated images:", updatedImages);
+                return updatedImages;
             });
         },
         []
     );
+    useEffect(() => {
+        console.log("Images changed:", images);
+    }, [images]);
+
 
     const handleSubmit = async () => {
-        const formData = {
-            title: prodName,
-            description: prodDescription,
-            price: Number(priceBefore),
-            priceAfterDiscount: Number(priceAfter),
-            quantity: Number(qty),
-            category: Cat[1],
-            imageCover: memoizedImages[0],
-            images: memoizedImages,
-        };
+
+        const formData = new FormData();
+
+        formData.append('title', prodName);
+        formData.append('description', prodDescription);
+        formData.append('price', Number(priceBefore));
+        formData.append('priceAfterDiscount', Number(priceAfter));
+        formData.append('quantity', Number(qty));
+        formData.append('category', Cat[1]);
+
+        if (images[0]) {
+            formData.append('imageCover', images[0]);
+        }
+
+        formData.append('images', images);
+        console.log(images);
         try {
             await dispatch(updateProduct({ id, formData })).unwrap();
             toast.success('Product updated successfully!');

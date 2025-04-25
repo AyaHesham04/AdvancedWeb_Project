@@ -25,6 +25,7 @@ import AdminAddCouponPage from "./Page/Admin/AdminAddCouponPage.jsx";
 import AdminSliderPage from "./Page/Admin/AdminSliderPage.jsx";
 import OrderSuccessPage from "./Page/Order/OrderSuccessPage.jsx";
 import AdminEditCategoryPage from "./Page/Admin/AdminEditCategoryPage.jsx";
+import AdminOrderDetailsPage from "./Page/Admin/AdminOrderDetailsPage.jsx";
 
 
 
@@ -46,6 +47,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminAnalyticsPage />} />
           <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />
+          <Route path="/admin/orders/:id" element={<AdminOrderDetailsPage />} />
           <Route path="/admin/all_products" element={<AdminAllProductsPage />} />
           <Route path="/admin/add/product" element={<AdminAddProductsPage />} />
           <Route path="/admin/edit/product/:id" element={<AdminEditProductsPage />} />

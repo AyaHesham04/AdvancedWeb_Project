@@ -68,7 +68,7 @@ export const updateProduct = createAsyncThunk(
             const res = await axios.put(`${APP_URL}/products/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
             });
 

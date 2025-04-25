@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteCoupon } from '../../redux/slices/couponSlice';
 
-const AdminCouponCard = ({ coupon }) => {
+const AdminCouponCard = ({ coupon, onCouponDeleted }) => {
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
@@ -17,7 +17,9 @@ const AdminCouponCard = ({ coupon }) => {
     const handleShow = () => setShow(true);
 
     const handleDelete = () => {
-        dispatch(deleteCoupon(coupon._id));
+        dispatch(deleteCoupon(coupon._id)).then(() => {
+            onCouponDeleted();
+        });
         handleClose();
     };
     return (
@@ -98,7 +100,7 @@ const AdminCouponCard = ({ coupon }) => {
                             fontFamily: "Almarai",
                             fontSize: "16px",
                         }}>
-                        Discount Percentage:
+                        Discount :
                     </div>
 
                     <div
@@ -108,7 +110,7 @@ const AdminCouponCard = ({ coupon }) => {
                             fontSize: "16px",
                         }}
                         className="mx-2">
-                        {coupon.discount} %
+                        {coupon.discount} L.E.
                     </div>
                 </Col>
             </Row>

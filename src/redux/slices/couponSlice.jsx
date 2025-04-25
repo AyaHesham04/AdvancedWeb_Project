@@ -32,7 +32,6 @@ export const createCoupon = createAsyncThunk(
             if (!token || token == "undefined") {
                 return thunkAPI.rejectWithValue('No token found');
             }
-            console.log(token);
             const res = await axios.post(`${APP_URL}/coupons`, { name, expire, discount }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -50,9 +49,14 @@ export const deleteCoupon = createAsyncThunk(
     'coupon/deleteCoupon',
     async (id, thunkAPI) => {
         try {
+            const token = localStorage.getItem('token');
+
+            if (!token || token == "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
             const res = await axios.delete(`${APP_URL}/coupons/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${thunkAPI.getState().auth.token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
             toast.success('Coupon deleted successfully!');
