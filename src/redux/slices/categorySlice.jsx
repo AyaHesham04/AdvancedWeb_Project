@@ -54,7 +54,7 @@ export const updateCategory = createAsyncThunk(
                 return thunkAPI.rejectWithValue('No token found');
             }
 
-            const res = await axios.put(`${APP_URL}/categories/${id}?_method=PUT`, formData, {
+            const res = await axios.put(`${APP_URL}/categories/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',

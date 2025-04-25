@@ -14,7 +14,7 @@ const AdminAllCategoriesPage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
   return (
-    <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
+    <Container fluid className="px-10" >
       <Row className='py-3 flex-column flex-sm-row'>
         <Col sm="3" xs="12" md="3">
           <AdminSideBar />
@@ -22,7 +22,7 @@ const AdminAllCategoriesPage = () => {
 
         <Col sm="9" xs="12" md="9">
           <div className="pt-3">
-            <div className="admin-content-text pb-2">Manage All Categories</div>
+            <div className="admin-content-text pb-2" >Manage All Categories</div>
             <Row className="justify-content-start">
               {loading ? (
                 <h6>Loading...</h6>

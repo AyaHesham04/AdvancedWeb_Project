@@ -3,13 +3,14 @@ import { Container, Row, Col, Spinner, ToastContainer } from 'react-bootstrap'
 import AdminSideBar from '../../Components/Admin/AdminSideBar'
 import { useDispatch, useSelector } from 'react-redux';
 import { createCategory } from '../../redux/slices/categorySlice';
+import Avatar from '../../images/avatar.png'
 const AdminAddCategoryPage = () => {
     const dispatch = useDispatch();
     const { loading } = useSelector((state) => state.category);
 
     const [name, setName] = useState('');
     const [image, setImage] = useState(null);
-    const [imgPreview, setImgPreview] = useState(null);
+    const [imgPreview, setImgPreview] = useState(Avatar);
     const [isPress, setIsPress] = useState(false);
 
     const onChangeName = (e) => setName(e.target.value);
@@ -47,18 +48,21 @@ const AdminAddCategoryPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div className="pt-3">
-                            <div className="admin-content-text pb-2">Add New Category</div>
+                        <div className="admin-content-text pb-2">Add New Category</div>
                         <Row className="justify-content-start">
                             <Col sm="8">
                                 <div className="text-form pb-2">Category Image</div>
                                 <div>
-                                    <label for="upload-photo">
+                                    <label htmlFor="upload-photo">
                                         <img
                                             src={imgPreview}
                                             alt="uploadCategoryImage"
-                                            height="100px"
-                                            width="120px"
-                                            style={{ cursor: "pointer" }}
+                                            style={{
+                                                cursor: "pointer",
+                                                maxWidth: "100%",
+                                                maxHeight: "300px",
+                                                objectFit: "cover",
+                                            }}
                                         />
                                     </label>
                                     <input
@@ -66,6 +70,7 @@ const AdminAddCategoryPage = () => {
                                         name="photo"
                                         onChange={onImageChange}
                                         id="upload-photo"
+                                        style={{ display: "none" }}
                                     />
                                 </div>
 

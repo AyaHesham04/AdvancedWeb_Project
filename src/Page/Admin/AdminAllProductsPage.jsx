@@ -15,7 +15,6 @@ const AdminAllProductsPage = () => {
     useEffect(() => {
         dispatch(fetchProducts());
     }, [dispatch]);
-
     return (
         <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>

@@ -6,7 +6,7 @@ export const fetchProducts = createAsyncThunk(
     'products/fetch',
     async (limit, thunkAPI) => {
         try {
-            const res = await axios.get(`${APP_URL}/products?limit=${limit}`);
+            const res = await axios.get(`${APP_URL}/products?limit=1000`);
             return res.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || 'Fetch failed');
@@ -47,7 +47,7 @@ export const createProduct = createAsyncThunk(
             const res = await axios.post(`${APP_URL}/products`, productData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
             });
             return res.data;
@@ -57,20 +57,22 @@ export const createProduct = createAsyncThunk(
     }
 );
 export const updateProduct = createAsyncThunk(
-    'products/update',
-    async ({ id, data }, thunkAPI) => {
+    'product/update',
+    async ({ id, formData }, thunkAPI) => {
         try {
             const token = localStorage.getItem('token');
-
-            if (!token || token == "undefined") {
+            if (!token || token === "undefined") {
                 return thunkAPI.rejectWithValue('No token found');
             }
-            const res = await axios.put(`${APP_URL}/products/${id}`, data, {
+
+            const res = await axios.put(`${APP_URL}/products/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 },
             });
-            return res.data;
+
+            return res.data.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || 'Update failed');
         }
