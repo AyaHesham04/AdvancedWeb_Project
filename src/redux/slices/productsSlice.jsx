@@ -4,9 +4,9 @@ import APP_URL from '../../Api/baseURL';
 
 export const fetchProducts = createAsyncThunk(
     'products/fetch',
-    async (limit, thunkAPI) => {
+    async (limit = 1000, thunkAPI) => {
         try {
-            const res = await axios.get(`${APP_URL}/products?limit=1000`);
+            const res = await axios.get(`${APP_URL}/products?limit=${limit}`);
             return res.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || 'Fetch failed');

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import AdminSideBar from '../../Components/Admin/AdminSideBar'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDailyAccess } from '../../redux/slices/analyticsSlice';
+import { fetchDailyAccess, fetchViewsOnProduct } from '../../redux/slices/analyticsSlice';
 import dayjs from 'dayjs';
 import { BarChart } from '@mui/x-charts';
 import CardBestsellersContainer from '../../Components/Products/CardBestsellersContainer';
 import SubTiltle from '../../Components/Uitily/SubTiltle';
+import { fetchAdminOrders } from '../../redux/slices/ordersSlice';
+import { fontWeight } from '@mui/system';
 
 function AdminAnalyticsPage() {
     const tickPlacement = 'middle';
@@ -15,9 +17,30 @@ function AdminAnalyticsPage() {
 
     const dispatch = useDispatch();
     const { data, loading, error } = useSelector(state => state.analytic);
+    const { productViews } = useSelector(state => state.analytic);
+    const { orders } = useSelector(state => state.orders);
     useEffect(() => {
+        dispatch(fetchAdminOrders());
+        dispatch(fetchViewsOnProduct());
         dispatch(fetchDailyAccess());
     }, [dispatch]);
+    console.log(productViews);
+
+    const ordersGrouped = (orders.data || []).reduce((acc, order) => {
+        const dayTs = dayjs(order.createdAt).startOf('day').valueOf();
+        if (!acc[dayTs]) {
+            acc[dayTs] = { ts: dayTs, count: 0 };
+        }
+        acc[dayTs].count += 1;
+        return acc;
+    }, {});
+    const orderDataset = Object.values(ordersGrouped)
+        .sort((a, b) => a.ts - b.ts)
+        .map(item => ({
+            day: dayjs(item.ts).format('MMM D'),
+            count: item.count,
+        }));
+
     const grouped = (data || []).reduce((acc, entry) => {
         const dayTs = dayjs(entry.date).startOf('day').valueOf();
         if (!acc[dayTs]) {
@@ -75,7 +98,7 @@ function AdminAnalyticsPage() {
                                     )}
                                 </Card>
                                 <Card className="mb-4">
-                                    <div className="p-4"> chart 2</div>
+                                    <div className="p-4"> Daily Orders</div>
                                     {loading ? (
                                         <h6>Loading...</h6>
                                     ) : error ? (
@@ -83,10 +106,10 @@ function AdminAnalyticsPage() {
                                     ) : (
                                         <>
                                             <BarChart
-                                                dataset={dataset}
+                                                dataset={orderDataset}
                                                 xAxis={[{
                                                     scaleType: 'band',
-                                                    dataKey: 'month',
+                                                    dataKey: 'day',
                                                     tickPlacement,
                                                     tickLabelPlacement,
                                                 }]}
@@ -133,7 +156,7 @@ function AdminAnalyticsPage() {
                                         >
                                             <div style={{ textAlign: 'center' }}>
                                                 <div style={{ fontSize: '14px', marginBottom: '5px' }}>Total Orders</div>
-                                                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{totalUser}</div>
+                                                <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{orders ? orders?.data?.length || 0 : " "}</div>
                                             </div>
                                         </Card>
                                     </Col>
@@ -151,8 +174,10 @@ function AdminAnalyticsPage() {
                                             }}
                                         >
                                             <div style={{ textAlign: 'center' }}>
-                                                <div style={{ fontSize: '14px', marginBottom: '5px' }}>3rd</div>
-                                                <div style={{ fontSize: '24px', fontWeight: 'bold' }}></div>
+                                                <div style={{ fontSize: '14px', marginBottom: '5px' }}>Most Views</div>
+
+                                                <div className='productMostView' style={{ fontSize: '20px', fontWeight: 'bold' }}>{productViews[0] ? productViews[0].title : " "}</div>
+                                                <div style={{ fontSize: '15px' }}>{productViews[0] ? productViews[0].views : " "} views</div>
                                             </div>
                                         </Card>
                                     </Col>
@@ -160,7 +185,7 @@ function AdminAnalyticsPage() {
                             </Col>
                         </Row>
                         <div className="admin-content-text pb-2">Best-Seller Products</div>
-                        <div className="custom-swiper custom-swiper-wrapper-admin" style={{height: "100px"}}>
+                        <div className="custom-swiper custom-swiper-wrapper-admin" style={{ height: "100px" }}>
 
                         </div>
                         {/* <CardBestsellersContainer title="Best Sellers" /> */}

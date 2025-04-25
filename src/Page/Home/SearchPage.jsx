@@ -41,9 +41,9 @@ const SearchPage = () => {
                 <p className="sub-tile">No items found.</p>
             ) : (
                 <Row className='my-2 d-flex'>
-                    {results.products.map(item => (
-                        <Col key={item._id} xs={12} sm={6} md={4}>
-                            <ProductCard item={item} />
+                    {results.products.map(({ _id, ...rest }) => (
+                        <Col key={_id} xs={12} sm={6} md={4}>
+                            <ProductCard item={{ id: _id, ...rest }} />
                         </Col>
                     ))}
                 </Row>
