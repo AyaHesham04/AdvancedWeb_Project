@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Container, Row, Col, ToastContainer } from 'react-bootstrap'
 import AdminSideBar from '../../Components/Admin/AdminSideBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { createProduct } from '../../redux/slices/productsSlice'
 import { fetchCategories } from '../../redux/slices/categorySlice'
+import { toast } from 'react-toastify';
+
 const AdminAddProductsPage = () => {
     const [prodName, setProdName] = useState('');
     const [prodDescription, setProdDescription] = useState('');
@@ -19,34 +21,68 @@ const AdminAddProductsPage = () => {
     const onChangePriceAfter = (e) => setPriceAftr(e.target.value);
     const onChangeQty = (e) => setQty(e.target.value);
     const onSeletCategory = (e) => setSelectedCategoryId(e.target.value);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchCategories());
-
     }, [dispatch]);
 
-    const handelSubmit = () => {
-        const productData = {
-            title: prodName,
-            description: prodDescription,
-            priceBefore,
-            priceAfter: priceAftr,
-            quantity: qty,
-            category: selectedCategoryId,
-            images: images.map(img => img.data_url),
-        };
-
-        dispatch(createProduct(productData))
-            .unwrap()
-            .then(() => {
-                toast.success("Product added successfully!");
-            })
-            .catch((error) => {
-                toast.error("Failed to add product.");
-                console.error(error);
-            });
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files);
+        const newImages = files.map(file => ({
+            file,
+            preview: URL.createObjectURL(file)
+        }));
+        setImages(prev => [...prev, ...newImages]);
     };
+
+    const handleImageDelete = (index) => {
+        setImages(prev => {
+            const newImages = [...prev];
+            URL.revokeObjectURL(newImages[index].preview);
+            newImages.splice(index, 1);
+            return newImages;
+        });
+    };
+
+    const handelSubmit = async () => {
+        try {
+
+            const formData = new FormData();
+            formData.append('title', prodName);
+            formData.append('description', prodDescription);
+            formData.append('price', priceBefore);
+            formData.append('priceAfterDiscount', priceAftr);
+            formData.append('quantity', qty);
+            formData.append('category', selectedCategoryId);
+
+            if (images.length > 0) {
+                formData.append('imageCover', images[0].file);
+            }
+
+            images.forEach((img, index) => {
+                formData.append('images', img.file);
+            });
+
+            console.log('FormData prepared:', formData);
+
+            dispatch(createProduct(formData))
+                .unwrap()
+                .then(() => {
+                    toast.success("Product added successfully!");
+                    setImages([]);
+                })
+                .catch((error) => {
+                    toast.error("Failed to add product.");
+                    console.error(error);
+                });
+        } catch (error) {
+            toast.error("Error processing images.");
+            console.error(error);
+        }
+    };
+
     return (
         <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>
@@ -56,19 +92,38 @@ const AdminAddProductsPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div className="pt-3">
-                            <div className="admin-content-text pb-2">Add New Product</div>
+                        <div className="admin-content-text pb-2">Add New Product</div>
                         <Row className="justify-content-start">
                             <Col sm="8">
                                 <div className="text-form pb-2">Product Images</div>
-
-                                {/* <MultiImageInput
-                                    images={images}
-                                    setImages={setImages}
-                                    theme={"light"}
-                                    allowCrop={false}
-                                    max={4}
-                                /> */}
-
+                                <div className="mb-3">
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="input-form d-block"
+                                    />
+                                    <div className="d-flex flex-wrap mt-2">
+                                        {images.map((img, index) => (
+                                            <div key={index} className="position-relative m-2">
+                                                <img
+                                                    src={img.preview}
+                                                    alt={`preview ${index}`}
+                                                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleImageDelete(index)}
+                                                    className="btn btn-danger btn-sm position-absolute top-0 end-0"
+                                                    style={{ transform: 'translate(50%, -50%)' }}
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                                 <input
                                     value={prodName}
                                     onChange={onChangeProdName}
@@ -108,15 +163,14 @@ const AdminAddProductsPage = () => {
                                 <select
                                     name="cat"
                                     onChange={onSeletCategory}
-                                    className="select input-form-area mt-3 px-2 ">
+                                    className="select input-form-area mt-3 px-2"
+                                >
                                     <option value="0">Category</option>
-                                    {
-                                        categories.data ? (categories.data.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item._id}>{item.name}</option>
-                                            )
-                                        })) : null
-                                    }
+                                    {categories ? (
+                                        categories.map((item, index) => (
+                                            <option key={index} value={item._id}>{item.name}</option>
+                                        ))
+                                    ) : null}
                                 </select>
                             </Col>
                         </Row>

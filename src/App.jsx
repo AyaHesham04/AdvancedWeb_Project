@@ -30,7 +30,7 @@ import AdminEditCategoryPage from "./Page/Admin/AdminEditCategoryPage.jsx";
 
 function App() {
   return (
-    <div className="font" >
+    <div className="font"  >
       <NavBarLogin />
       <Routes>
         <Route index element={<HomePage />} />

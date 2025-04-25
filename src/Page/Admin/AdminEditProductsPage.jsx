@@ -20,7 +20,7 @@ const AdminEditProductsPage = () => {
     const [priceBefore, setPriceBefore] = useState(0);
     const [priceAfter, setPriceAfter] = useState(0);
     const [qty, setQty] = useState(0);
-    const [Cat, setCat] = useState('');
+    const [Cat, setCat] = useState([]);
     const [changes, setChanges] = useState({ newFiles: [], removedUrls: [] });
     const memoizedImages = useMemo(() => {
         return product?.images || [];
@@ -33,15 +33,15 @@ const AdminEditProductsPage = () => {
 
     }, [id, dispatch]);
 
+    console.log(Cat);
     useEffect(() => {
-
         if (product) {
             setProdName(product.title);
             setProdDescription(product.description);
             setPriceBefore(product.price);
             setPriceAfter(product.priceAfterDiscount || 0);
             setQty(product.quantity);
-            setCat(product.category.name);
+            setCat([product.category.name, product.category._id]);
             setImages(product.images);
         }
     }, [product]);
@@ -50,7 +50,13 @@ const AdminEditProductsPage = () => {
     const onChangePriceBefore = (e) => setPriceBefore(e.target.value);
     const onChangePriceAfter = (e) => setPriceAfter(e.target.value);
     const onChangeQty = (e) => setQty(e.target.value);
-    const onSelectCategory = (e) => setCat(e.target.value);
+    const onSelectCategory = (e) => {
+        const selectedId = e.target.value;
+        const selectedCat = categories.find(cat => cat._id === selectedId);
+        if (selectedCat) {
+            setCat([selectedCat.name, selectedCat._id]);
+        }
+    };
     const handleImageChanges = useCallback(
         ({ newFiles, removedUrls }) => {
             setChanges((prev) => {
@@ -73,11 +79,12 @@ const AdminEditProductsPage = () => {
             price: Number(priceBefore),
             priceAfterDiscount: Number(priceAfter),
             quantity: Number(qty),
-            // category: Cat,
-            imageCover: images[0],
-            images: images,
+            category: Cat[1],
+            imageCover: memoizedImages[0],
+            images: memoizedImages,
         };
         try {
+            await dispatch(updateProduct({ id, formData })).unwrap();
             toast.success('Product updated successfully!');
         } catch (err) {
             toast.error('Update failed!');
@@ -92,7 +99,7 @@ const AdminEditProductsPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div className="pt-3">
-                            <div className="admin-content-text pb-2">Edit Product - {prodName}</div>
+                        <div className="admin-content-text pb-2">Edit Product - {prodName}</div>
                         <Row className="justify-content-start">
                             <Col sm="8">
                                 <div className="text-form pb-2">Product Images</div>
@@ -139,10 +146,10 @@ const AdminEditProductsPage = () => {
                                 />
                                 <select
                                     name="cat"
-                                    value={null}
+                                    value={Cat[1]}
                                     onChange={onSelectCategory}
                                     className="select input-form-area mt-3 px-2">
-                                    <option value="0">{Cat}</option>
+                                    <option value="0">{Cat[0]}</option>
                                     {categories.map((item) => (
                                         <option key={item._id} value={item._id}>
                                             {item.name}
