@@ -4,56 +4,58 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
 import CartItem from '../../Components/Cart/CartItem';
 import CartCheckout from '../../Components/Cart/CartCheckout';
-import Cookies from 'js-cookie';
 import APP_URL from '../../Api/baseURL';
 import axios from 'axios';
+import { setCart } from '../../redux/slices/cartSlice'; // 👈 import setCart
+
 const CartPage = () => {
-    const { product, loading, error } = useSelector((state) => state.products);
+    const dispatch = useDispatch();
+    const cartItemsRaw = useSelector((state) => state.cart.items); // 👈 getting cart from Redux
+    const { loading, error } = useSelector((state) => state.products);
 
     const [cartItems, setCartItems] = useState([]);
 
-    useEffect(() => {
-        const fetchCartItems = async () => {
-            const cookieCart = Cookies.get('cart');
-
-            if (cookieCart) {
-                const ids = JSON.parse(cookieCart);
-                console.log("id", ids);
-                if (Array.isArray(ids) && ids[0] != null) {
-                    try {
-                        const products = await Promise.all(
-                            ids.map(async (id) => {
-                                const res = await axios.get(`${APP_URL}/products/${id.productId}`);
-                                return {
-                                    ...res.data.data,
-                                    quantity: id.quantity,
-                                };
-                            })
-                        );
-                        setCartItems(products);
-                    } catch (err) {
-                        console.error("Error fetching cart items", err);
-                    }
-                }
+    const fetchCartItems = async () => {
+        if (Array.isArray(cartItemsRaw) && cartItemsRaw.length > 0) {
+            try {
+                const products = await Promise.all(
+                    cartItemsRaw.map(async (cartItem) => {
+                        const res = await axios.get(`${APP_URL}/products/${cartItem.productId}`);
+                        return {
+                            ...res.data.data,
+                            quantity: cartItem.quantity,
+                        };
+                    })
+                );
+                setCartItems(products);
+            } catch (err) {
+                console.error("Error fetching cart items", err);
             }
-        };
+        } else {
+            setCartItems([]);
+        }
+    };
 
+    useEffect(() => {
         fetchCartItems();
-    }, []);
+    }, [cartItemsRaw]);
+
     const onQuantityChange = (productId, quantity) => {
         const updatedCart = cartItems.map(item =>
             item.id === productId ? { ...item, quantity } : item
         );
         setCartItems(updatedCart);
+
         const minimalCart = updatedCart.map(item => ({
             productId: item.id,
             quantity: item.quantity
         }));
 
-        Cookies.set('cart', JSON.stringify(minimalCart), { expires: 7 });
+        dispatch(setCart(minimalCart));
     };
+
     const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    console.log("total ", totalPrice);
+
     if (loading) return <div style={{ minHeight: '100vh' }} className="text-center py-5">Loading...</div>;
     if (error) return <div style={{ minHeight: '100vh' }} className="text-danger text-center py-5">{error}</div>;
 
@@ -64,13 +66,15 @@ const CartPage = () => {
             </Row>
             <Row className="d-flex justify-content-center">
                 <Col xs="12" md="8" lg="8" className="cart-body">
-                    {cartItems ? (
+                    {cartItems.length > 0 ? (
                         cartItems.map(
-                            (item, index) =>
-                                <>
-                                    <CartItem key={index} item={item} onQuantityChange={onQuantityChange} />
+                            (item, index) => (
+                                <div key={index}>
+                                    <CartItem item={item} onQuantityChange={onQuantityChange} />
                                     <hr />
-                                </>)
+                                </div>
+                            )
+                        )
                     ) : (
                         <h6>No products in the cart</h6>
                     )}

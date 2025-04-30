@@ -13,7 +13,6 @@ const AdminAllOrdersPage = () => {
     useEffect(() => {
         dispatch(fetchAdminOrders());
     }, [dispatch]);
-    console.log(orders);
     return (
         <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>

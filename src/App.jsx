@@ -2,7 +2,8 @@
 import { Route, Routes } from "react-router-dom";
 import NavBarLogin from "./Components/Uitily/NavBarLogin.jsx";
 import Footer from "./Components/Uitily/Footer.jsx";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from "./Page/Home/HomePage.jsx";
 import LoginPage from "./Page/Auth/LoginPage.jsx";
@@ -26,6 +27,7 @@ import AdminSliderPage from "./Page/Admin/AdminSliderPage.jsx";
 import OrderSuccessPage from "./Page/Order/OrderSuccessPage.jsx";
 import AdminEditCategoryPage from "./Page/Admin/AdminEditCategoryPage.jsx";
 import AdminOrderDetailsPage from "./Page/Admin/AdminOrderDetailsPage.jsx";
+import AdminEditCouponPage from "./Page/Admin/AdminEditCouponPage.jsx";
 
 
 
@@ -55,10 +57,12 @@ function App() {
           <Route path="/admin/all_categories" element={<AdminAllCategoriesPage />} />
           <Route path="/admin/add/category" element={<AdminAddCategoryPage />} />
           <Route path="/admin/add/coupon" element={<AdminAddCouponPage />} />
+          <Route path="/admin/edit/coupon/:id" element={<AdminEditCouponPage />} />
           <Route path="/admin/slider" element={<AdminSliderPage />} />
         </Route>
       </Routes>
       <Footer />
+      <ToastContainer />
 
     </div>
 

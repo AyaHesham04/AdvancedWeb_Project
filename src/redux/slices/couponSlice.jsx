@@ -23,6 +23,29 @@ export const fetchCoupons = createAsyncThunk('coupon/fetchCoupons', async (_, th
         return thunkAPI.rejectWithValue(error.response?.data || 'Failed to load coupons');
     }
 });
+export const fetchSingleCoupon = createAsyncThunk(
+    'coupon/fetchSingleCoupon',
+    async (id, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (!token || token === "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
+
+            const res = await axios.get(`${APP_URL}/coupons/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to load coupon');
+            return thunkAPI.rejectWithValue(error.response?.data || 'Failed to load coupon');
+        }
+    }
+);
+
 export const createCoupon = createAsyncThunk(
     'coupon/createCoupon',
     async ({ name, expire, discount }, thunkAPI) => {
@@ -45,6 +68,31 @@ export const createCoupon = createAsyncThunk(
         }
     }
 );
+export const updateCoupon = createAsyncThunk(
+    'coupon/updateCoupon',
+    async ({ id, name, expire, discount }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (!token || token === "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
+
+            const res = await axios.put(`${APP_URL}/coupons/${id}`, { name, expire, discount }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            toast.success('Coupon updated successfully!');
+            return res.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to update coupon');
+            return thunkAPI.rejectWithValue(error.response?.data || 'Failed to update coupon');
+        }
+    }
+);
+
 export const deleteCoupon = createAsyncThunk(
     'coupon/deleteCoupon',
     async (id, thunkAPI) => {
@@ -71,6 +119,7 @@ const couponSlice = createSlice({
     name: 'coupon',
     initialState: {
         coupons: [],
+        currentCoupon: null,
         loading: false,
         error: null,
     },
@@ -89,6 +138,18 @@ const couponSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(fetchSingleCoupon.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchSingleCoupon.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentCoupon = action.payload;
+            })
+            .addCase(fetchSingleCoupon.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(createCoupon.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -98,6 +159,21 @@ const couponSlice = createSlice({
                 state.coupon = action.payload;
             })
             .addCase(createCoupon.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateCoupon.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateCoupon.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.coupons.findIndex(coupon => coupon.id === action.payload.id);
+                if (index !== -1) {
+                    state.coupons[index] = action.payload;
+                }
+            })
+            .addCase(updateCoupon.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

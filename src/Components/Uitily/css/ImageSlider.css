@@ -1,0 +1,46 @@
+/* ImageSlider.css */
+.image-slider {
+    width: 100%;
+    text-align: center;
+}
+
+.main-image {
+    overflow: hidden;
+}
+
+.main-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease, transform-origin 0.1s;
+}
+
+.main-image img:hover {
+    transform: scale(1.5);
+}
+
+.thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.thumbnails img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.thumbnails img:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.thumbnails img.active {
+    opacity: 1;
+    border: 2px solid #efc4c3;
+}

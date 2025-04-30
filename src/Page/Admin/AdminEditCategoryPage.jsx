@@ -44,6 +44,7 @@ const AdminEditCategoryPage = () => {
         const formData = new FormData();
         formData.append('name', name);
         if (changes.newFile !== null) {
+            console.log(changes.newFile);
             formData.append('image', changes.newFile);
 
         }
@@ -69,7 +70,7 @@ const AdminEditCategoryPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div className="pt-3">
-                            <div className="admin-content-text pb-2">Edit Category</div>
+                        <div className="admin-content-text pb-2">Edit Category</div>
                         <Row className="justify-content-start">
                             <Col sm="8">
                                 <div className="text-form pb-2">Category Image</div>

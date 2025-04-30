@@ -37,9 +37,14 @@ const cartSlice = createSlice({
         setCart: (state, action) => {
             state.items = action.payload;
             Cookies.set('cart', JSON.stringify(state.items), { expires: 7 });
+        },
+        clearCart: (state) => {
+            state.items = [];
+            Cookies.set('cart', JSON.stringify([]), { expires: 7 });
         }
     },
 });
 
-export const { addToCart, updateQuantity, removeFromCart, setCart } = cartSlice.actions;
+// Export the new action too
+export const { addToCart, updateQuantity, removeFromCart, setCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

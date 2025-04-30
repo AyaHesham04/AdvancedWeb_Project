@@ -50,7 +50,7 @@ const AdminCouponCard = ({ coupon, onCouponDeleted }) => {
                 </Col>
                 <Col xs="6" className="d-flex justify-content-end">
                     <div className="d-flex">
-                        <Link to={`/admin/editcoupon/${coupon._id}`} style={{ textDecoration: 'none' }}>
+                        <Link to={`/admin/edit/coupon/${coupon._id}`} style={{ textDecoration: 'none' }}>
                             <div className="d-flex mx-2 icon-hover">
                                 <svg width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <title />

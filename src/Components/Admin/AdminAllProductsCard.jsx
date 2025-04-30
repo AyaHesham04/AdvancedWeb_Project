@@ -10,11 +10,9 @@ function AdminAllProductsCard({ item }) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const dispatch = useDispatch();
-
     const handleDelete = async () => {
-        dispatch(deleteProduct(item._id));
+        dispatch(deleteProduct(item.id));
         setShow(false);
-        window.location.reload();
     }
     return (
         <Col xs="12" sm="12" md="6" lg="4" className="d-flex">
@@ -97,7 +95,7 @@ function AdminAllProductsCard({ item }) {
                                     </div>
                                 ) : (
                                     <span>Price before discount: {item.price}</span>
-                                    
+
                                 )}
                             </div>
                         </Card.Text>

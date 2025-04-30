@@ -16,15 +16,16 @@ const CartCheckout = ({ totalPrice }) => {
     const [discount, setDiscount] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [shippingAddress, setShippingAddress] = useState({
-        details: '',
-        city: '',
-        phone: '',
         name: '',
+        phone: '',
+        email: '',
+        city: '',
+        street: '',
         apartment: '',
         floor: '',
-        street: '',
-        email: '',
+        details: '',
     });
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         setFinalPrice(totalPrice);
@@ -56,27 +57,56 @@ const CartCheckout = ({ totalPrice }) => {
     };
 
     const handleClearCart = () => {
-        Cookies.remove('cartItems');
+        Cookies.remove('cart');
         Cookies.remove('appliedCoupon');
         toast.info('Cart and coupon cleared');
     };
 
     const handleOpenModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setShippingAddress({ name: '', phone: '', email: '', city: '', street: '', apartment: '', floor: '', details: '' });
+        setErrors({});
+    };
+
+    const validateShipping = () => {
+        const errs = {};
+        const { name, phone, email, city, street, apartment, floor, details } = shippingAddress;
+
+        if (!name.trim()) errs.name = 'Full Name is required';
+        if (!phone.trim()) errs.phone = 'Phone is required';
+        else if (!/^\+?[0-9]{7,15}$/.test(phone)) errs.phone = 'Enter a valid phone number';
+        if (email && !/^\S+@\S+\.\S+$/.test(email)) errs.email = 'Enter a valid email address';
+        if (!city.trim()) errs.city = 'City is required';
+        if (!street.trim()) errs.street = 'Street is required';
+        if (!apartment.trim()) errs.apartment = 'Apartment is required';
+        if (!floor.trim()) errs.floor = 'Floor is required';
+        if (!details.trim()) errs.details = 'Details are required';
+
+        setErrors(errs);
+        return Object.keys(errs).length === 0;
+    };
+
+    const handleChange = (key, value) => {
+        setShippingAddress(prev => ({ ...prev, [key]: value }));
+        setErrors(prev => ({ ...prev, [key]: undefined }));
+    };
 
     const handleSubmitShipping = () => {
         const cartItems = JSON.parse(Cookies.get('cart') || '[]');
         const coupon = couponName;
-        debugger;
+
         if (cartItems.length === 0) {
             toast.warning('Cart is empty');
             return;
         }
 
+        if (!validateShipping()) return;
+
         const orderData = {
             products: cartItems.map(({ productId, quantity }) => ({ id: productId, quantity })),
             shippingAddress,
-            coupon
+            coupon,
         };
 
         dispatch(createOrder(orderData)).unwrap()
@@ -84,11 +114,21 @@ const CartCheckout = ({ totalPrice }) => {
                 navigate('/order-success', { state: res.data });
             })
             .catch(err => {
-                toast.error(err || 'Failed to place order');
-            });;
+                toast.error(err.message || 'Failed to place order');
+            });
         setShowModal(false);
-
     };
+
+    const fields = [
+        ['Full Name', 'name'],
+        ['Phone', 'phone'],
+        ['Email (optional)', 'email'],
+        ['City', 'city'],
+        ['Street', 'street'],
+        ['Apartment', 'apartment'],
+        ['Floor', 'floor'],
+        ['Details', 'details'],
+    ];
 
     return (
         <Row className="d-flex">
@@ -119,26 +159,17 @@ const CartCheckout = ({ totalPrice }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
-                        {[
-                            ['Full Name', 'name'],
-                            ['Phone', 'phone'],
-                            ['Email', 'email'],
-                            ['City', 'city'],
-                            ['Street', 'street'],
-                            ['Apartment', 'apartment'],
-                            ['Floor', 'floor'],
-                            ['Details', 'details'],
-                        ].map(([label, key]) => (
+                        {fields.map(([label, key]) => (
                             <Col xs={12} sm={6} className="mb-3" key={key}>
                                 <label className="form-label">{label}</label>
                                 <input
-                                    className="form-control"
+                                    type={key === 'email' ? 'email' : 'text'}
+                                    className={`form-control ${errors[key] ? 'is-invalid' : ''}`}
                                     value={shippingAddress[key]}
-                                    onChange={(e) =>
-                                        setShippingAddress({ ...shippingAddress, [key]: e.target.value })
-                                    }
+                                    onChange={e => handleChange(key, e.target.value)}
                                     placeholder={label}
                                 />
+                                {errors[key] && <div className="invalid-feedback">{errors[key]}</div>}
                             </Col>
                         ))}
                     </Row>

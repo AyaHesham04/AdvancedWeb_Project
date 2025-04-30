@@ -6,12 +6,13 @@ import { ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
-
+import { toast } from "react-toastify";
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
-  debugger;
+
   const addToCartHandle = () => {
     dispatch(addToCart({ productId: item.id }));
+    toast.success("Product added to cart successfully!");
   };
   return (
     <Col className="d-flex">
@@ -122,7 +123,6 @@ const ProductCard = ({ item }) => {
           </Card.Text>
         </Card.Body>
       </Card>
-      <ToastContainer />
     </Col>
   );
 };

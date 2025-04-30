@@ -4,7 +4,7 @@ import { Button, Col, Modal, Row } from 'react-bootstrap'
 import mobile from '../../images/mobile.png'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-const CartItem = ({ item, onQuantityChange }) => {
+const CartItem = ({ item, onQuantityChange , updateCartChange}) => {
   const [itemCount, setItemCount] = useState(item.quantity);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -22,8 +22,9 @@ const CartItem = ({ item, onQuantityChange }) => {
 
   const deleteItemFromCart = (itemId) => {
     const cart = getCartFromCookie();
-    const updatedCart = cart.filter(item => item.id !== itemId);
-    onQuantityChange(updatedCart);
+    const updatedCart = cart.filter(item => item.productId !== itemId);
+    console.log(itemId, updatedCart);
+    updateCartChange(updatedCart);
   };
 
   const handelDeleteItem = () => {
@@ -94,7 +95,7 @@ const CartItem = ({ item, onQuantityChange }) => {
           <Row className="justify-content-center mt-2">
             <Col sm="12" className="d-flex flex-row justify-content-start">
               <div className="d-inline cat-title">
-                
+
                 {item?.category?.name || ""}
               </div>
             </Col>

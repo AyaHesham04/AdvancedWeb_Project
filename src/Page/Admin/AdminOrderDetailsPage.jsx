@@ -1,25 +1,45 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Row, Col, ToastContainer } from 'react-bootstrap'
 import AdminSideBar from '../../Components/Admin/AdminSideBar'
 import { Link, useParams } from 'react-router-dom'
-import { fetchOrderById } from '../../redux/slices/ordersSlice'
+import { fetchOrderById, updateOrderDelivery } from '../../redux/slices/ordersSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify';
+
 const AdminOrderDetailsPage = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
     const { selectedOrder: orderData, loading, error } = useSelector((state) => state.orders);
-
+    const [deliverStatus, setDeliverStatus] = useState('');
     useEffect(() => {
         if (id) {
             dispatch(fetchOrderById(id));
         }
     }, [dispatch, id]);
-    console.log(orderData ? orderData.data : "");
+    console.log(orderData ? orderData.data.isDelivered ? "false" : "true" : "false");
     const onChangePaid = () => { };
     const changePayOrder = () => { };
-    const onChangeDeliver = () => { };
-    const changeDeliverOrder = () => { };
+
+    const onChangeDeliver = (e) => {
+        setDeliverStatus(e.target.value);
+    };
+    const changeDeliverOrder = async () => {
+        if (deliverStatus === '') {
+            toast.error('Please select a delivery status first.');
+            return;
+        }
+
+        try {
+            console.log({ id, isDelivered: deliverStatus === "true" });
+            await dispatch(updateOrderDelivery(id)).unwrap();
+            await dispatch(fetchOrderById(id)).unwrap(); // Wait for fetch to finish
+            toast.success('Delivery status updated successfully!');
+        } catch (error) {
+            toast.error('Failed to update delivery: ' + error);
+        }
+    };
+
     const formatDate = (dateString) => {
         const options = { year: "numeric", month: "numeric", day: "numeric" }
         return new Date(dateString).toLocaleDateString(undefined, options)
@@ -123,7 +143,7 @@ const AdminOrderDetailsPage = () => {
                                                     fontSize: "16px",
                                                 }}
                                                 className="mx-2">
-                                                {orderData ? orderData.data.user ?? "NAN" : 'NAN'}
+                                                {orderData ? orderData.data.shippingAddress.name ?? "NAN" : 'NAN'}
                                             </div>
                                         </Col>
 
@@ -276,21 +296,6 @@ const AdminOrderDetailsPage = () => {
                                             </div>
                                         </Col>
                                         <div className="d-flex mt-2 justify-content-center flex-column flex-md-row">
-                                            <div className="mb-2 mb-md-0">
-                                                <select
-                                                    name="pay"
-                                                    id="paid"
-                                                    onChange={onChangePaid}
-                                                    className="select input-form-area mt-1 text-center w-50"
-                                                >
-                                                    <option disabled value="0">Payment</option>
-                                                    <option value="true">Completed</option>
-                                                    <option value="false">Not Completed</option>
-                                                </select>
-                                                <button onClick={changePayOrder} className="btn-a px-2 d-inline mx-1">
-                                                    Save
-                                                </button>
-                                            </div>
                                             <div>
                                                 <select
                                                     onChange={onChangeDeliver}
@@ -298,7 +303,7 @@ const AdminOrderDetailsPage = () => {
                                                     id="deliver"
                                                     className="select input-form-area mt-1 text-center w-50"
                                                 >
-                                                    <option disabled value="0">Delivery</option>
+                                                    <option disabled selected value="">Delivery</option>
                                                     <option value="true">Completed</option>
                                                     <option value="false">Not Completed</option>
                                                 </select>
@@ -314,9 +319,9 @@ const AdminOrderDetailsPage = () => {
                         </Col>
                         <ToastContainer />
                     </div>
-                </Col>
-            </Row>
-        </Container>
+                </Col >
+            </Row >
+        </Container >
     )
 }
 

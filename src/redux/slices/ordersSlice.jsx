@@ -49,6 +49,22 @@ export const createOrder = createAsyncThunk('orders/createOrder', async (orderDa
         return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to create order');
     }
 });
+export const updateOrderDelivery = createAsyncThunk('orders/updateOrderDelivery', async (id, thunkAPI) => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token || token === "undefined") {
+            return thunkAPI.rejectWithValue('No token found');
+        }
+        const response = await axios.put(`${APP_URL}/orders/${id}/deliver`, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to update delivery');
+    }
+});
 
 const ordersSlice = createSlice({
     name: 'orders',
@@ -93,6 +109,26 @@ const ordersSlice = createSlice({
                 state.orders.unshift(action.payload);
             })
             .addCase(createOrder.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateOrderDelivery.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateOrderDelivery.fulfilled, (state, action) => {
+                state.loading = false;
+                // Update selectedOrder if it's the one updated
+                if (state.selectedOrder && state.selectedOrder.data.id === action.payload.data.id) {
+                    state.selectedOrder = action.payload;
+                }
+                // Also update it inside orders list if necessary
+                const index = state.orders.findIndex(order => order.data.id === action.payload.data.id);
+                if (index !== -1) {
+                    state.orders[index] = action.payload;
+                }
+            })
+            .addCase(updateOrderDelivery.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

@@ -1,10 +1,46 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, ToastContainer } from 'react-bootstrap'
 import AdminSideBar from '../../Components/Admin/AdminSideBar'
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSingleCoupon, updateCoupon } from '../../redux/slices/couponSlice';
+
 const AdminEditCouponPage = () => {
     const { id } = useParams();
-    const [couponName, couponDate, couponValue, onChangeName, onChangeDate, onChangeValue, onSubmit] = EditCouponHook(id);
+    const dispatch = useDispatch();
+    const { currentCoupon, loading } = useSelector((state) => state.coupon);
+
+    const [couponName, setCouponName] = useState('');
+    const [couponDate, setCouponDate] = useState('');
+    const [couponValue, setCouponValue] = useState('');
+
+    const onChangeName = (e) => setCouponName(e.target.value);
+    const onChangeDate = (e) => setCouponDate(e.target.value);
+    const onChangeValue = (e) => setCouponValue(e.target.value);
+
+    useEffect(() => {
+        dispatch(fetchSingleCoupon(id));
+    }, [dispatch, id]);
+
+    useEffect(() => {
+        console.log(currentCoupon);
+        if (currentCoupon) {
+            setCouponName(currentCoupon.data.name);
+            const formattedDate = new Date(currentCoupon.data.expire).toISOString().split('T')[0];
+            setCouponDate(formattedDate);
+            setCouponValue(currentCoupon.data.discount);
+        }
+    }, [currentCoupon]);
+
+    const onSubmit = async () => {
+        await dispatch(updateCoupon({
+            id,
+            name: couponName,
+            expire: couponDate,
+            discount: couponValue,
+        }));
+    };
+
     return (
         <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>
@@ -13,8 +49,6 @@ const AdminEditCouponPage = () => {
                 </Col>
 
                 <Col sm="9" xs="12" md="9">
-
-
                     <div>
                         <Row className="justify-content-start pt-3">
                             <div className="admin-content-text pb-4">Edit Coupon Details</div>
@@ -27,7 +61,7 @@ const AdminEditCouponPage = () => {
                                     placeholder="Coupon Name"
                                 />
                                 <input
-                                    type="text"
+                                    type="date"
                                     className="input-form d-block mt-3 px-3"
                                     placeholder="Expiration Date"
                                     onChange={onChangeDate}
@@ -50,11 +84,10 @@ const AdminEditCouponPage = () => {
 
                         <ToastContainer />
                     </div>
-
                 </Col>
             </Row>
         </Container>
-    )
+    );
 }
 
-export default AdminEditCouponPage
+export default AdminEditCouponPage;

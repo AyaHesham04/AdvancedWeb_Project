@@ -83,7 +83,15 @@ export const deleteProduct = createAsyncThunk(
     'products/delete',
     async (productId, thunkAPI) => {
         try {
-            await axios.delete(`${APP_URL}/products/${productId}`);
+            const token = localStorage.getItem('token');
+            if (!token || token === "undefined") {
+                return thunkAPI.rejectWithValue('No token found');
+            }
+            await axios.delete(`${APP_URL}/products/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             return { id: productId };
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response?.data || 'Delete failed');
