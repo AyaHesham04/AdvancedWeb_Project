@@ -26,10 +26,6 @@ const SliderHome = () => {
 
     const dispatch = useDispatch();
     const { items: sliderImages, loading, error } = useSelector((state) => state.slider);
-    console.log(sliderImages.map((item, index) => (
-        item.image
-
-    )));
     useEffect(() => {
         dispatch(fetchSliders());
     }, [dispatch]);

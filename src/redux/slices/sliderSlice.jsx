@@ -9,7 +9,6 @@ export const fetchSliders = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const res = await axios.get(`${APP_URL}/sliders`);
-            // assume API returns { data: [...] }
             return res.data.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data || 'Failed to load sliders');

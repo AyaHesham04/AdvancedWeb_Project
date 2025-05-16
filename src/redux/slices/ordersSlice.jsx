@@ -38,12 +38,23 @@ export const fetchOrderById = createAsyncThunk('orders/fetchOrderById', async (i
 
 export const createOrder = createAsyncThunk('orders/createOrder', async (orderData, thunkAPI) => {
     try {
-        const response = await axios.post(`${APP_URL}/orders`, orderData, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        let response = null;
+        const token = localStorage.getItem('token');
+        if (!token || token == "undefined") {
+            response = await axios.post(`${APP_URL}/orders`, orderData, {
+                headers: {
+                    'Content-Type': 'application/json',
 
+                },
+            });
+        } else {
+            response = await axios.post(`${APP_URL}/orders`, orderData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+            });
+        }
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to create order');
@@ -118,11 +129,9 @@ const ordersSlice = createSlice({
             })
             .addCase(updateOrderDelivery.fulfilled, (state, action) => {
                 state.loading = false;
-                // Update selectedOrder if it's the one updated
                 if (state.selectedOrder && state.selectedOrder.data.id === action.payload.data.id) {
                     state.selectedOrder = action.payload;
                 }
-                // Also update it inside orders list if necessary
                 const index = state.orders.findIndex(order => order.data.id === action.payload.data.id);
                 if (index !== -1) {
                     state.orders[index] = action.payload;

@@ -28,6 +28,9 @@ import OrderSuccessPage from "./Page/Order/OrderSuccessPage.jsx";
 import AdminEditCategoryPage from "./Page/Admin/AdminEditCategoryPage.jsx";
 import AdminOrderDetailsPage from "./Page/Admin/AdminOrderDetailsPage.jsx";
 import AdminEditCouponPage from "./Page/Admin/AdminEditCouponPage.jsx";
+import UserProfilePage from "./Page/User/UserProfilePage.jsx";
+import UserAllAddresPage from "./Page/User/UserAllAddresPage.jsx";
+import UserAllOrdersPage from "./Page/User/UserAllOrdersPage.jsx";
 
 
 
@@ -46,6 +49,9 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
+        <Route path="/user/profile" element={<UserProfilePage />} />
+        <Route path="/user/addresses" element={<UserAllAddresPage />} />
+        <Route path="/user/allorders" element={<UserAllOrdersPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminAnalyticsPage />} />
           <Route path="/admin/all_orders" element={<AdminAllOrdersPage />} />

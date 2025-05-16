@@ -1,3 +1,4 @@
+// src/Store/slices/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import APP_URL from '../../Api/baseURL';
@@ -35,25 +36,20 @@ export const loginUser = createAsyncThunk(
                 email,
                 password,
             });
-
-            const token = res.data?.token;
-
-            if (token) {
-                localStorage.setItem('token', token);
-            }
-
-            return res.data;
+            const token = res.data.token;
+            if (token) localStorage.setItem('token', token);
+            return res.data.data.user;
         } catch (error) {
-            return thunkAPI.rejectWithValue(error.response?.data || 'Login failed');
+            return thunkAPI.rejectWithValue(
+                error.response?.data || 'Login failed'
+            );
         }
     }
 );
+
 export const registerUser = createAsyncThunk(
     'auth/register',
-    async (
-        { name, email, phone, password, confirmPassword },
-        thunkAPI
-    ) => {
+    async ({ name, email, phone, password, confirmPassword }, thunkAPI) => {
         try {
             const res = await axios.post(`${APP_URL}/auth/signup`, {
                 name,
@@ -62,22 +58,125 @@ export const registerUser = createAsyncThunk(
                 password,
                 confirmPassword,
             });
-            const token = res.data?.token;
+            const token = res.data.token;
             if (token) localStorage.setItem('token', token);
-            return res.data;
+            return res.data.data.user;
         } catch (err) {
-            const errData = err.response?.data || { message: 'Signup failed' };
-            return thunkAPI.rejectWithValue(errData);
+            return thunkAPI.rejectWithValue(
+                err.response?.data || { message: 'Signup failed' }
+            );
         }
     }
 );
+
+// ——— NEW: Update Profile —————————————————————————————————————————————
+
+export const updateUserProfileData = createAsyncThunk(
+    'auth/updateProfile',
+    async ({ body }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                return thunkAPI.rejectWithValue('Not authenticated');
+            }
+            const res = await axios.put(
+                `${APP_URL}/users/updateMe`,
+                body,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            // assume API returns updated user in res.data.data.user
+            return res.data.data.user;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(
+                err.response?.data || { message: 'Update failed' }
+            );
+        }
+    }
+);
+
+// ——— NEW: Change Password ————————————————————————————————————————————
+
+export const updateUserPassword = createAsyncThunk(
+    'auth/updatePassword',
+    async ({ currentPassword, password, passwordConfirm }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                return thunkAPI.rejectWithValue('Not authenticated');
+            }
+            const res = await axios.put(
+                `${APP_URL}/users/changeMyPassword`,
+                { currentPassword, password, passwordConfirm },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            // if API returns nothing, just return a success flag
+            return res.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(
+                err.response?.data || { message: 'Password change failed' }
+            );
+        }
+    }
+);
+export const addUserAddress = createAsyncThunk(
+    'auth/addAddress',
+    async (addressData, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                return thunkAPI.rejectWithValue('Not authenticated');
+            }
+            const res = await axios.post(
+                `${APP_URL}/addresses`,
+                addressData,
+                { headers: { Authorization: `Bearer ${token}` } }
+
+            );
+            // assume API returns new address in res.data.data.address
+            return res.data.data.address;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response?.data || { message: 'Add address failed' });
+        }
+    }
+);
+export const deleteUserAddress = createAsyncThunk(
+    'auth/addresses',
+    async ({ id }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                return thunkAPI.rejectWithValue('Not authenticated');
+            }
+            const res = await axios.delete(
+                `${APP_URL}/addresses/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+
+            }
+            );
+            // if API returns nothing, just return a success flag
+            return res.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(
+                err.response?.data || { message: 'Password change failed' }
+            );
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
         user: null,
         loading: false,
         error: null,
+        addresses: [],
+        addingAddress: false,
+        deletingAddress: false,
         registerSuccess: false,
+        updatingProfile: false,
+        updatingPassword: false,
     },
     reducers: {
         logOut: (state) => {
@@ -92,18 +191,22 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // —— fetchUser
             .addCase(fetchUser.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.user = action.payload;
                 state.loading = false;
             })
-            .addCase(fetchUser.rejected, (state, action) => {
+            .addCase(fetchUser.rejected, (state, { payload }) => {
                 state.user = null;
-                state.error = action.payload;
+                state.error = payload;
                 state.loading = false;
             })
+
+            // —— loginUser
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -112,11 +215,13 @@ const authSlice = createSlice({
                 state.user = action.payload?.data?.user || null;
                 state.loading = false;
             })
-            .addCase(loginUser.rejected, (state, action) => {
+            .addCase(loginUser.rejected, (state, { payload }) => {
                 state.user = null;
-                state.error = action.payload;
+                state.error = payload;
                 state.loading = false;
             })
+
+            // —— registerUser
             .addCase(registerUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -127,11 +232,65 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.registerSuccess = true;
             })
-            .addCase(registerUser.rejected, (state, action) => {
+            .addCase(registerUser.rejected, (state, { payload }) => {
                 state.user = null;
-                state.error = action.payload;
+                state.error = payload;
                 state.loading = false;
                 state.registerSuccess = false;
+            })
+
+            // —— updateUserProfileData
+            .addCase(updateUserProfileData.pending, (state) => {
+                state.updatingProfile = true;
+                state.error = null;
+            })
+            .addCase(updateUserProfileData.fulfilled, (state, { payload }) => {
+                state.user = payload;               // replace with updated user
+                state.updatingProfile = false;
+            })
+            .addCase(updateUserProfileData.rejected, (state, { payload }) => {
+                state.error = payload;
+                state.updatingProfile = false;
+            })
+
+            // —— updateUserPassword
+            .addCase(updateUserPassword.pending, (state) => {
+                state.updatingPassword = true;
+                state.error = null;
+            })
+            .addCase(updateUserPassword.fulfilled, (state) => {
+                // we don’t modify `state.user` here
+                state.updatingPassword = false;
+            })
+            .addCase(updateUserPassword.rejected, (state, { payload }) => {
+                state.error = payload;
+                state.updatingPassword = false;
+            })
+            .addCase(addUserAddress.pending, (state) => {
+                state.addingAddress = true;
+                state.error = null;
+            })
+            .addCase(addUserAddress.fulfilled, (state, { payload }) => {
+                state.addresses.push(payload);
+                state.addingAddress = false;
+            })
+            .addCase(addUserAddress.rejected, (state, { payload }) => {
+                state.error = payload.message || payload;
+                state.addingAddress = false;
+            })
+
+            // deleteUserAddress
+            .addCase(deleteUserAddress.pending, (state) => {
+                state.deletingAddress = true;
+                state.error = null;
+            })
+            .addCase(deleteUserAddress.fulfilled, (state, { payload: id }) => {
+                state.addresses = state.addresses.filter(addr => addr._id !== id);
+                state.deletingAddress = false;
+            })
+            .addCase(deleteUserAddress.rejected, (state, { payload }) => {
+                state.error = payload.message || payload;
+                state.deletingAddress = false;
             });
     },
 });

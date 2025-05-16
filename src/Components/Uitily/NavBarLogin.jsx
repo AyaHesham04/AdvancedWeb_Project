@@ -19,7 +19,6 @@ function NavBarLogin() {
     const dropdownRef = useRef(null);
 
     const user = useSelector((state) => state.auth.user);
-
     const [word, setWord] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
     const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
