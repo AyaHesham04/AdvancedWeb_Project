@@ -29,7 +29,10 @@ const RegisterPage = () => {
       .unwrap()
       .then(() => {
         toast.success('Signup successful');
-        navigate('/');
+        setTimeout(() => {
+          navigate('/');
+          window.location.reload();
+        }, 1000);
       })
       .catch(error => {
         if (error.errors && Array.isArray(error.errors)) {
@@ -41,26 +44,6 @@ const RegisterPage = () => {
       });
   };
 
-
-  useEffect(() => {
-    if (error) {
-      if (error != "No token found") {
-        if (error.errors && Array.isArray(error.errors)) {
-          error.errors.forEach(err => {
-            toast.error(err.msg);
-          });
-        } else {
-          toast.error(error.message || 'Signup failed');
-        }
-        dispatch(clearAuthState());
-
-      }
-    }
-    if (registerSuccess) {
-      toast.success('Account created! Redirecting to dashboard...');
-      dispatch(clearAuthState());
-    }
-  }, [error, registerSuccess]);
 
   return (
     <Container fluid className="auth-background" style={{ minHeight: '100vh' }}>

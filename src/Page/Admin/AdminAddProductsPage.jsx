@@ -11,7 +11,7 @@ const AdminAddProductsPage = () => {
     const [prodDescription, setProdDescription] = useState('');
     const [priceBefore, setPriceBefore] = useState('');
     const [priceAftr, setPriceAftr] = useState('');
-    const [qty, setQty] = useState('');
+    const [qty, setQty] = useState(1000);
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [images, setImages] = useState([]);
     const categories = useSelector((state) => state.category.categories);
@@ -152,13 +152,6 @@ const AdminAddProductsPage = () => {
                                     placeholder="Price After Discount"
                                     value={priceAftr}
                                     onChange={onChangePriceAfter}
-                                />
-                                <input
-                                    type="number"
-                                    className="input-form d-block mt-3 px-3"
-                                    placeholder="Available Quantity"
-                                    value={qty}
-                                    onChange={onChangeQty}
                                 />
                                 <select
                                     name="cat"

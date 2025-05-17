@@ -43,7 +43,6 @@ function NavBarLogin() {
         dispatch(logOutAction());
         navigate('/login');
     };
-
     const handleInputChange = (e) => setWord(e.target.value);
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
