@@ -20,7 +20,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const CartCheckout = ({ totalPrice }) => {
+const CartCheckout = ({ totalPrice, updateCartChange }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ const CartCheckout = ({ totalPrice }) => {
         }
     }, [showModal, user, dispatch]);
 
-    const [mode, setMode] = useState('select'); 
+    const [mode, setMode] = useState('select');
 
     const [selectedId, setSelectedId] = useState(null);
 
@@ -57,7 +57,7 @@ const CartCheckout = ({ totalPrice }) => {
             const { data } = await axios.post(`${APP_URL}/coupons/status`, { coupon: couponName });
             if (data.status === 'success') {
                 setDiscount(data.discount);
-                setFinalPrice(totalPrice - data.discount);
+                setFinalPrice(totalPrice - data.discount < 0 ? 0 : totalPrice - data.discount);
                 Cookies.set('appliedCoupon', couponName);
                 toast.success(`Coupon applied! You saved ${data.discount} EGP`);
             } else throw new Error();
@@ -71,6 +71,7 @@ const CartCheckout = ({ totalPrice }) => {
     };
 
     const clearCart = () => {
+        updateCartChange([]);
         Cookies.remove('cart');
         Cookies.remove('appliedCoupon');
         toast.info('Cart and coupon cleared');
@@ -253,7 +254,6 @@ const CartCheckout = ({ totalPrice }) => {
                 </Modal.Footer>
             </Modal>
 
-            <ToastContainer position="bottom-center" />
         </>
     );
 };

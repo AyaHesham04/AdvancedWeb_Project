@@ -41,6 +41,8 @@ const CartPage = () => {
     }, [cartItemsRaw]);
 
     const onQuantityChange = (productId, quantity) => {
+        console.log("mini : ");
+
         const updatedCart = cartItems.map(item =>
             item.id === productId ? { ...item, quantity } : item
         );
@@ -50,10 +52,13 @@ const CartPage = () => {
             productId: item.id,
             quantity: item.quantity
         }));
+        console.log("mini : ", minimalCart);
 
         dispatch(setCart(minimalCart));
     };
-
+    const updateCartChange = (updatedMinimalCart) => {
+        dispatch(setCart(updatedMinimalCart));
+    };
     const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     if (loading) return <div style={{ minHeight: '100vh' }} className="text-center py-5">Loading...</div>;
@@ -70,7 +75,7 @@ const CartPage = () => {
                         cartItems.map(
                             (item, index) => (
                                 <div key={index}>
-                                    <CartItem item={item} onQuantityChange={onQuantityChange} />
+                                    <CartItem item={item} onQuantityChange={onQuantityChange} updateCartChange={updateCartChange} />
                                     <hr />
                                 </div>
                             )
@@ -83,6 +88,7 @@ const CartPage = () => {
                     <CartCheckout
                         totalPrice={totalPrice}
                         cartItems={cartItems}
+                        updateCartChange={updateCartChange}
                     />
                 </Col>
             </Row>
