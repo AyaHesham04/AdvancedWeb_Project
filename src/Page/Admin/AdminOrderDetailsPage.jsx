@@ -12,6 +12,7 @@ const AdminOrderDetailsPage = () => {
 
     const { selectedOrder: orderData, loading, error } = useSelector((state) => state.orders);
     const [deliverStatus, setDeliverStatus] = useState('');
+    console.log(orderData);
     useEffect(() => {
         if (id) {
             dispatch(fetchOrderById(id));
@@ -64,7 +65,7 @@ const AdminOrderDetailsPage = () => {
                                             </div>
                                         </Col>
                                         <Col xs="auto">
-                                            <h5 className="card-price fw-bold"><span className="mr-2">Total Order Fees:</span>{orderData ? orderData.data.totalAfterDiscount || 0 : " "} EGP</h5>
+                                            <h5 className="card-price fw-bold"><span className="mr-2">Total Order Fees:</span>{orderData ? orderData.data.totalAfterDiscount || orderData.data.totalOrderPrice : " "} EGP</h5>
                                         </Col>
                                     </Row>
                                     <Row className="mb-3">
@@ -236,7 +237,7 @@ const AdminOrderDetailsPage = () => {
                                             </div>
                                         </Col>
                                         <Col xs="12" className="d-flex">
-                                            <div
+                                            {/* <div
                                                 style={{
                                                     color: "#555550",
                                                     fontFamily: "Almarai",
@@ -253,9 +254,9 @@ const AdminOrderDetailsPage = () => {
                                                 }}
                                                 className="mx-2">
                                                 {orderData ? orderData.data.shippingAddress.street ?? 'NAN' : ''}
-                                            </div>
+                                            </div> */}
                                         </Col>
-                                        <Col xs="12" className="d-flex">
+                                        {/* <Col xs="12" className="d-flex">
                                             <div
                                                 style={{
                                                     color: "#555550",
@@ -274,8 +275,8 @@ const AdminOrderDetailsPage = () => {
                                                 className="mx-2">
                                                 {orderData ? orderData.data.shippingAddress.floor ?? 'NAN' : ''}
                                             </div>
-                                        </Col>
-                                        <Col xs="12" className="d-flex">
+                                        </Col> */}
+                                        {/* <Col xs="12" className="d-flex">
                                             <div
                                                 style={{
                                                     color: "#555550",
@@ -294,7 +295,7 @@ const AdminOrderDetailsPage = () => {
                                                 className="mx-2">
                                                 {orderData ? orderData.data.shippingAddress.apartment ?? 'NAN' : ''}
                                             </div>
-                                        </Col>
+                                        </Col> */}
                                         <div className="d-flex mt-2 justify-content-center flex-column flex-md-row">
                                             <div>
                                                 <select

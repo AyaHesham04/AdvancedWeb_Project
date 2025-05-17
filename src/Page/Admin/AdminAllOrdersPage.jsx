@@ -38,7 +38,7 @@ const AdminAllOrdersPage = () => {
                                                         <div className="d-inline card-price">Order # {orderItem._id}</div>
                                                     </Col>
                                                     <Col xs="auto">
-                                                        <h5 className="card-price fw-bold"><span className="mr-2">Total Order Fees:</span>{orderItem.totalAfterDiscount || 0} EGP</h5>
+                                                        <h5 className="card-price fw-bold"><span className="mr-2">Total Order Fees:</span>{orderItem.totalAfterDiscount || orderItem.totalOrderPrice} EGP</h5>
                                                     </Col>
                                                 </Row>
                                                 <Row className="mb-3">
