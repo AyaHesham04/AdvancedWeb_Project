@@ -110,7 +110,7 @@ const AdminCouponCard = ({ coupon, onCouponDeleted }) => {
                             fontSize: "16px",
                         }}
                         className="mx-2">
-                        {coupon.discount} L.E.
+                        {coupon.discount} %
                     </div>
                 </Col>
             </Row>

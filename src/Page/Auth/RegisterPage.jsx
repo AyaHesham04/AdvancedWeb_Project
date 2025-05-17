@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { registerUser, clearAuthState } from '../../redux/slices/authSlice';
-
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const { loading, error, registerSuccess } = useSelector(state => state.auth);
@@ -14,32 +13,54 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordConfirm, setConfirmPassword] = useState('');
   const onChangeName = (e) => setName(e.target.value);
   const onChangeEmail = (e) => setEmail(e.target.value);
   const onChangePhone = (e) => setPhone(e.target.value);
   const onChangePassword = (e) => setPassword(e.target.value);
   const onChangeConfirmPassword = (e) => setConfirmPassword(e.target.value);
-
+  const navigate = useNavigate();
   const OnSubmit = () => {
-    if (password !== confirmPassword) {
+    if (password !== passwordConfirm) {
       toast.error('Passwords do not match');
       return;
     }
-    dispatch(registerUser({ name, email, phone, password }));
+    dispatch(registerUser({ name, email, phone, password, passwordConfirm }))
+      .unwrap()
+      .then(() => {
+        toast.success('Signup successful');
+        navigate('/');
+      })
+      .catch(error => {
+        if (error.errors && Array.isArray(error.errors)) {
+          error.errors.forEach(err => toast.error(err.msg));
+        } else {
+          console.log("error", error);
+          toast.error(error.message || 'Signup failed');
+        }
+      });
   };
 
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message || 'Signup failed');
-      dispatch(clearAuthState());
+      if (error != "No token found") {
+        if (error.errors && Array.isArray(error.errors)) {
+          error.errors.forEach(err => {
+            toast.error(err.msg);
+          });
+        } else {
+          toast.error(error.message || 'Signup failed');
+        }
+        dispatch(clearAuthState());
+
+      }
     }
     if (registerSuccess) {
       toast.success('Account created! Redirecting to dashboard...');
       dispatch(clearAuthState());
     }
-  }, [error, registerSuccess, dispatch]);
+  }, [error, registerSuccess]);
 
   return (
     <Container fluid className="auth-background" style={{ minHeight: '100vh' }}>
@@ -75,7 +96,7 @@ const RegisterPage = () => {
             className="user-input text-center mt-3 mx-auto"
           />
           <input
-            value={confirmPassword}
+            value={passwordConfirm}
             onChange={onChangeConfirmPassword}
             placeholder="Confirm Password..."
             type="password"

@@ -45,9 +45,12 @@ const CartCheckout = ({ totalPrice, updateCartChange }) => {
     const [selectedId, setSelectedId] = useState(null);
 
     const [newAddr, setNewAddr] = useState({
-        name: '', phone: '', email: '',
-        city: '', street: '', apartment: '',
-        floor: '', details: ''
+        alias: '',
+        name: '',
+        phone: '',
+        email: '',
+        city: '',
+        details: ''
     });
     const [errors, setErrors] = useState({});
 
@@ -56,10 +59,12 @@ const CartCheckout = ({ totalPrice, updateCartChange }) => {
         try {
             const { data } = await axios.post(`${APP_URL}/coupons/status`, { coupon: couponName });
             if (data.status === 'success') {
-                setDiscount(data.discount);
-                setFinalPrice(totalPrice - data.discount < 0 ? 0 : totalPrice - data.discount);
+                const origanal = totalPrice;
+                let discount = data.discount;
+                setDiscount(origanal - (origanal * discount) / 100);
+                setFinalPrice((totalPrice * data.discount) / 100);
                 Cookies.set('appliedCoupon', couponName);
-                toast.success(`Coupon applied! You saved ${data.discount} EGP`);
+                toast.success(`Coupon applied! You saved ${origanal - (origanal * discount) / 100} EGP`);
             } else throw new Error();
         } catch {
             setCouponName('');
@@ -79,18 +84,24 @@ const CartCheckout = ({ totalPrice, updateCartChange }) => {
 
     const validateNew = () => {
         const errs = {};
-        const req = ['name', 'phone', 'city', 'street', 'apartment', 'floor', 'details'];
+        // which ones are required?
+        const req = ['alias', 'name', 'phone', 'city', 'details'];
         req.forEach(k => {
             if (!newAddr[k]?.trim()) errs[k] = 'Required';
         });
+
+        // phone format
         if (newAddr.phone && !/^\+?[0-9]{7,15}$/.test(newAddr.phone)) {
             errs.phone = 'Invalid phone';
         }
+
+        // email only if provided
         if (newAddr.email && !/^\S+@\S+\.\S+$/.test(newAddr.email)) {
             errs.email = 'Invalid email';
         }
+
         setErrors(errs);
-        return !Object.keys(errs).length;
+        return Object.keys(errs).length === 0;
     };
 
     const placeOrder = async () => {
@@ -101,7 +112,7 @@ const CartCheckout = ({ totalPrice, updateCartChange }) => {
         }
 
         let shippingAddress;
-        if (user && mode === 'select') {
+        if (user && user.addresses?.length > 0 && mode === 'select') {
             const addr = user.addresses.find(a => a._id === selectedId);
             if (!addr) {
                 toast.warn('Please select an address');
@@ -110,14 +121,14 @@ const CartCheckout = ({ totalPrice, updateCartChange }) => {
             shippingAddress = addr;
         } else {
             if (!validateNew()) return;
-            try {
-                await dispatch(addUserAddress(newAddr)).unwrap();
-                toast.success('Address saved');
-                await dispatch(fetchUser());
-            } catch (err) {
-                toast.error(err.message || 'Failed to save address');
-                return;
-            }
+            // try {
+            //     await dispatch(addUserAddress(newAddr)).unwrap();
+            //     toast.success('Address saved');
+            //     await dispatch(fetchUser());
+            // } catch (err) {
+            //     toast.error(err.message || 'Failed to save address');
+            //     return;
+            // }
             shippingAddress = newAddr;
         }
 

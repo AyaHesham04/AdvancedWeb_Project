@@ -48,18 +48,18 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
     'auth/register',
-    async ({ name, email, phone, password, confirmPassword }, thunkAPI) => {
+    async ({ name, email, phone, password, passwordConfirm }, thunkAPI) => {
         try {
             const res = await axios.post(`${APP_URL}/auth/signup`, {
                 name,
                 email,
                 phone,
                 password,
-                confirmPassword,
+                passwordConfirm,
             });
             const token = res.data.token;
             if (token) localStorage.setItem('token', token);
-            return res.data.data.user;
+            return res.data.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(
                 err.response?.data || { message: 'Signup failed' }
@@ -217,11 +217,12 @@ const authSlice = createSlice({
                 state.registerSuccess = false;
             })
             .addCase(registerUser.fulfilled, (state, action) => {
-                state.user = action.payload.data?.user || null;
+                state.user = action.payload.user;
                 state.loading = false;
                 state.registerSuccess = true;
             })
             .addCase(registerUser.rejected, (state, { payload }) => {
+                console.log(payload);
                 state.user = null;
                 state.error = payload;
                 state.loading = false;

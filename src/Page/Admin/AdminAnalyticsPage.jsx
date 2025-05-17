@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchDailyAccess, fetchViewsOnProduct } from '../../redux/slices/analyticsSlice';
 import dayjs from 'dayjs';
 import { BarChart } from '@mui/x-charts';
-import CardBestsellersContainer from '../../Components/Products/CardBestsellersContainer';
-import SubTiltle from '../../Components/Uitily/SubTiltle';
 import { fetchAdminOrders } from '../../redux/slices/ordersSlice';
-import { fontWeight } from '@mui/system';
 
 function AdminAnalyticsPage() {
     const tickPlacement = 'middle';
@@ -184,10 +181,6 @@ function AdminAnalyticsPage() {
                                 </Row>
                             </Col>
                         </Row>
-                        <div className="admin-content-text pb-2">Best-Seller Products</div>
-                        <div className="custom-swiper custom-swiper-wrapper-admin" style={{ height: "100px" }}>
-
-                        </div>
                         {/* <CardBestsellersContainer title="Best Sellers" /> */}
                     </div>
                 </Col>
