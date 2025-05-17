@@ -1,9 +1,9 @@
-// src/redux/slices/sliderSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import APP_URL from '../../Api/baseURL';
 
-// Fetch all sliders
+
 export const fetchSliders = createAsyncThunk(
     'slider/fetchAll',
     async (_, thunkAPI) => {
@@ -16,7 +16,7 @@ export const fetchSliders = createAsyncThunk(
     }
 );
 
-// Delete a slider by ID
+
 export const deleteSlider = createAsyncThunk(
     'slider/delete',
     async (id, thunkAPI) => {
@@ -37,7 +37,7 @@ export const deleteSlider = createAsyncThunk(
     }
 );
 
-// Upload a new slider image
+
 export const uploadSlider = createAsyncThunk(
     'slider/upload',
     async (imageFile, thunkAPI) => {
@@ -53,7 +53,6 @@ export const uploadSlider = createAsyncThunk(
                 headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}`, },
 
             });
-            // assume API returns the new slider object in data
             return res.data.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data || 'Failed to upload slider');
@@ -64,7 +63,7 @@ export const uploadSlider = createAsyncThunk(
 const sliderSlice = createSlice({
     name: 'slider',
     initialState: {
-        items: [],       // array of slider objects { id, imageUrl, previewUrl, ... }
+        items: [],
         loading: false,
         error: null,
     },
@@ -76,7 +75,6 @@ const sliderSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // Fetch
         builder
             .addCase(fetchSliders.pending, (state) => {
                 state.loading = true;
@@ -108,14 +106,12 @@ const sliderSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // Upload
             .addCase(uploadSlider.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(uploadSlider.fulfilled, (state, action) => {
                 state.loading = false;
-                // add the new slider to the start of the list
                 state.items.unshift(action.payload);
             })
             .addCase(uploadSlider.rejected, (state, action) => {

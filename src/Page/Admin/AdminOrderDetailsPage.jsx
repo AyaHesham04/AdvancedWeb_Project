@@ -33,7 +33,7 @@ const AdminOrderDetailsPage = () => {
         try {
             console.log({ id, isDelivered: deliverStatus === "true" });
             await dispatch(updateOrderDelivery(id)).unwrap();
-            await dispatch(fetchOrderById(id)).unwrap(); // Wait for fetch to finish
+            await dispatch(fetchOrderById(id)).unwrap();
             toast.success('Delivery status updated successfully!');
         } catch (error) {
             toast.error('Failed to update delivery: ' + error);

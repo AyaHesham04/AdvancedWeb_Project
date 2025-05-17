@@ -10,10 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const UserAddressCard = ({ item }) => {
     const dispatch = useDispatch();
 
-    // grab deleting state & errors from your auth slice
     const { deletingAddress, error } = useSelector(state => state.auth);
 
-    // local state for showing the delete-confirmation modal
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
@@ -31,7 +29,8 @@ const UserAddressCard = ({ item }) => {
             toast.success('Address deleted');
             closeDelete();
         } catch (err) {
-            // error toast is handled by the effect above
+            toast.error(err);
+
         }
     };
 

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-// src/components/NavBarLogin.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Navbar, Container, FormControl, Nav, NavDropdown, Dropdown } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';

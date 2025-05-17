@@ -8,10 +8,8 @@ const AdminAllProductsPage = () => {
 
     const dispatch = useDispatch();
 
-    // Get products and loading state from Redux
     const { products, loading, error } = useSelector((state) => state.products);
 
-    // Fetch products on mount
     useEffect(() => {
         dispatch(fetchProducts());
     }, [dispatch]);

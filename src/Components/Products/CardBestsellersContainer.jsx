@@ -124,8 +124,8 @@ const CardBestsellersContainer = ({ title }) => {
               >
                 <div className="product-Best">
                   <Skeleton
-                    height={300} // Adjust this to match your product card height
-                    width={250}  // Adjust this to match your product card width
+                    height={300}
+                    width={250} 
                     borderRadius={10}
                   />
                   <Skeleton height={20} width={`80%`} style={{ marginTop: 10 }} />

@@ -1,4 +1,4 @@
-// src/pages/OrderSuccessPage.jsx
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -93,7 +93,6 @@ const OrderSuccessPage = () => {
                     </Card>
                 </Col>
 
-                {/* Right column: shipping & totals */}
                 <Col lg={4}>
                     <Card className="shadow-sm mb-4">
                         <Card.Header>Shipping Address</Card.Header>

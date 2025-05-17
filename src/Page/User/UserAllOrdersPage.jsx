@@ -29,7 +29,6 @@ const UserAllOrdersPage = () => {
         get()
     }, [])
 
-    //get address detalis for user
     const resAllOrder = useSelector(state => state.orders)
     useEffect(() => {
         if (loading === false) {

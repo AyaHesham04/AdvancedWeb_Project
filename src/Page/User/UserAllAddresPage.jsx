@@ -1,4 +1,4 @@
-// src/pages/UserAllAddressPage.jsx
+
 import React, { useEffect, useState } from 'react';
 import {
     Container,
@@ -20,26 +20,22 @@ const UserAllAddressPage = () => {
     const userData = useSelector((state) => state.auth.user?.data);
     const adding = useSelector((state) => state.auth.addingAddress);
 
-    // —— Add Address Modal state
     const [showAdd, setShowAdd] = useState(false);
     const openAdd = () => setShowAdd(true);
     const closeAdd = () => setShowAdd(false);
 
-    // —— New address form fields
     const [alias, setAlias] = useState('');
     const [details, setDetails] = useState('');
     const [phone, setPhone] = useState('');
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
 
-    // 1️⃣ Fetch user (and addresses) on mount
     useEffect(() => {
         if (!userData) {
             dispatch(fetchUser());
         }
     }, [dispatch, userData]);
 
-    // 2️⃣ Handle add-address submission
     const handleAddSubmit = async () => {
         if (!alias || !details || !phone) {
             toast.warn('Please fill in alias, details, and phone');
@@ -52,11 +48,9 @@ const UserAllAddressPage = () => {
             ).unwrap();
 
             toast.success('Address added!');
-            // clear form
             setAlias(''); setDetails(''); setPhone(''); setCity(''); setPostalCode('');
             closeAdd();
 
-            // refresh list
             dispatch(fetchUser());
         } catch (err) {
             toast.error(err.message || 'Failed to add address');
@@ -73,7 +67,6 @@ const UserAllAddressPage = () => {
                 <Col sm={9} xs={12} md={9}>
                     <h2 className="admin-content-text pt-4">Address Book</h2>
 
-                    {/* ——— Address List ——— */}
                     {userData?.addresses?.length > 0 ? (
                         userData.addresses.map((item) => (
                             <UserAddressCard key={item._id} item={item} />
@@ -82,7 +75,7 @@ const UserAllAddressPage = () => {
                         <h6>No addresses available yet</h6>
                     )}
 
-                    {/* ——— Add New Address Button ——— */}
+
                     <Row className="justify-content-center mt-4">
                         <Col sm={5} className="d-flex justify-content-center">
                             <Button variant="primary" onClick={openAdd}>
@@ -91,7 +84,7 @@ const UserAllAddressPage = () => {
                         </Col>
                     </Row>
 
-                    {/* ——— Add Address Modal ——— */}
+
                     <Modal show={showAdd} onHide={closeAdd}>
                         <Modal.Header closeButton>
                             <Modal.Title>Add New Address</Modal.Title>

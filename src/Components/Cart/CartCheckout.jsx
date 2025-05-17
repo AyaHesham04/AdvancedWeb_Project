@@ -24,33 +24,26 @@ const CartCheckout = ({ totalPrice }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // global auth state
     const auth = useSelector((s) => s.auth);
     const user = auth.user?.data;
     const addingAddr = auth.addingAddress;
 
-    // price & coupon
     const [couponName, setCouponName] = useState('');
     const [finalPrice, setFinalPrice] = useState(totalPrice);
     const [discount, setDiscount] = useState(0);
 
-    // modal control
     const [showModal, setShowModal] = useState(false);
 
-    // 1) When modal opens, fetch user if needed
     useEffect(() => {
         if (showModal && !user) {
             dispatch(fetchUser());
         }
     }, [showModal, user, dispatch]);
 
-    // shipping selection vs. new
-    const [mode, setMode] = useState('select'); // 'select' | 'new'
+    const [mode, setMode] = useState('select'); 
 
-    // selected existing address
     const [selectedId, setSelectedId] = useState(null);
 
-    // new-address form state
     const [newAddr, setNewAddr] = useState({
         name: '', phone: '', email: '',
         city: '', street: '', apartment: '',
@@ -58,7 +51,6 @@ const CartCheckout = ({ totalPrice }) => {
     });
     const [errors, setErrors] = useState({});
 
-    // coupon handling
     useEffect(() => setFinalPrice(totalPrice), [totalPrice]);
     const applyCoupon = async () => {
         try {
@@ -78,14 +70,12 @@ const CartCheckout = ({ totalPrice }) => {
         }
     };
 
-    // clear cart
     const clearCart = () => {
         Cookies.remove('cart');
         Cookies.remove('appliedCoupon');
         toast.info('Cart and coupon cleared');
     };
 
-    // validations
     const validateNew = () => {
         const errs = {};
         const req = ['name', 'phone', 'city', 'street', 'apartment', 'floor', 'details'];
@@ -102,7 +92,6 @@ const CartCheckout = ({ totalPrice }) => {
         return !Object.keys(errs).length;
     };
 
-    // order submit
     const placeOrder = async () => {
         const cartItems = JSON.parse(Cookies.get('cart') || '[]');
         if (!cartItems.length) {
@@ -119,13 +108,10 @@ const CartCheckout = ({ totalPrice }) => {
             }
             shippingAddress = addr;
         } else {
-            // new address path
             if (!validateNew()) return;
-            // save to user’s addresses
             try {
                 await dispatch(addUserAddress(newAddr)).unwrap();
                 toast.success('Address saved');
-                // refetch user so we have updated addresses
                 await dispatch(fetchUser());
             } catch (err) {
                 toast.error(err.message || 'Failed to save address');
@@ -134,7 +120,6 @@ const CartCheckout = ({ totalPrice }) => {
             shippingAddress = newAddr;
         }
 
-        // finally create order
         const orderData = {
             products: cartItems.map(({ productId, quantity }) => ({ id: productId, quantity })),
             shippingAddress,
@@ -148,7 +133,6 @@ const CartCheckout = ({ totalPrice }) => {
         setShowModal(false);
     };
 
-    // render
     return (
         <>
             <Row className="d-flex">
@@ -179,14 +163,12 @@ const CartCheckout = ({ totalPrice }) => {
                 </Col>
             </Row>
 
-            {/* Shipping / Address Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Choose Shipping Address</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
-                    {/* if logged in & has addresses — show list */}
                     {user && user.addresses?.length > 0 && mode === 'select' ? (
                         <>
                             <ul className="list-group">
@@ -219,7 +201,6 @@ const CartCheckout = ({ totalPrice }) => {
                             </div>
                         </>
                     ) : (
-                        // else: show “new address” form
                         <>
                             <Row>
                                 {[

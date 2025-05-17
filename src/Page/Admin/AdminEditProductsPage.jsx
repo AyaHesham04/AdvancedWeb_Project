@@ -13,11 +13,9 @@ const AdminEditProductsPage = () => {
     const product = useSelector(state => state.products.product);
     const categories = useSelector(state => state.category.categories);
 
-    // split state into URLs vs. picked Files
     const [existingImages, setExistingImages] = useState([]);
     const [newImages, setNewImages] = useState([]);
 
-    // other form state...
     const [prodName, setProdName] = useState('');
     const [prodDescription, setProdDescription] = useState('');
     const [priceBefore, setPriceBefore] = useState(0);
@@ -25,13 +23,11 @@ const AdminEditProductsPage = () => {
     const [Cat, setCat] = useState([]);
     const [coverImage, setCoverImage] = useState(null);
 
-    // load product
     useEffect(() => {
         dispatch(fetchProductById(id));
         dispatch(fetchCategories());
     }, [id, dispatch]);
 
-    // populate form & images
     useEffect(() => {
         if (product) {
             console.log(product.imageCover);
@@ -40,9 +36,9 @@ const AdminEditProductsPage = () => {
             setPriceBefore(product.price);
             setPriceAfter(product.priceAfterDiscount || 0);
             setCat([product.category.name, product.category._id]);
-            setExistingImages(product.images || []);  // only URLs here
-            setCoverImage(product.imageCover || null);  // only URLs here
-            setNewImages([]);                         // reset any picked files
+            setExistingImages(product.images || []);
+            setCoverImage(product.imageCover || null);
+            setNewImages([]);
         }
     }, [product]);
 
@@ -57,20 +53,19 @@ const AdminEditProductsPage = () => {
             setCat([selectedCat.name, selectedCat._id]);
         }
     }
-    // when user picks files, stash them in newImages
     const handleAddImages = (e) => {
         const files = Array.from(e.target.files);
         setNewImages(prev => [...prev, ...files]);
         e.target.value = null;
     };
 
-    // to render both kinds of previews:
+
     const allImages = [
         ...existingImages.map(url => ({ type: 'url', data: url })),
         ...newImages.map(file => ({ type: 'file', data: file })),
     ];
 
-    // deleting from either bucket
+
     const handleDeleteImage = (idx) => {
         if (idx < existingImages.length) {
             setExistingImages(prev => prev.filter((_, i) => i !== idx));
@@ -80,7 +75,7 @@ const AdminEditProductsPage = () => {
         }
     };
 
-    // submit only the real Files
+
     const handleSubmit = async () => {
         const formData = new FormData();
         formData.append('title', prodName);
@@ -89,11 +84,11 @@ const AdminEditProductsPage = () => {
         formData.append('priceAfterDiscount', Number(priceAfter));
         formData.append('category', Cat[1]);
         const imagesOnly = allImages.map(image => image.data);
-        // cover image – prefer the first new file, fallback to keeping URL
+
         if (coverImage) {
             formData.append('imageCover', coverImage);
         } else if (allImages.length > 0) {
-            // fallback to the first existing/new image
+
             formData.append('imageCover', allImages[0].data);
         }
         imagesOnly.forEach((image) => {
@@ -172,7 +167,6 @@ const AdminEditProductsPage = () => {
                                     className="d-block mb-4"
                                 />
 
-                                {/* Other form fields */}
                                 <div>Product Name</div>
                                 <input
                                     value={prodName}

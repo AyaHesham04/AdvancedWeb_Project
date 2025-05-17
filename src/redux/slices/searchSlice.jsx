@@ -1,4 +1,4 @@
-// src/redux/slices/searchSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import APP_URL from '../../Api/baseURL';

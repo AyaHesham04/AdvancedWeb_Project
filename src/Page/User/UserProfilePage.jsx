@@ -105,7 +105,6 @@ const UserProfilePage = () => {
                     <div>
                         <h2 className="admin-content-text pt-4">Profile Page</h2>
 
-                        {/* —— Edit Profile Modal —— */}
                         <Modal show={showEdit} onHide={handleCloseEdit}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Edit Personal Information</Modal.Title>
@@ -149,7 +148,6 @@ const UserProfilePage = () => {
                             </Modal.Footer>
                         </Modal>
 
-                        {/* —— Profile Card —— */}
                         <div className="user-address-card my-2 px-3 py-2">
                             <Row className="d-flex justify-content-between pt-2">
                                 <Col xs={6} className="d-flex">
@@ -176,7 +174,6 @@ const UserProfilePage = () => {
                                 </Col>
                             </Row>
 
-                            {/* —— Change Password Form —— */}
                             <Row className="mt-4">
                                 <Col xs={12} sm={8} md={6}>
                                     <h5 className="admin-content-text">Change Password</h5>

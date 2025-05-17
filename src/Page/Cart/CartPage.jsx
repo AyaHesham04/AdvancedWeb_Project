@@ -6,11 +6,11 @@ import CartItem from '../../Components/Cart/CartItem';
 import CartCheckout from '../../Components/Cart/CartCheckout';
 import APP_URL from '../../Api/baseURL';
 import axios from 'axios';
-import { setCart } from '../../redux/slices/cartSlice'; // 👈 import setCart
+import { setCart } from '../../redux/slices/cartSlice';
 
 const CartPage = () => {
     const dispatch = useDispatch();
-    const cartItemsRaw = useSelector((state) => state.cart.items); // 👈 getting cart from Redux
+    const cartItemsRaw = useSelector((state) => state.cart.items);
     const { loading, error } = useSelector((state) => state.products);
 
     const [cartItems, setCartItems] = useState([]);

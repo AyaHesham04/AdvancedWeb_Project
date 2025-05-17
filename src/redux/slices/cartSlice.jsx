@@ -1,4 +1,4 @@
-// src/redux/slices/cartSlice.js
+
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
@@ -45,6 +45,5 @@ const cartSlice = createSlice({
     },
 });
 
-// Export the new action too
 export const { addToCart, updateQuantity, removeFromCart, setCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

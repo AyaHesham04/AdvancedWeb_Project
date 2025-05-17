@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
 import { Button, Col, Modal, Row } from 'react-bootstrap'
-import mobile from '../../images/mobile.png'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 const CartItem = ({ item, onQuantityChange , updateCartChange}) => {
@@ -35,7 +34,7 @@ const CartItem = ({ item, onQuantityChange , updateCartChange}) => {
   const handleIncrement = () => {
     const newCount = itemCount + 1;
     setItemCount(newCount);
-    console.log('new cart cookie:', item.id, newCount); // Debug
+    console.log('new cart cookie:', item.id, newCount);
     onQuantityChange(item.id, newCount);
   };
 

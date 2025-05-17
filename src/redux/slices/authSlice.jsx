@@ -1,4 +1,3 @@
-// src/Store/slices/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import APP_URL from '../../Api/baseURL';
@@ -69,8 +68,6 @@ export const registerUser = createAsyncThunk(
     }
 );
 
-// ——— NEW: Update Profile —————————————————————————————————————————————
-
 export const updateUserProfileData = createAsyncThunk(
     'auth/updateProfile',
     async ({ body }, thunkAPI) => {
@@ -84,7 +81,6 @@ export const updateUserProfileData = createAsyncThunk(
                 body,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            // assume API returns updated user in res.data.data.user
             return res.data.data.user;
         } catch (err) {
             return thunkAPI.rejectWithValue(
@@ -94,7 +90,6 @@ export const updateUserProfileData = createAsyncThunk(
     }
 );
 
-// ——— NEW: Change Password ————————————————————————————————————————————
 
 export const updateUserPassword = createAsyncThunk(
     'auth/updatePassword',
@@ -109,7 +104,6 @@ export const updateUserPassword = createAsyncThunk(
                 { currentPassword, password, passwordConfirm },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            // if API returns nothing, just return a success flag
             return res.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(
@@ -132,7 +126,6 @@ export const addUserAddress = createAsyncThunk(
                 { headers: { Authorization: `Bearer ${token}` } }
 
             );
-            // assume API returns new address in res.data.data.address
             return res.data.data.address;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data || { message: 'Add address failed' });
@@ -155,7 +148,6 @@ export const deleteUserAddress = createAsyncThunk(
 
             }
             );
-            // if API returns nothing, just return a success flag
             return res.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(
@@ -191,7 +183,6 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // —— fetchUser
             .addCase(fetchUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -206,7 +197,6 @@ const authSlice = createSlice({
                 state.loading = false;
             })
 
-            // —— loginUser
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -221,7 +211,6 @@ const authSlice = createSlice({
                 state.loading = false;
             })
 
-            // —— registerUser
             .addCase(registerUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -239,13 +228,12 @@ const authSlice = createSlice({
                 state.registerSuccess = false;
             })
 
-            // —— updateUserProfileData
             .addCase(updateUserProfileData.pending, (state) => {
                 state.updatingProfile = true;
                 state.error = null;
             })
             .addCase(updateUserProfileData.fulfilled, (state, { payload }) => {
-                state.user = payload;               // replace with updated user
+                state.user = payload;
                 state.updatingProfile = false;
             })
             .addCase(updateUserProfileData.rejected, (state, { payload }) => {
@@ -253,13 +241,11 @@ const authSlice = createSlice({
                 state.updatingProfile = false;
             })
 
-            // —— updateUserPassword
             .addCase(updateUserPassword.pending, (state) => {
                 state.updatingPassword = true;
                 state.error = null;
             })
             .addCase(updateUserPassword.fulfilled, (state) => {
-                // we don’t modify `state.user` here
                 state.updatingPassword = false;
             })
             .addCase(updateUserPassword.rejected, (state, { payload }) => {
@@ -279,7 +265,6 @@ const authSlice = createSlice({
                 state.addingAddress = false;
             })
 
-            // deleteUserAddress
             .addCase(deleteUserAddress.pending, (state) => {
                 state.deletingAddress = true;
                 state.error = null;

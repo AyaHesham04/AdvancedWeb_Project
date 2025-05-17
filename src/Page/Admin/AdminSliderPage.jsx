@@ -10,7 +10,6 @@ const AdminSliderPage = () => {
     const [file, setFile] = useState(null);
     const [uploadError, setUploadError] = useState(null);
 
-    // Modal state
     const [show, setShow] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
 
@@ -54,7 +53,7 @@ const AdminSliderPage = () => {
             await dispatch(uploadSlider(file)).unwrap();
             setFile(null);
             setUploadError(null);
-            dispatch(fetchSliders()); // Refresh after upload
+            dispatch(fetchSliders());
         } catch (err) {
             setUploadError(err.message || 'Upload failed.');
         }
@@ -67,7 +66,6 @@ const AdminSliderPage = () => {
                     <AdminSideBar />
                 </Col>
 
-                {/* Delete Modal */}
                 <Modal show={show} onHide={handleClose} centered>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm Deletion</Modal.Title>
@@ -89,9 +87,7 @@ const AdminSliderPage = () => {
                     <div className="pt-3">
                         <div className="admin-content-text pb-2">Manage Sliders</div>
                         <Row className="justify-content-start">
-                            {/* Upload */}
                             <Col sm="12">
-
                                 <Card className="mb-4 shadow-sm">
                                     <Card.Body>
                                         <Form>
@@ -111,7 +107,7 @@ const AdminSliderPage = () => {
                     </div>
                     {error && <Alert variant="danger">{error}</Alert>}
 
-                    {/* Sliders List */}
+
                     <Row xs={1} sm={2} lg={3} className="g-4">
 
                         {items.map((slide) => (
