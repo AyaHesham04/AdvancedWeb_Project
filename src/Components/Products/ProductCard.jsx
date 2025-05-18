@@ -9,7 +9,7 @@ import { addToCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
-
+  console.log(item);
   const addToCartHandle = () => {
     dispatch(addToCart({ productId: item.id }));
     toast.success("Product added to cart successfully!");
@@ -30,7 +30,7 @@ const ProductCard = ({ item }) => {
               objectFit: "cover",
               borderRadius: "10px",
             }}
-            src={item.imageCover}
+            src={item.imageCover || item.images[0]}
             alt={item.title}
           />
         </Link>

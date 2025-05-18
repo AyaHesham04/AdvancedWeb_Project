@@ -103,7 +103,7 @@ const AdminOrderDetailsPage = () => {
                                                 {orderData ? orderData.data.isDelivered ? 'Delivered' : 'Not Delivered' : " "}
                                             </div>
                                         </Col>
-                                        <Col md="4">
+                                        {/* <Col md="4">
                                             <div className="fw-semibold d-inline stat">Payment Status:</div>
                                             <div className={orderData ? orderData.data.isPaid ? "text-success" : "text-danger" : ""}>
                                                 {orderData ? orderData.data.isPaid ? 'Paid' : 'Not Paid' : " "}
@@ -114,7 +114,7 @@ const AdminOrderDetailsPage = () => {
                                             <div className="text-dark">
                                                 {orderData ? orderData.data.paymentMethodType === 'cash' ? 'Cash' : 'Credit Card' : " "}
                                             </div>
-                                        </Col>
+                                        </Col> */}
                                     </Row>
                                 </div>
                             </div>

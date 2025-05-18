@@ -57,7 +57,7 @@ const UserAllOrderItem = ({ orderItem }) => {
                                 {orderItem.isDelivered ? 'Delivered' : 'Not Delivered'}
                             </div>
                         </Col>
-                        <Col md="4">
+                        {/* <Col md="4">
                             <div className="fw-semibold d-inline stat">Payment Status:</div>
                             <div className={orderItem.isPaid ? "text-success" : "text-danger"}>
                                 {orderItem.isPaid ? 'Paid' : 'Not Paid'}
@@ -68,7 +68,7 @@ const UserAllOrderItem = ({ orderItem }) => {
                             <div className="text-dark">
                                 {orderItem.paymentMethodType === 'cash' ? 'Cash' : 'Credit Card'}
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </div>
             </div>

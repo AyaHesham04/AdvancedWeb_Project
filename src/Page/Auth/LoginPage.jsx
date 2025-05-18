@@ -84,7 +84,7 @@ const LoginPage = () => {
                         </Link>
                     </label>
 
-                    <label className="mx-auto">
+                    {/* <label className="mx-auto">
                         <Link
                             to="/user/forget-password"
                             style={{ textDecoration: 'none' }}
@@ -92,7 +92,7 @@ const LoginPage = () => {
                         >
                             Forgot Password?
                         </Link>
-                    </label>
+                    </label> */}
                 </Col>
             </Row>
             <ToastContainer />

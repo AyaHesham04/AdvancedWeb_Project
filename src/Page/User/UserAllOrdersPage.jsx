@@ -35,7 +35,7 @@ const UserAllOrdersPage = () => {
             setOrderData(resAllOrder.orders.data)
         }
     }, [loading])
-
+    console.log(orderData);
     return (
         <Container fluid className="px-10" style={{ minHeight: '100vh' }}>
             <Row className='py-3 flex-column flex-sm-row'>
@@ -45,14 +45,16 @@ const UserAllOrdersPage = () => {
 
                 <Col sm="9" xs="12" md="9">
                     <div>
-                        <div className="admin-content-text pt-4">Total Orders: #{orderData.length}</div>
+                        <div className="admin-content-text pt-4">Total Orders: #{orderData ? orderData.length : 0}</div>
                         <Row className='justify-content-between'>
                             {
-                                orderData.length >= 1 ? (
-                                    orderData.map((orderItem, index) => {
-                                        return <UserAllOrderItem key={index} orderItem={orderItem} />
-                                    })
-                                ) : <h6>No orders yet</h6>
+                                Array.isArray(orderData) && orderData.length > 0 ? (
+                                    orderData.map((orderItem, index) => (
+                                        <UserAllOrderItem key={index} orderItem={orderItem} />
+                                    ))
+                                ) : (
+                                    <h6>No orders yet</h6>
+                                )
                             }
                         </Row>
                     </div>
